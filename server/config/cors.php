@@ -1,20 +1,22 @@
 <?php
 
 return [
+
     /*
-     |--------------------------------------------------------------------------
-     | Laravel CORS
-     |--------------------------------------------------------------------------
-     |
-     | allowedOrigins, allowedHeaders and allowedMethods can be set to array('*')
-     | to accept any value.
-     |
-     */
+    |--------------------------------------------------------------------------
+    | Laravel CORS
+    |--------------------------------------------------------------------------
+    |
+    | allowedOrigins, allowedHeaders and allowedMethods can be set to array('*')
+    | to accept any value.
+    |
+    */
+   
     'supportsCredentials' => false,
-    'allowedOrigins' => ['http://localhost:8000', 'http://daniellock.me'],
+    'allowedOrigins' => ['http://localhost:7000'],
     'allowedHeaders' => ['*'],
     'allowedMethods' => ['*'],
     'exposedHeaders' => [],
     'maxAge' => 0,
-];
 
+];

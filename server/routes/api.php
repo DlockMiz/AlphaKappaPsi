@@ -20,8 +20,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/getAboutData', 'AboutPageController@getAboutData');
-Route::post('/getInternData', 'InternshipController@getInternData');
+Route::post('/loadDates', 'calendarController@loadDates');
+Route::post('/submitEvent', 'calendarController@submitEvent');
+Route::post('/editEvent', 'calendarController@editEvent');
+Route::post('/searchEventData', 'calendarController@searchEventData');
+Route::post('/loadMonthlyEvents', 'calendarController@loadMonthlyEvents');
+
 
 
 
