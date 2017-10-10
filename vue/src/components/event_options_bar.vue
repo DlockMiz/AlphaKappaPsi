@@ -17,7 +17,7 @@
         <a class="link is-info"><i class="fa fa-handshake-o" aria-hidden="true"></i>Proffesional Development</a>
       </p>
       <p class="level-item has-text-centered">
-        <a class="link is-info"><i class="fa fa-trash" aria-hidden="true"></i>Service</a>
+        <a class="link is-info" href="#/event_page/service_event"><i class="fa fa-trash" aria-hidden="true"></i>Service</a>
       </p>
       <p class="level-item has-text-centered">
         <a class="link is-info"><i class="fa fa-users" aria-hidden="true"></i>Brotherhood</a>
@@ -31,7 +31,8 @@
 <style>
 .options {
   background-color: #a4c1e4;
-  height: 100px;
+  min-height: 100px;
+  overflow: scroll;
 }
 
 .options a {
@@ -44,8 +45,8 @@
 }
 
 i{
-	margin-right: 5px;
-	/*line-height: 30px;*/
+	margin-right: 10px;
+  margin-left: 10px;
 }
 
 </style>

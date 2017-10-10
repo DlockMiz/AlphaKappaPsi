@@ -5,19 +5,28 @@ import App from './App'
 import router from './router'
 import vueEventCalendar from 'vue-event-calendar'
 import VueResource from 'vue-resource'
+import Vuex from 'vuex'
+import store from './store.js';
+
+
 
 import 'vue-event-calendar/dist/style.css'
 import 'bulma/css/bulma.css'
 
 Vue.config.productionTip = false
-Vue.use(vueEventCalendar, {locale: 'en', color: '#a4c1e4'})
+Vue.use(vueEventCalendar, { locale: 'en', color: '#a4c1e4' })
 Vue.use(VueResource)
+Vue.use(Vuex)
+Vue.use(store)
+
+
 
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })

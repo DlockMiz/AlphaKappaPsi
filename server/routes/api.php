@@ -25,6 +25,10 @@ Route::post('/submitEvent', 'calendarController@submitEvent');
 Route::post('/editEvent', 'calendarController@editEvent');
 Route::post('/searchEventData', 'calendarController@searchEventData');
 Route::post('/loadMonthlyEvents', 'calendarController@loadMonthlyEvents');
+Route::post('/deleteEvent', 'calendarController@deleteEvent');
+Route::post('/findUser', 'loginController@findUser');
+
+
 
 
 

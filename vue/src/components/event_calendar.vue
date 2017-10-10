@@ -116,7 +116,7 @@ export default {
   color: black;
   padding: 10px;
   width: 370px;
-  margin-left: 100px;
+  margin-left: 35px;
   float: left;
 }
 
@@ -138,11 +138,11 @@ export default {
 }
 
 #calendar {
-  height: 668px;
-  width: 1100px;
+  height: 698px;
+  width: 94%;
   box-shadow: 0px 0px 10px 10px #a4c1e4;
   margin-left: 30px;
-  margin-bottom: 1000px;
+  margin-bottom: 10%;
   float: left;
 }
 

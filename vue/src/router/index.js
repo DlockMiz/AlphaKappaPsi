@@ -21,11 +21,19 @@ export default new Router({
         path: '/event_page/',
         name: 'Event Calendar Default',
         component: resolve => require(['../components/event_calendar.vue'], resolve)
-      },{
+      }, {
         path: '/event_page/event_calendar',
         name: 'Event Calendar',
         component: resolve => require(['../components/event_calendar.vue'], resolve)
+      }, {
+        path: '/event_page/service_event',
+        name: 'Event Calendar',
+        component: resolve => require(['../components/service_event.vue'], resolve)
       }]
     }]
+  }, {
+    path: '/login',
+    name: 'Login Page',
+    component: resolve => require(['../components/login.vue'], resolve)
   }]
 })

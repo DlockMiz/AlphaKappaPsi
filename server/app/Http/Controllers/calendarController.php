@@ -40,6 +40,15 @@ class calendarController extends Controller
         return $data;
     }
 
+    public function deleteEvent(Request $request){
+
+        for($x = 0; $x < $request->size; $x++){
+            $event = CalendarEvent::where('id', $request->id[$x])
+            ->delete();
+        }
+        return 'test';
+    }
+
     public function editEvent(Request $request){
         $data = CalendarEvent::find($request->id);
         $data->title = $request->title;
