@@ -20,13 +20,22 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//calendar routes
 Route::post('/loadDates', 'calendarController@loadDates');
 Route::post('/submitEvent', 'calendarController@submitEvent');
 Route::post('/editEvent', 'calendarController@editEvent');
 Route::post('/searchEventData', 'calendarController@searchEventData');
 Route::post('/loadMonthlyEvents', 'calendarController@loadMonthlyEvents');
 Route::post('/deleteEvent', 'calendarController@deleteEvent');
+
+//login and register routes
 Route::post('/findUser', 'loginController@findUser');
+Route::post('/addUser', 'loginController@addUser');
+
+//event routes
+Route::post('/getEvents', 'eventController@getEvents');
+
+
 
 
 

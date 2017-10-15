@@ -14,21 +14,21 @@
       <a>Difficult but Do-able</a>
       <li>User Database / Login</li>
       <li>Email Notifications on sign-up</li>
-      <!-- {{ test }} -->
       <hr>
+      <a>WIP</a>
+      <li>Logout</li>
+      <li>Register</li>
+      <li>Account Page</li>
       </ul>
     </div>
   </div>
 </template>
 <script>
-export default{
-  data(){
-    return{
-      // test: sessionStorage.getItem("username")
-    }
+export default {
+  data() {
+    return {}
   },
 }
-
 
 </script>
 <style>

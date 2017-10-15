@@ -1,8 +1,10 @@
 <template>
   <div id="calendar_page">
+    <!-- <div style="margin: auto;"> -->
     <template onload="loadDates()">
       <vue-event-calendar id="calendar" :events.async="akpEvents.events"></vue-event-calendar>
     </template>
+    <!-- </div> -->
     <div id="eventBox">
       <div class="tabs">
         <ul>
@@ -117,7 +119,7 @@ export default {
   padding: 10px;
   width: 370px;
   margin-left: 35px;
-  float: left;
+  margin: auto;
 }
 
 #submitButton {
@@ -141,9 +143,7 @@ export default {
   height: 698px;
   width: 94%;
   box-shadow: 0px 0px 10px 10px #a4c1e4;
-  margin-left: 30px;
   margin-bottom: 10%;
-  float: left;
 }
 
 #calendar_page {

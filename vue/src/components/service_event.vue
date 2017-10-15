@@ -1,25 +1,17 @@
 <template>
   <div style="margin-top: 50px;">
-    <a class="button is-info is-large">Create Service Event</a>
-    <hr>
-    <hr>
-    <div id="eventBox">
-      <h1>The Learning Garden</h1>
-      <p>Location: My house</p>
-      <p>Date: 10/10/1000</p>
-      <p>Time: 6:00 pm</p>
-      <table style="margin: 10px;">
-        <tr>
-          <th>Title 1</th>
-          <th>Title 2</th>
-          <th>Title 3</th>
-        </tr>
-        <tr>
-        	<td>test</td>
-        	<td>test</td>
-        	<td>test</td>
-        </tr>
-      </table>
+    <div id="eventBox" v-for="event in events">
+      <h1>{{event.title}}</h1>
+      <h1>{{event.time}}</h1>
+      <h1>{{event.location}}</h1>
+      <h1>{{event.description}}</h1>
+      <a class="button is-info" @click="signUp(event.id)">Sign Up</a>
+    </div>
+    <div id="addBox">
+      <input type="text" name="Title">
+      <input type="text" name="Time">
+      <input type="text" name="Location">
+      <input type="text" name="Description">
     </div>
   </div>
 </template>
@@ -29,12 +21,43 @@
   width: 25%;
 }
 
-th {
-  border: solid;
-}
-
-.table {
-  width: 100%;
-}
-
 </style>
+<script>
+import { getEvents } from '../router/config'
+
+export default {
+  data() {
+    return {
+      events: []
+    }
+  },
+
+  mounted: function() {
+    this.getServiceEvents()
+  },
+
+  methods: {
+    getServiceEvents() {
+      this.$http.post(getEvents).then(response => {
+        var that = this
+        response.data.forEach(function(event) {
+          var obj = {
+            id: event.id,
+            title: event.title,
+            location: event.location,
+            date: event.date,
+            time: event.time,
+            description: event.description
+          }
+          that.events.push(obj)
+        })
+      })
+      console.log(this.events)
+    },
+    signUp(id){
+      console.log(id)
+    }
+  }
+}
+
+</script>
