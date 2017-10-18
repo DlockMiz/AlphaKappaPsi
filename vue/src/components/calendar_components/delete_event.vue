@@ -7,7 +7,7 @@
           <option v-for="month in months" :value="month">{{ month }}</option>
         </select>
       </div>
-      <a id="loadButton" class="button is-info" @click="loadEvents()">Load Events</a>
+      <center><a style="margin-top: 10px;" class="button is-info" @click="loadEvents()">Load Events</a></center>
       <div v-show="loadError" style="color:red; text-align:center;"><b>Couldn't Load Events</b></div>
     </div>
     <div v-show="showDeleteMonth">
@@ -16,7 +16,7 @@
         <label>{{ dates.events[index].title }}</label>
       </div>
       <hr>
-      <a id="deleteButton" class="button is-info" @click="deleteEvent()">Delete Events</a>
+      <center><a class="button is-info" @click="deleteEvent()">Delete Events</a></center>
       <div v-show="deleteSuccess" style="color:green; text-align:center;"><b>Events Deleted</b></div>
     </div>
   </div>
@@ -97,14 +97,3 @@ export default {
 }
 
 </script>
-<style>
-#loadButton {
-  margin-top: 10px;
-  margin-left: 33%;
-}
-
-#deleteButton {
-  margin-left: 30%;
-}
-
-</style>

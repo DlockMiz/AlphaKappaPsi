@@ -34,6 +34,14 @@ Route::post('/addUser', 'loginController@addUser');
 
 //event routes
 Route::post('/getEvents', 'eventController@getEvents');
+Route::post('/addEvent', 'eventController@addEvent');
+Route::post('/userSignedEvent', 'eventController@userSignedEvent');
+
+//accounts settings routes
+Route::post('/loadSignedEvents', 'accountSettingsController@loadSignedEvents');
+
+
+
 
 
 

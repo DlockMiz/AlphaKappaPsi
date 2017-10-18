@@ -78,7 +78,7 @@ export default {
 
         data.forEach(function(value) {
           var obj = {
-            date: value.event_date,
+            date: value.date,
             title: value.title,
             desc: String(value.description),
           }

@@ -18,9 +18,13 @@ class Events extends Migration
             $table->string('title');
             $table->string('location');
             $table->string('date');
+            $table->string('month');
             $table->string('time');
             $table->json('signed_users');
             $table->string('event_type');
+            $table->string('description');
+            $table->string('month');
+
             $table->timestamps();
         });
     }

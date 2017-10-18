@@ -14,6 +14,13 @@ export const addUser = apiDomain + 'api/addUser'
 
 //event routes
 export const getEvents = apiDomain + 'api/getEvents'
+export const addServiceEventRoute = apiDomain + 'api/addEvent'
+export const userSignedEvent = apiDomain + 'api/userSignedEvent'
+
+//account settings routes
+export const loadSignedEvents = apiDomain + 'api/loadSignedEvents'
+
+
 
 
 
