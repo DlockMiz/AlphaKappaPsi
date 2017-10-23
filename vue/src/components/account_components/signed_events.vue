@@ -1,8 +1,15 @@
 <template>
   <div>
+    <div class="select is-info" style="margin: 15px;">
+      <select>
+        <option>Service</option>
+        <option>Brotherhood</option>
+      </select>
+    </div>
     <div v-for="event in events">
       <div id="loadSignedEventsBox">
-        <center><h1>{{event.title}}</h1></center>
+        <center>
+          <h1>{{event.title}}</h1></center>
         <hr>
         <p>Time: {{event.time}}</p>
         <hr>
@@ -41,10 +48,15 @@ export default {
 <style>
 #loadSignedEventsBox {
   border: solid 3px;
+  border-radius: 10px 10px 10px 10px;
   width: 25%;
   padding: 10px;
   margin-left: 15px;
   float: left;
+}
+
+#loadSignedEventsBox h1 {
+  font-size: 16pt;
 }
 
 </style>

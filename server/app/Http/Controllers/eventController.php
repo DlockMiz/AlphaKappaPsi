@@ -29,6 +29,7 @@ class eventController extends Controller
     	$data->time = $request->time;
     	$data->signed_users = $request->signed_users;
     	$data->event_type = $request->event_type;
+        $data->month = $request->month;
     	$data->save();
     	return 'success';
     }

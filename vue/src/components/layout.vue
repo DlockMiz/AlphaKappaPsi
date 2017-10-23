@@ -11,6 +11,7 @@
   </div>
 </template>
 <script>
+
 import nav_bar from './nav_bar'
 export default {
   data() {
@@ -35,9 +36,10 @@ export default {
     goToLogin() {
       this.$router.push('/login')
     },
-    logoutUser(){
+    logoutUser() {
       sessionStorage.clear()
       location.reload()
+      this.$router.push('/')
     },
     checkUser() {
       if (this.$store.state.user != null) {

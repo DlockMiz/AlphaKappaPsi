@@ -20,11 +20,11 @@ export default new Router({
       path: '/account_page',
       name: 'Account Page',
       component: resolve => require(['../components/account_page.vue'], resolve),
-       children: [{
+      children: [{
         path: '/account_page',
         name: 'Default Account',
         component: resolve => require(['../components/account_components/signed_events.vue'], resolve)
-      },{
+      }, {
         path: '/account_page/signed_events',
         name: 'Signed Events',
         component: resolve => require(['../components/account_components/signed_events.vue'], resolve)
@@ -44,6 +44,10 @@ export default new Router({
         path: '/event_page/event_calendar',
         name: 'Event Calendar',
         component: resolve => require(['../components/event_calendar.vue'], resolve)
+      }, {
+        path: '/event_page/event_options',
+        name: 'Calendar Event Options',
+        component: resolve => require(['../components/calendar_components/event_options.vue'], resolve)
       }, {
         path: '/event_page/service_event',
         name: 'Service Event',

@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h3>Title for the event:</h3>
+    <b>Title for the event:</b>
     <input class="input is-info" v-model="addEvent.addTitle" type="text" placeholder="Title...">
     <hr>
-    <h3>Description for the event:</h3>
+    <b>Description for the event:</b>
     <textarea class="textarea is-info" v-model="addEvent.addDesc" type="text" placeholder="Description..."></textarea>
     <hr>
-    <h3>Type of event:</h3>
+    <b>Type of event:</b>
     <div class="select is-info">
       <select style="width: 100vw;">
         <option selected>Event 1</option>
@@ -14,10 +14,10 @@
       </select>
     </div>
     <hr>
-    <h3>Date of event:</h3>
+    <div><b>Date of event:</b></div>
     <datepicker v-model="addEvent.addDate" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }"></datepicker>
     <hr>
-    <a id="submitButton" class="button is-info" @click="submitEvent()">Add Event</a>
+    <center><a class="button is-info" @click="submitEvent()">Add Event</a></center>
     <div v-show="showAddEventError" style="color:red; text-align:center;"><b>Please Fill in All Blanks</b></div>
     <div v-show="showAddSuccess" style="color:green; text-align:center;"><b>Event Added</b></div>
   </div>

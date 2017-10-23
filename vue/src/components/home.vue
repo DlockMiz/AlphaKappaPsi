@@ -1,26 +1,32 @@
 <template>
   <div>
-    <div id="list">
-      <h1>List</h1>
+    <div style="margin-right: 25px; text-align:center;">
+      <h1 style="font-size: 22pt;">Initial Goals</h1>
       <hr>
-      <a>Easy</a>
-      <li>MasterDoc Additions</li>
-      <li>Upcoming Events</li>
-      <li>Announcements Page</li>
-      <li>Point Page</li>
-      <li>Personal Page</li>
-      <li>Internship Page</li>
+      <div>
+        <b>Create a Central Organized Event Viewer that:</b>
+        <hr>
+      </div>
+      <div>
+        <b>1. Has Easily Customizable Events</b>
+      </div>
+      <b>2. Easily Tracks The Events</b>
       <hr>
-      <a>Difficult but Do-able</a>
-      <li>User Database / Login</li>
-      <li>Email Notifications on sign-up</li>
+      <h1 style="font-size: 22pt;">Post Goals</h1>
       <hr>
-      <a>WIP</a>
-      <li>Logout</li>
-      <li>Register</li>
-      <li>Account Page</li>
-      </ul>
+      <div>
+        <b>Create an About Alpha Kappa Psi Environment that:</b>
+        <hr>
+      </div>
+      <div>
+        <b>1. Is Easy to Update</b>
+      </div>
+      <b>2. Can Easily Display Information</b>
+      <div>
+        <b>3. Is Easy to Find</b>
+      </div>
     </div>
+  </div>
   </div>
 </template>
 <script>
@@ -32,16 +38,8 @@ export default {
 
 </script>
 <style>
-h1 {
-  font-size: 22pt;
-}
-
-#list {
-  text-align: center;
-  width: 50%;
-  margin: auto;
-  margin-bottom: 50px;
-  margin-top: 100px;
+b {
+  font-size: 16pt;
 }
 
 </style>

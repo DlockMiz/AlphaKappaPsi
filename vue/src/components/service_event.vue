@@ -12,19 +12,20 @@
     <div id="serviceEventBox" v-for="(event, index) event in events" style="margin-top: 50px;">
       <h1 style="text-align: center; font-size: 16pt;">{{event.title}}</h1>
       <hr>
-      <h2>Time: {{event.time}} on {{event.date}}</h2>
+      <h2><b>Time:</b> {{event.time}} on {{event.date}}</h2>
       <hr>
-      <h2>Location: {{event.location}}</h2>
+      <h2><b>Date:</b> {{event.date}}</h2>
       <hr>
-      <h2 style="margin-bottom: 12px;"> Description: </h2>
-      <p>{{event.description}}</p>
+      <h2><b>Location:</b> {{event.location}}</h2>
       <hr>
-      <center><a :id="'button'+event.id" :name="event.title" class="button is-info" @click="signUp(index)">Sign Up</a></center>
+      <h2 style="margin-bottom: 12px;"> <b>Description:</b> </h2>
+      <p style="height: 150px; overflow: scroll">{{event.description}}</p>
+      <hr>
+      <center><a :id="'serviceSignUpButton'+event.id" :name="event.title" class="button is-info" @click="signUp(index)">Sign Up</a></center>
     </div>
   </div>
 </template>
 <script>
-window.$ = window.jQuery = require('jquery');
 
 import Datepicker from 'vue-bulma-datepicker'
 import { getEvents, addServiceEventRoute, userSignedEvent } from '../router/config'
@@ -93,6 +94,7 @@ export default {
         time: this.addServiceTime,
         description: this.addServiceDesc,
         event_type: "service",
+        month: this.addServiceDate.split("/")[1],
         signed_users: JSON.stringify(users)
       }
       this.$http.post(addServiceEventRoute, postData).then(response => { location.reload() })
@@ -104,7 +106,7 @@ export default {
         event.users.id.forEach(function(id) {
           if (id == that.$store.state.user.id) {
             $(document).ready(function() {
-              $('#button' + event.id).hide()
+              $('#serviceSignUpButton' + event.id).hide()
             })
             return
           }
@@ -130,15 +132,10 @@ export default {
 #serviceEventBox {
   border: solid #164380 2px;
   border-radius: 10px 10px 10px 10px;
-  width: 22%;
+  width: 29.5%;
   margin-left: 40px;
   padding: 10px;
   float: left;
-}
-
-#eventBox hr {
-  margin-top: 8px;
-  margin-bottom: 8px;
 }
 
 #addServiceBox {

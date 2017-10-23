@@ -11,7 +11,7 @@
       </div>
       <datepicker v-model="searchEvent.date" placeholder="Select the date of the event..." :config="{ dateFormat: 'Y/m/d', static: true }"></datepicker>
       <hr>
-      <a id="searchButton" class="button is-info" @click="searchEventData()">Search</a>
+      <center><a class="button is-info" @click="searchEventData()">Search</a></center>
       <div v-show="showSearchError" style="color:red; text-align:center;"><b>Event Not Found</b></div>
     </div>
     <div v-show="showEditBox">
@@ -32,9 +32,9 @@
       <h3>Date of Event Change:</h3>
       <datepicker v-model="eventEditObj.date" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }"></datepicker>
       <hr>
-      <a id="changeButton" class="button is-info" @click="changeSuccess()">Change</a>
+      <center><a class="button is-info" @click="changeSuccess()">Change</a></center>
       <div v-show="showEditEventSuccess" style="color:green; text-align:center;"><b>Successful Change</b></div>
-      <a id="searchAgainButton" class="button is-info" @click="restartSearch()">Search Again</a>
+      <center><a class="button is-info" style="margin-top: 10px;" @click="restartSearch()">Search Again</a></center>
     </div>
   </div>
 </template>
@@ -69,10 +69,11 @@ export default {
           this.showEditBox = true
           this.showEditEventSuccess = false;
           this.eventEditObj.title = response.data[0].title
-          this.eventEditObj.date = response.data[0].event_date
+          this.eventEditObj.date = response.data[0].date
           this.eventEditObj.desc = response.data[0].description,
-            this.eventEditObj.id = response.data[0].id
+          this.eventEditObj.id = response.data[0].id
         }
+        console.log(this.eventEditObj.date)
       })
     },
     changeSuccess() {
