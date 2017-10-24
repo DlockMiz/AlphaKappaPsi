@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="margin-right: 25px; text-align:center;">
+    <div id="homeBody" style="margin-right: 25px; text-align:center;">
       <h1 style="font-size: 22pt;">Initial Goals</h1>
       <hr>
       <div>
@@ -38,7 +38,7 @@ export default {
 
 </script>
 <style>
-b {
+#homeBody b {
   font-size: 16pt;
 }
 

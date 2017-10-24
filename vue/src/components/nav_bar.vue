@@ -1,11 +1,11 @@
 <template>
-  <div style="margin-top: 40px">
+  <div style="margin-top: 60px">
     <nav class="level header">
       <p class="level-item has-text-centered">
         <a class="link is-info" href="/">Home</a>
       </p>
       <p class="level-item has-text-centered">
-        <a class="link is-info" @click="validateLogin()">Current Events</a>
+        <a class="link is-info" href="#/event_page">Current Events</a>
       </p>
       <p class="level-item has-text-centered">
         <a href="/">
@@ -29,15 +29,6 @@ export default{
 
     }
   },
-  methods:{
-    validateLogin(){
-      if(this.$store.state.user == null){
-        alert("== Please Login To View This Page ==")
-      } else{
-        this.$router.push('/event_page')
-      }
-    }
-  }
 }
 
 </script>

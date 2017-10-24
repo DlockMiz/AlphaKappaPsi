@@ -7,13 +7,24 @@
   </div>
 </template>
 <script>
-import event_option_bar from './event_options_bar'
+import event_option_bar from './event_components/event_options_bar'
 
 var reloaded = false
 export default {
   components: {
     event_option_bar,
   },
+  methods: {
+    checkUserLogin() {
+      if (this.$store.state.user == null) {
+        alert('== Please login to view this page. ==')
+        this.$router.push('/')
+      }
+    },
+  },
+  mounted: function() {
+    this.checkUserLogin()
+  }
 }
 
 </script>

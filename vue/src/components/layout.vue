@@ -1,7 +1,8 @@
 <template>
   <div>
-    <i @click="showBarsBox = !showBarsBox" class="fa fa-bars fa-2x" id="bars" aria-hidden="true"></i>
-    <div v-show="showBarsBox" id="settingsBox">
+    <b v-show="this.$store.state.user != null" style="top: 0px; right: 5px; position:absolute;">Logged in as {{currentUser}}</b>
+    <i class="fa fa-bars fa-2x" id="bars" aria-hidden="true"></i>
+    <div id="settingsBox">
       <a v-show="loginButton" class="button is-info buttons" @click="goToLogin()">Login</a>
       <a v-show="accountSettingsButton" href="#/account_page" @click="showBarsBox = false" class="button is-info buttons">Account Settings</a>
       <a v-show="showLogoutButton" @click="logoutUser()" class="button is-info buttons">Logout</a>
@@ -11,22 +12,33 @@
   </div>
 </template>
 <script>
+var settingsBox = false
+window.$ = window.jQuery = require('jquery');
 
 import nav_bar from './nav_bar'
 export default {
   data() {
     return {
-      showAccountSettings: false,
       showBarsBox: false,
       loginButton: true,
       registerButton: true,
       accountSettingsButton: false,
-      showLogoutButton: false
+      showLogoutButton: false,
+      currentUser: ''
     }
   },
 
   mounted: function() {
     this.checkUser()
+    $('#bars').click(function() {
+      if (settingsBox == false) {
+        $('#settingsBox').show(500)
+        settingsBox = true
+      } else {
+        $('#settingsBox').hide(500)
+        settingsBox = false
+      }
+    })
   },
 
   components: {
@@ -39,7 +51,6 @@ export default {
     logoutUser() {
       sessionStorage.clear()
       location.reload()
-      this.$router.push('/')
     },
     checkUser() {
       if (this.$store.state.user != null) {
@@ -47,11 +58,16 @@ export default {
         this.registerButton = false
         this.accountSettingsButton = true
         this.showLogoutButton = true
+        this.currentUser = this.$store.state.user.name
+        if (this.$store.state.user.status == 3) {
+          this.currentUser = this.currentUser + ' - Pledge'
+        } else if (this.$store.state.user.status == 2) {
+          this.currentUser = this.currentUser + ' - Active'
+        } else if (this.$store.state.user.status == 1) {
+          this.currentUser = this.currentUser + ' - Executive'
+        }
       }
     },
-    rightMenu() {
-
-    }
   }
 }
 
@@ -59,22 +75,26 @@ export default {
 <style>
 div#settingsBox {
   margin: 10px !important;
-  top: 30px;
-  right: 30px;
-  position: fixed;
-  width: 10%;
+  top: 0px;
+  left: 40px;
+  position: absolute;
   background-color: #ebe9e9;
+  display: none;
 }
 
 .buttons {
-  width: 94%;
   margin: 5px;
+  background-color: #1b4d8a !important;
+}
+
+.buttons:hover {
+  border-color: white !important;
 }
 
 #bars {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  left: 10px;
 }
 
 #bars:hover {

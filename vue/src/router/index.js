@@ -23,7 +23,7 @@ export default new Router({
       children: [{
         path: '/account_page',
         name: 'Default Account',
-        component: resolve => require(['../components/account_components/signed_events.vue'], resolve)
+        component: resolve => require(['../components/account_components/central_account_page.vue'], resolve)
       }, {
         path: '/account_page/signed_events',
         name: 'Signed Events',
@@ -39,19 +39,19 @@ export default new Router({
       children: [{
         path: '/event_page',
         name: 'Event Calendar Default',
-        component: resolve => require(['../components/event_calendar.vue'], resolve)
+        component: resolve => require(['../components/event_components/central_event_page.vue'], resolve)
       }, {
         path: '/event_page/event_calendar',
         name: 'Event Calendar',
-        component: resolve => require(['../components/event_calendar.vue'], resolve)
+        component: resolve => require(['../components/event_components/event_calendar.vue'], resolve)
       }, {
-        path: '/event_page/event_options',
+        path: '/event_page/event_calendar_options',
         name: 'Calendar Event Options',
-        component: resolve => require(['../components/calendar_components/event_options.vue'], resolve)
+        component: resolve => require(['../components/calendar_components/event_calendar_options.vue'], resolve)
       }, {
         path: '/event_page/service_event',
         name: 'Service Event',
-        component: resolve => require(['../components/service_event.vue'], resolve)
+        component: resolve => require(['../components/event_components/service_event.vue'], resolve)
       }]
     }]
   }, {
