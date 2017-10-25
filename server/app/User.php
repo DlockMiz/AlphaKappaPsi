@@ -10,6 +10,6 @@ class User extends Model
         'id', 'password','email','status'
     ];
     protected $hidden = [
-        'password'
+        // 'password'
     ];
 }

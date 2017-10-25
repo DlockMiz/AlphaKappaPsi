@@ -39,6 +39,10 @@ export default{
   border-radius: 10px 10px 10px 10px;
 }
 
+p.level-item.has-text-centered{
+  width: 10%;
+}
+
 .header a:hover {
   box-shadow: 0px 0px 5px 5px #adc6e6;
   background-color: #bad0ec;

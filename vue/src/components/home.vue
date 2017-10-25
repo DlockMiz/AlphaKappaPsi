@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="homeBody" style="margin-right: 25px; text-align:center;">
+<!--     <div id="homeBody" style="margin-right: 25px; text-align:center;">
       <h1 style="font-size: 22pt;">Initial Goals</h1>
       <hr>
       <div>
@@ -25,7 +25,8 @@
       <div>
         <b>3. Is Easy to Find</b>
       </div>
-    </div>
+    </div> -->
+    <center><p style="font-size: 20pt;">Lets Goooooooooooooo She Works</p></center>
   </div>
   </div>
 </template>

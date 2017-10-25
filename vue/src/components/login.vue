@@ -59,9 +59,9 @@ export default {
       }
       var $emailCheck = this.registerEmail.split('@')
 
-      if(this.registerEmail == '' || this.registerPassword == '' || this.registerName == ''){
-      	alert('Please fill in all the blanks.')
-      	return
+      if (this.registerEmail == '' || this.registerPassword == '' || this.registerName == '') {
+        alert('Please fill in all the blanks.')
+        return
       }
 
       if ($emailCheck[1] != 'mail.missouri.edu') {
@@ -72,7 +72,7 @@ export default {
       if (this.registerPassword != this.checkPass) {
         this.noPasswordMatch = true;
         return;
-      } else if(this.registerPassword == this.checkPass){
+      } else if (this.registerPassword == this.checkPass) {
         this.noPasswordMatch = false;
       }
 
@@ -85,6 +85,7 @@ export default {
 
     confirmUser(user) {
       this.$http.post(findUser, user).then(response => {
+
         if (response.data.length == 0) {
           this.showLoginFail = true
         } else {
