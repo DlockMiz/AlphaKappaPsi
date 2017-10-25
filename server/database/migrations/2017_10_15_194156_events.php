@@ -23,7 +23,6 @@ class Events extends Migration
             $table->json('signed_users');
             $table->string('event_type');
             $table->string('description');
-            $table->string('month');
 
             $table->timestamps();
         });
