@@ -1,6 +1,7 @@
 <template>
   <div>
     <b v-show="this.$store.state.user != null" style="top: 0px; right: 5px; position:absolute;">Logged in as {{currentUser}}</b>
+    <b v-show="this.$store.state.user == null" style="top: 0px; right: 5px; position:absolute;">Not Logged In</b>
     <i class="fa fa-bars fa-2x" id="bars" aria-hidden="true"></i>
     <div id="settingsBox">
       <a v-show="loginButton" class="button is-info buttons" @click="goToLogin()">Login</a>

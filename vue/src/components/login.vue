@@ -85,8 +85,7 @@ export default {
 
     confirmUser(user) {
       this.$http.post(findUser, user).then(response => {
-
-        if (response.data.length == 0) {
+        if (response.data == 'fail') {
           this.showLoginFail = true
         } else {
           this.showLoginFail = false
