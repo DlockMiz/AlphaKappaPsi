@@ -47,7 +47,7 @@ export default {
     }
   },
   mounted: function() {
-    this.id = window.location.href.split(':')[3]
+    this.id = window.location.href.split(':')[1]
     this.getUser()
   }
 }
