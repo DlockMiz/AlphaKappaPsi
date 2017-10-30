@@ -19,6 +19,7 @@ export default {
     return {
       id: 0,
       user: {}
+
     }
   },
   methods: {
@@ -26,10 +27,8 @@ export default {
       var postData = {
         id: this.id
       }
-      // console.log(postData.id+ 'postData')
       this.$http.post(getUser, postData).then(response => {
-        this.user = response.data[0]
-        var status
+        this.user = response.data
         switch (this.user.status) {
           case '1':
             this.user.status = 'Admin'
@@ -41,6 +40,7 @@ export default {
             this.user.status = 'Pledge'
             break;
         }
+
       })
     }
   },
