@@ -26,6 +26,7 @@ export default {
       var postData = {
         id: this.id
       }
+      // console.log(postData.id+ 'postData')
       this.$http.post(getUser, postData).then(response => {
         this.user = response.data[0]
         var status

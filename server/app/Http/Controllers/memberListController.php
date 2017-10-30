@@ -13,7 +13,7 @@ class memberListController extends Controller
     }
 
     public function getUser(Request $request) {
-		$data = User::find($request);
+		$data = User::find($request->id);
 		return $data;
     }
 
