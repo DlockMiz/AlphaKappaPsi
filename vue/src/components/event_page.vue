@@ -7,7 +7,7 @@
   </div>
 </template>
 <script>
-import event_option_bar from './event_components/event_options_bar'
+import event_option_bar from './event_components/event_options_menu'
 
 var reloaded = false
 export default {

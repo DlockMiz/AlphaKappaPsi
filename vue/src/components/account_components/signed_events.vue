@@ -38,7 +38,6 @@ export default {
     loadEvents() {
       this.$http.post(loadSignedEvents, this.$store.state.user.id).then(response => {
         this.events = response.data
-        console.log(this.events)
       })
     }
   }

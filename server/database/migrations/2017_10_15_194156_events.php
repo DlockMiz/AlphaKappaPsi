@@ -20,10 +20,11 @@ class Events extends Migration
             $table->string('date');
             $table->string('month');
             $table->string('time');
+            $table->string('attended_users');
+            $table->string('max_users');
             $table->json('signed_users');
             $table->string('event_type');
             $table->string('description');
-
             $table->timestamps();
         });
     }

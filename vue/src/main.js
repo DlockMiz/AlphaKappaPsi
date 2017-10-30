@@ -7,6 +7,8 @@ import vueEventCalendar from 'vue-event-calendar'
 import VueResource from 'vue-resource'
 import Vuex from 'vuex'
 import store from './store.js';
+import VueGoodTable from 'vue-good-table';
+
 
 
 
@@ -18,8 +20,7 @@ Vue.use(vueEventCalendar, { locale: 'en', color: '#a4c1e4' })
 Vue.use(VueResource)
 Vue.use(Vuex)
 Vue.use(store)
-
-
+Vue.use(VueGoodTable);
 
 
 /* eslint-disable no-new */

@@ -1,32 +1,18 @@
 <template>
   <div>
-<!--     <div id="homeBody" style="margin-right: 25px; text-align:center;">
-      <h1 style="font-size: 22pt;">Initial Goals</h1>
-      <hr>
-      <div>
-        <b>Create a Central Organized Event Viewer that:</b>
-        <hr>
-      </div>
-      <div>
-        <b>1. Has Easily Customizable Events</b>
-      </div>
-      <b>2. Easily Tracks The Events</b>
-      <hr>
-      <h1 style="font-size: 22pt;">Post Goals</h1>
-      <hr>
-      <div>
-        <b>Create an About Alpha Kappa Psi Environment that:</b>
-        <hr>
-      </div>
-      <div>
-        <b>1. Is Easy to Update</b>
-      </div>
-      <b>2. Can Easily Display Information</b>
-      <div>
-        <b>3. Is Easy to Find</b>
-      </div>
-    </div> -->
-    <center><p style="font-size: 20pt;">Lets Goooooooooooooo She Works</p></center>
+    <center>
+      <p style="font-size: 20pt;">Recent Features</p>
+    </center>
+    <center>
+      <p style="font-size: 16pt;">Added the ability to edit and delete events directly from the events page without having to go to the calendar options tab.</p>
+    </center>
+    <hr>
+    <center><img src="../assets/images/feature_2.png" width="400px" style="border: solid;"></center>
+    <center>
+      <p style="font-size: 16pt;">For Exec's only, you have the ability to load all the users and filter with name, status, and email. (This page will continue to develop, having the ability to decide that, from whoever registers, can actually have access to the site, for pledge status.)</p>
+    </center>
+    <hr>
+    <center><img src="../assets/images/feature_1.png" width="800px" style="border: solid;"></center>
   </div>
   </div>
 </template>
