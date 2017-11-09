@@ -16,12 +16,20 @@ class eventController extends Controller
     public function userSignedEvent(Request $request) {
 
 		$data = Event::find($request->id);
-        if($data->max_users < sizeof($request->signed_users)){
-            return 'fail';
+        $max = 0;
+
+        $users = json_decode($data->signed_users,true);
+        foreach($users as $person => $id){
+            foreach ($id as $array){ 
+                $max++;
+            }
         }
-        $data->signed_users = $request->signed_users;
-        $data->save();
-		return $data;
+        if($max == $data->max_users){
+            return 'fail';
+        } else{
+            $data->signed_users = $request->signed_users;
+            $data->save();
+        }
     }
 
     public function addEvent(Request $request){

@@ -14,7 +14,6 @@
     <hr>
     <center><img src="../assets/images/feature_1.png" width="800px" style="border: solid;"></center>
   </div>
-  </div>
 </template>
 <script>
 export default {

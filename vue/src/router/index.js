@@ -36,6 +36,10 @@ export default new Router({
         path: '/account_page/members_list/member_info:id',
         name: 'Member Info',
         component: resolve => require(['../components/account_components/member_info.vue'], resolve)
+      }, {
+        path: '/account_page/requested_members',
+        name: 'Requested Members',
+        component: resolve => require(['../components/account_components/requested_members.vue'], resolve)
       }]
     }, {
       //

@@ -8,7 +8,11 @@
       <ul class="menu-list">
         <li><a @click="loadPage('signed_events')" id="signed_events">My Signed Up Events</a></li>
         <hr>
-        <li><a @click="loadPage('members_list')" id="members_list" v-show="$store.state.user.status == 1">Members List</a></li>
+        <li><a @click="loadPage('members_list')" id="members_list" v-show="$store.state.user.status == 1">Members List</a>
+          <ul>
+            <li><a @click="loadPage('requested_members')" id="requested_members" >Requested Members</a></li>
+          </ul>
+        </li>
         <hr v-show="$store.state.user.status == 1">
         <li><a>Account Settings</a></li>
         <hr>

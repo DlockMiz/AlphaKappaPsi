@@ -14,16 +14,16 @@
       <i v-show="$store.state.user.status == '1'" class="fa fa-minus-square icon_hover" @click="showDeleteServiceEvent(index)" aria-hidden="true"></i>
       <i v-show="$store.state.user.status == '1'" class="fa fa-pencil-square icon_hover" @click="showEditServiceEvent(index)" aria-hidden="true"></i>
       <div id="editServiceEventWrapper">
-      <div :id="'editServiceEventBox'+index" style="display: none;">
-        <input v-model="event.title" class="input is-info" type="text" placeholder="Title...">
-        <input v-model="event.time" class="input is-info" type="text" placeholder="Time...">
-        <datepicker v-model="event.date" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }"></datepicker>
-        <input v-model="event.location" class="input is-info" type="text" placeholder="Location...">
-        <input v-model="event.max_users" class="input is-info" type="number" placeholder="Max Users...">
-        <textarea v-model="event.description" class="textarea is-info" type="text" placeholder="Description..."></textarea>
-        <center><a class="button is-info" @click="editServiceEvent(index)" style="margin-top: 10px;">Edit Event</a></center>
+        <div :id="'editServiceEventBox'+index" style="display: none;">
+          <input v-model="event.title" class="input is-info" type="text" placeholder="Title...">
+          <input v-model="event.time" class="input is-info" type="text" placeholder="Time...">
+          <datepicker v-model="event.date" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }"></datepicker>
+          <input v-model="event.location" class="input is-info" type="text" placeholder="Location...">
+          <input v-model="event.max_users" class="input is-info" type="number" placeholder="Max Users...">
+          <textarea v-model="event.description" class="textarea is-info" type="text" placeholder="Description..."></textarea>
+          <center><a class="button is-info" @click="editServiceEvent(index)" style="margin-top: 10px;">Edit Event</a></center>
+        </div>
       </div>
-    </div>
       <div :id="'deleteServiceEventBox'+index" style="display: none;">
         <center>
           <h1>Are you sure you want to delete this event?</h1></center>
@@ -118,11 +118,13 @@ export default {
       })
     },
     signUp(index) {
+      // console.log(this.events[index].users.id)
       this.events[index].users.id.push(this.$store.state.user.id)
+      // console.log(this.events[index].users.id)
 
       var postData = {
         id: this.events[index].id,
-        signed_users: JSON.stringify(this.events[index].users)
+        signed_users: JSON.stringify(this.events[index].users),
       }
       this.$http.post(userSignedEvent, postData).then(response => {
         if (response.data == 'fail') {

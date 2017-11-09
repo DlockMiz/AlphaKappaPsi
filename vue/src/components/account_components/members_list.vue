@@ -14,8 +14,9 @@ export default {
     return {
       viewUser: function(row, index) {
         this.$router.push('/account_page/members_list/member_info:'+row.id)
-        // console.log(row)
+        localStorage.setItem("member", row.id)
       },
+      id: 0,
       users: [],
       columns: [{
           label: 'Name',
@@ -45,7 +46,7 @@ export default {
           var status
           switch (user.status) {
             case '1':
-              status = 'Admin'
+              status = 'Executive'
               break;
             case '2':
               status = 'Active'

@@ -43,6 +43,12 @@ Route::post('/userSignedEvent', 'eventController@userSignedEvent');
 Route::post('/loadSignedEvents', 'accountSettingsController@loadSignedEvents');
 Route::post('/getRegisteredUsers', 'memberListController@getRegisteredUsers');
 Route::post('/getUser', 'memberListController@getUser');
+Route::post('/editUser', 'memberListController@editUser');
+Route::post('/getRequestedUsers', 'memberListController@getRequestedUsers');
+Route::post('/addRequestedUsers', 'memberListController@addRequestedUsers');
+
+
+
 
 
 

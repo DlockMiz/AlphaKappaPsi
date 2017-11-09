@@ -1,5 +1,5 @@
-// export const apiDomain = 'http://akp.dev/'
-export const apiDomain = 'http://server.akpmiztest.tk/'
+export const apiDomain = 'http://akp.dev/'
+// export const apiDomain = 'http://server.akpmiztest.tk/'
 
 
 //calendar routes
@@ -21,12 +21,15 @@ export const userSignedEvent = apiDomain + 'api/userSignedEvent'
 export const editEvent = apiDomain + 'api/editEvent'
 export const deleteEvent = apiDomain + 'api/deleteEvent'
 
-
-
 //account settings routes
 export const loadSignedEvents = apiDomain + 'api/loadSignedEvents'
 export const getRegisteredUsers = apiDomain + 'api/getRegisteredUsers'
+export const getRequestedUsers = apiDomain + 'api/getRequestedUsers'
+export const addRequestedUsers = apiDomain + 'api/addRequestedUsers'
 export const getUser = apiDomain + 'api/getUser'
+export const editUser = apiDomain + 'api/editUser'
+
+
 
 
 
