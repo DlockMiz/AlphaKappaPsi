@@ -1,0 +1,250 @@
+<template>
+  <div>
+    <a href="#/account_page/exec_event_viewer"><i class="fa fa-angle-left fa-1x" aria-hidden="true"> Back</i></a>
+    <a class="button is-info" style="margin-left: 20px;" @click="completeEvent()">Complete Event</a>
+    <div>
+      <div style="float:left;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Signed Users</th>
+              <th>Email</th>
+              <th>Attended</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(user, index) user in users" :id="'attended_user'+index">
+              <td>{{users[index].name}}</td>
+              <td>{{users[index].email}}</td>
+              <td><a @click="attendedUser(index)" class="button is-primary">Y</a>
+                <a @click="noAttendance(index)" class="button is-danger">N</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="float: left; margin-left: 50px;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Attended Users</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(attend, index) attend in attends">
+              <td>{{attends[index].name}}</td>
+              <td>
+                <button @click="change('attend', index)">Switch</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="float: left; margin-left: 100px;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Non Attended Users</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(non_attend, index) non_attend in non_attends">
+              <td>{{non_attends[index].name}}</td>
+              <td>
+                <button @click="change('non_attend', index)">Switch</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+window.$ = window.jQuery = require('jquery');
+import {
+  getSingleEvent,
+  getSignedUsers,
+  attendUser,
+  switchAttendance,
+  setPastEvent,
+} from '../../router/config.js'
+
+export default {
+  data() {
+    return {
+      id: 0,
+      event: {},
+      users: [],
+      attends: [],
+      non_attends: [],
+    }
+  },
+  methods: {
+    getEvent() {
+      this.$http.post(getSingleEvent, this.id).then(response => {
+        this.event = response.data[0]
+        if (this.event.completed == 1) {
+          this.showCompleteEvent = false
+        }
+        this.loadAttended()
+        this.loadUsers()
+      })
+    },
+    loadUsers() {
+      var users = JSON.parse(this.event.signed_users)
+
+      var postData = {
+        users: users.id,
+        event_id: localStorage.getItem("event"),
+        type: 'parse_signed_users'
+      }
+
+      this.$http.post(getSignedUsers, postData).then(response => {
+        var that = this
+        response.data.forEach(function(user) {
+          var obj = {
+            id: user.id,
+            name: user.name,
+            email: user.email
+          }
+          that.users.push(obj)
+        })
+      })
+    },
+    loadAttended() {
+      var attended_users = JSON.parse(this.event.attended_users)
+      var non_attended_users = JSON.parse(this.event.non_attended_users)
+
+      var postData = {
+        users: attended_users.id
+      }
+      var postData2 = {
+        users: non_attended_users.id
+      }
+      this.$http.post(getSignedUsers, postData).then(response => {
+        var that = this
+        response.data.forEach(function(user) {
+          var obj = {
+            id: user.id,
+            name: user.name,
+            email: user.email
+          }
+          that.attends.push(obj)
+        })
+      })
+      this.$http.post(getSignedUsers, postData2).then(response => {
+        var that = this
+        response.data.forEach(function(user) {
+          var obj = {
+            id: user.id,
+            name: user.name,
+            email: user.email
+          }
+          that.non_attends.push(obj)
+        })
+      })
+    },
+    noAttendance(index) {
+      var users = { "id": [] }
+
+      this.non_attends.push(this.users[index])
+      this.non_attends.forEach(function(user) {
+        users.id.push(user.id)
+      })
+
+      var postData = {
+        users: JSON.stringify(users),
+        event_id: localStorage.getItem("event"),
+        type: 'non_attend'
+      }
+      this.$http.post(attendUser, postData).then(response => {})
+      this.clearUser(index)
+    },
+    attendedUser(index) {
+      var users = { "id": [] }
+
+      this.attends.push(this.users[index])
+      this.attends.forEach(function(user) {
+        users.id.push(user.id)
+      })
+
+      var postData = {
+        users: JSON.stringify(users),
+        event_id: localStorage.getItem("event"),
+        type: 'attend'
+      }
+      this.$http.post(attendUser, postData).then(response => {})
+      this.clearUser(index)
+    },
+    change(type, index) {
+      var att_users = { "id": [] }
+      var non_att_users = { "id": [] }
+
+      if (type == 'attend') {
+        this.non_attends.push(this.attends[index])
+        this.attends.splice(index, 1)
+        this.non_attends.forEach(function(user) {
+          non_att_users.id.push(user.id)
+        })
+        this.attends.forEach(function(user) {
+          att_users.id.push(user.id)
+        })
+
+        var postData = {
+          non_att_users: JSON.stringify(non_att_users),
+          att_users: JSON.stringify(att_users),
+          event_id: localStorage.getItem("event"),
+        }
+        this.$http.post(switchAttendance, postData).then(response => {})
+
+      } else if (type == 'non_attend') {
+        this.attends.push(this.non_attends[index])
+        this.non_attends.splice(index, 1)
+        this.non_attends.forEach(function(user) {
+          non_att_users.id.push(user.id)
+        })
+        this.attends.forEach(function(user) {
+          att_users.id.push(user.id)
+        })
+        var postData = {
+          non_att_users: JSON.stringify(non_att_users),
+          att_users: JSON.stringify(att_users),
+          event_id: localStorage.getItem("event"),
+        }
+        this.$http.post(switchAttendance, postData).then(response => {})
+      }
+    },
+    clearUser(index) {
+      this.users.splice(index, 1)
+    },
+
+    completeEvent() {
+      var postData = {
+        event_id: localStorage.getItem("event"),
+      }
+      this.$http.post(setPastEvent, postData).then(response => {
+        this.$router.push('/account_page/exec_event_viewer')
+      })
+    }
+  },
+
+  mounted: function() {
+    this.id = localStorage.getItem("event")
+    this.getEvent()
+  }
+}
+
+</script>
+<style>
+.editUserInfo {
+  display: none;
+  width: 20%;
+}
+
+.editUserInfo select {
+  width: 100%;
+}
+
+</style>

@@ -20,6 +20,7 @@
             </td>
             <td>
               <input type="checkbox" id="checkedMember" :value="user.id">
+              <input type="checkbox" id="removeMember" :value="user.id">
             </td>
           </tr>
           <a @click="addMembers()" class="button is-info" style="margin-top: 15px;">Add Members</a>

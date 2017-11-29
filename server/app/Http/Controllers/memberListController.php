@@ -4,14 +4,55 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Event;
 use App\RequestedUser;
 
 
 class memberListController extends Controller
 {
+
     public function getRegisteredUsers(Request $request) {
 		$data = User::get();
 		return $data;
+    }
+
+    public function getSignedUsers(Request $request) {
+        $users = [];
+        $event = Event::find($request->event_id);
+        $signed = false;
+
+        if($request->type == 'parse_signed_users'){
+            for($i =0;$i < sizeof($request->users); $i++){
+                $data = User::find($request->users[$i]);                
+                $att_users = json_decode($event->attended_users,true);
+                foreach($att_users as $person => $id){
+                    foreach ($id as $array){ 
+                        if($array == $data->id){
+                            $signed = true;
+                        }
+                    }
+                }
+                $non_att_users = json_decode($event->non_attended_users,true);
+                foreach($non_att_users as $person => $id){
+                    foreach ($id as $array){ 
+                        if($array == $data->id){
+                            $signed = true;
+                        }
+                    }
+                }
+                if($signed == false){
+                    array_push($users, $data);
+                    $signed = false;
+                }
+                $signed = false;
+            }
+        } else {
+            for($i =0;$i < sizeof($request->users); $i++){
+                $data = User::find($request->users[$i]);
+                array_push($users, $data);
+            }
+        }
+        return $users;
     }
 
     public function getUser(Request $request) {
@@ -45,6 +86,7 @@ class memberListController extends Controller
     		$data->delete();
     		$user->save();
     	}
+
 
 		return 'success';
     }

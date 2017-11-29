@@ -13,14 +13,16 @@ class accountSettingsController extends Controller
 
 		$data = Event::get();
 		 foreach($data as $value){
+		 	if($value->completed != 1){
 		 	$users = json_decode($value->signed_users,true);
-		 	foreach($users as $person => $id){
-		 		foreach ($id as $array){ 
-		 			if($array == $request[0]){
-		 			array_push($events, $value);
-		 			}
-		 		}
-		 	}
+			 	foreach($users as $person => $id){
+			 		foreach ($id as $array){ 
+			 			if($array == $request[0]){
+			 			array_push($events, $value);
+			 			}
+			 		}
+			 	}
+			 }
 		 }
 		return $events;
     }

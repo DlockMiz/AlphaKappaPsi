@@ -5,7 +5,7 @@
     <i class="fa fa-bars fa-2x" id="bars" aria-hidden="true"></i>
     <div id="settingsBox">
       <a v-show="loginButton" class="button is-info buttons" @click="goToLogin()">Login</a>
-      <a v-show="accountSettingsButton" href="#/account_page" @click="showBarsBox = false" class="button is-info buttons">Account Settings</a>
+      <a v-show="accountSettingsButton" href="#/account_page" @click="showBarsBox = false" class="button is-info buttons">Account</a>
       <a v-show="showLogoutButton" @click="logoutUser()" class="button is-info buttons">Logout</a>
     </div>
     <nav_bar></nav_bar>

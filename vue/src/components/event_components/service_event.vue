@@ -118,9 +118,7 @@ export default {
       })
     },
     signUp(index) {
-      // console.log(this.events[index].users.id)
       this.events[index].users.id.push(this.$store.state.user.id)
-      // console.log(this.events[index].users.id)
 
       var postData = {
         id: this.events[index].id,
@@ -146,7 +144,8 @@ export default {
         month: this.addServiceDate.split("/")[1],
         signed_users: JSON.stringify(users),
         max_users: this.addMaxUsers,
-        attended_users: JSON.stringify(users)
+        attended_users: JSON.stringify(users),
+        complete: 0
       }
       this.$http.post(addEvent, postData).then(response => { location.reload() })
     },

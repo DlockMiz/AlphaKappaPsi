@@ -38,6 +38,17 @@ Route::post('/addEvent', 'eventController@addEvent');
 Route::post('/editEvent', 'eventController@editEvent');
 Route::post('/deleteEvent', 'eventController@deleteEvent');
 Route::post('/userSignedEvent', 'eventController@userSignedEvent');
+Route::post('/getAllEvents', 'eventController@getAllEvents');
+Route::post('/getSingleEvent', 'eventController@getSingleEvent');
+Route::post('/attendUser', 'eventController@attendUser');
+Route::post('/switchAttendance', 'eventController@switchAttendance');
+Route::post('/setPastEvent', 'eventController@setPastEvent');
+Route::post('/setPastEvent', 'eventController@setPastEvent');
+
+
+
+
+
 
 //accounts settings routes
 Route::post('/loadSignedEvents', 'accountSettingsController@loadSignedEvents');
@@ -46,6 +57,8 @@ Route::post('/getUser', 'memberListController@getUser');
 Route::post('/editUser', 'memberListController@editUser');
 Route::post('/getRequestedUsers', 'memberListController@getRequestedUsers');
 Route::post('/addRequestedUsers', 'memberListController@addRequestedUsers');
+Route::post('/getSignedUsers', 'memberListController@getSignedUsers');
+
 
 
 

@@ -28,6 +28,14 @@ export default new Router({
         path: '/account_page/signed_events',
         name: 'Signed Events',
         component: resolve => require(['../components/account_components/signed_events.vue'], resolve)
+      },{
+        path: '/account_page/exec_event_viewer',
+        name: 'Exec Event Viewer',
+        component: resolve => require(['../components/account_components/exec_event_viewer.vue'], resolve)
+      },{
+        path: '/account_page/exec_event_viewer/event_info:id',
+        name: 'Event Information',
+        component: resolve => require(['../components/account_components/event_info.vue'], resolve)
       }, {
         path: '/account_page/members_list',
         name: 'Members List',
