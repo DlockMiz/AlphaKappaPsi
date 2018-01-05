@@ -6,9 +6,14 @@
       </p>
       <hr>
       <ul class="menu-list">
+        <li><a @click="loadPage('requirements_page')" id="requirements_page">Requirement Progress</a></li>
+        <hr>
         <li><a @click="loadPage('signed_events')" id="signed_events">My Signed Up Events</a>
           <ul>
             <li><a @click="loadPage('exec_event_viewer')" id="exec_event_viewer" v-show="$store.state.user.status == 1">Event Viewer</a></li>
+          </ul>
+          <ul>
+            <li><a @click="loadPage('past_event_viewer')" id="past_event_viewer" v-show="$store.state.user.status == 1">Past Events</a></li>
           </ul>
         </li>
         <hr>

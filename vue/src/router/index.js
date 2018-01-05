@@ -24,7 +24,11 @@ export default new Router({
         path: '/account_page',
         name: 'Default Account',
         component: resolve => require(['../components/account_components/central_account_page.vue'], resolve)
-      }, {
+      },{
+        path: '/account_page/requirements_page',
+        name: 'Requirements Page',
+        component: resolve => require(['../components/account_components/requirements_page.vue'], resolve)
+      },{
         path: '/account_page/signed_events',
         name: 'Signed Events',
         component: resolve => require(['../components/account_components/signed_events.vue'], resolve)
@@ -36,7 +40,15 @@ export default new Router({
         path: '/account_page/exec_event_viewer/event_info:id',
         name: 'Event Information',
         component: resolve => require(['../components/account_components/event_info.vue'], resolve)
-      }, {
+      },{
+        path: '/account_page/past_event_viewer',
+        name: 'Past Event Viewer',
+        component: resolve => require(['../components/account_components/past_event_viewer.vue'], resolve)
+      },{
+        path: '/account_page/past_event_viewer/past_event_info:id',
+        name: 'Past Event Information',
+        component: resolve => require(['../components/account_components/past_event_info.vue'], resolve)
+      },{
         path: '/account_page/members_list',
         name: 'Members List',
         component: resolve => require(['../components/account_components/members_list.vue'], resolve)

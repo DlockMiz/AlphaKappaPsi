@@ -7,6 +7,7 @@
       <datepicker v-model="addServiceDate" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }" style="width:280px !important;"></datepicker>
       <input v-model="addServiceLocation" class="input is-info" type="text" placeholder="Location...">
       <input v-model="addMaxUsers" class="input is-info" type="number" placeholder="Max Users...">
+      <input v-model="numberOfHours" class="input is-info" type="text" placeholder="# of Hours for Requirements">
       <textarea v-model="addServiceDesc" class="textarea is-info" type="text" placeholder="Description..."></textarea>
       <center><a class="button is-info" @click="addServiceEvent()" style="margin-top: 10px;">Add Event</a></center>
     </div>
@@ -20,6 +21,7 @@
           <datepicker v-model="event.date" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }"></datepicker>
           <input v-model="event.location" class="input is-info" type="text" placeholder="Location...">
           <input v-model="event.max_users" class="input is-info" type="number" placeholder="Max Users...">
+          <input v-model="event.hours" class="input is-info" type="text" placeholder="# of Hours...">
           <textarea v-model="event.description" class="textarea is-info" type="text" placeholder="Description..."></textarea>
           <center><a class="button is-info" @click="editServiceEvent(index)" style="margin-top: 10px;">Edit Event</a></center>
         </div>
@@ -66,10 +68,11 @@ export default {
       showEditEvent: false,
       addServiceTitle: '',
       addServiceTime: '',
+      numberOfHours: '',
       addServiceDate: '',
       addServiceLocation: '',
       addServiceDesc: '',
-      addMaxUsers: '',
+      addMaxUsers: ''
     }
   },
 
@@ -111,7 +114,8 @@ export default {
             description: event.description,
             users: JSON.parse(event.signed_users),
             is_max_users: maxUsers,
-            max_users: event.max_users
+            max_users: event.max_users,
+            hours: event.hours
           }
           that.events.push(obj)
         })
@@ -144,6 +148,7 @@ export default {
         month: this.addServiceDate.split("/")[1],
         signed_users: JSON.stringify(users),
         max_users: this.addMaxUsers,
+        hours: this.numberOfHours,
         attended_users: JSON.stringify(users),
         complete: 0
       }
@@ -200,6 +205,7 @@ export default {
         description: this.events[index].description,
         month: this.events[index].date.split("/")[1],
         max_users: this.events[index].max_users,
+        hours:this.events[index].hours,
       }
       this.$http.post(editEvent, postData).then(response => { location.reload() })
     },

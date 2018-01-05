@@ -69,6 +69,7 @@ import {
   attendUser,
   switchAttendance,
   setPastEvent,
+  fufillRequirement
 } from '../../router/config.js'
 
 export default {
@@ -226,6 +227,15 @@ export default {
       }
       this.$http.post(setPastEvent, postData).then(response => {
         this.$router.push('/account_page/exec_event_viewer')
+      })
+
+      var postData2= {
+        attended_users: this.attends,
+        event: this.event,
+        hours: this.event.hours
+      }
+      this.$http.post(fufillRequirement, postData2).then(response => {
+        console.log(response.data)
       })
     }
   },

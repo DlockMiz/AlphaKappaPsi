@@ -18,15 +18,16 @@ class Events extends Migration
             $table->string('title');
             $table->string('location');
             $table->string('date');
-            $table->string('month');
+            $table->integer('month');
             $table->string('time');
             $table->json('attended_users');
             $table->json('non_attended_users');
-            $table->string('max_users');
+            $table->integer('max_users');
+            $table->string('hours');
             $table->json('signed_users');
             $table->string('event_type');
             $table->string('description');
-            $table->string('completed');
+            $table->integer('completed');
             $table->timestamps();
         });
     }

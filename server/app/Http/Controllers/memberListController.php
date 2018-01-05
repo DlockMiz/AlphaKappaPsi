@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Event;
 use App\RequestedUser;
+use App\ActiveRequirement;
+
 
 
 class memberListController extends Controller
@@ -76,6 +78,7 @@ class memberListController extends Controller
     public function addRequestedUsers(Request $request) {
     	for($i = 0 ; $i < sizeof($request->id); $i++){
 			$data = RequestedUser::find($request->id[$i]);
+            $req = new ActiveRequirement;
 			$user = new User;
 
 			$user->password = $data->password;
@@ -85,6 +88,15 @@ class memberListController extends Controller
 
     		$data->delete();
     		$user->save();
+
+            $req->id = $user->id;
+            $req->absence = 0;
+            $req->spring_basketball = 0;
+            $req->fall_basketball = 0;
+            $req->fall_football = 0;
+            $req->service = 0;
+            $req->prof_dev = 0;
+            $req->save();
     	}
 
 

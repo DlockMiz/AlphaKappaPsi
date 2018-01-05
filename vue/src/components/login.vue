@@ -4,17 +4,17 @@
       <a href="/"> <img src="../assets/images/akp_logo.png" alt="" style="height: 100px;"> </a>
       <div id="optionsBox">
         <div id="loginBox">
-          <input id="input_tags" style="width:50%;" class="input is-info" type="text" v-model="pawprint" placeholder="Pawprint...">
+          <input style="width:50%;" class="input is-info input_tags" type="text" v-model="pawprint" placeholder="Pawprint...">
           <a id="emailTag">@mail.missouri.edu</a>
-          <input id="input_tags" class="input is-info" type="password" v-model="password" placeholder="Password...">
+          <input class="input is-info input_tags" type="password" v-model="password" placeholder="Password...">
           <a id="loginPageButton" @click="loginUser()" class="button is-info inputs">Login</a>
           <a id="failedTag" v-show="showLoginFail">Login Failed</a>
         </div>
         <div id="registerBox">
-          <input id="input_tags" class="input is-info" type="text" name="email" v-model="registerEmail" placeholder="Email...">
-          <input id="input_tags" class="input is-info" type="text" name="username" v-model="registerName" placeholder="Name...">
-          <input id="input_tags" class="input is-info" type="password" name="pass" v-model="registerPassword" placeholder="Password...">
-          <input id="input_tags" class="input is-info" type="password" name="pass" v-model="checkPass" placeholder="Check Password...">
+          <input class="input is-info input_tags" type="text" name="email" v-model="registerEmail" placeholder="Email...">
+          <input class="input is-info input_tags" type="text" name="username" v-model="registerName" placeholder="Name...">
+          <input class="input is-info input_tags" type="password" name="pass" v-model="registerPassword" placeholder="Password...">
+          <input class="input is-info input_tags" type="password" name="pass" v-model="checkPass" placeholder="Check Password...">
           <a id="failedTag" v-show="noPasswordMatch">Passwords Do Not Match</a>
           <a id="registerPageButton" @click="registerUser()" class="button is-info inputs">Register</a>
         </div>
@@ -114,7 +114,7 @@ export default {
   height: 5%;
 }
 
-#input_tags,
+.input_tags,
 #loginPageButton,
 #failedTag,
 #registerPageButton {

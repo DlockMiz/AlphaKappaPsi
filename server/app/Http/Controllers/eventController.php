@@ -18,16 +18,20 @@ class eventController extends Controller
     }
 
     public function getAllEvents(Request $request) {
-
         if($request->type == 'current'){
             $data = Event::get()
             ->where('completed', '=', '0');
+            return $data;
+        }else if($request->type == 'past'){
+            $data = Event::get()
+            ->where('completed', '=', '1');
             return $data;
         } else{
             $data = Event::get();
             return $data;
         }
     }
+
     public function getSingleEvent(Request $request) {
         $data = Event::find($request);
         return $data;
@@ -60,9 +64,11 @@ class eventController extends Controller
     	$data->time = $request->time;
         $data->month = $request->month;
     	$data->signed_users = $request->signed_users;
+        $data->hours = $request->hours;
     	$data->event_type = $request->event_type;
         $data->max_users = $request->max_users;
         $data->attended_users = $request->attended_users;
+        $data->non_attended_users = $request->attended_users;
         $data->completed = $request->complete;
 
     	$data->save();
@@ -76,6 +82,7 @@ class eventController extends Controller
         $data->date = $request->date;
         $data->time = $request->time;
         $data->month = $request->month;
+        $data->hours = $request->hours;
         $data->max_users = $request->max_users;
         $data->save();
         return 'success';
