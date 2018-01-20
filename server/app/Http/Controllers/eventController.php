@@ -21,7 +21,7 @@ class eventController extends Controller
         if($request->type == 'current'){
             $data = Event::get()
             ->where('completed', '=', '0');
-            return $data;
+            return [$data];
         }else if($request->type == 'past'){
             $data = Event::get()
             ->where('completed', '=', '1');

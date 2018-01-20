@@ -45,16 +45,16 @@ export default {
       }
       this.$http.post(getAllEvents, postData).then(response => {
         var that = this
-        response.data.forEach(function(event) {
-          var obj = {
-            id: event.id,
-            title: event.title,
-            date: event.date,
-            type: event.event_type,
+        for (var i = 1; i < Object.keys(response.data).length+1; i++) {
+            var obj = {
+              id: response.data[i].id,
+              title: response.data[i].title,
+              date: response.data[i].date,
+              type: response.data[i].event_type
+            }
+            that.events.push(obj)
           }
-          that.events.push(obj)
         })
-      })
     }
   },
   mounted: function() {
