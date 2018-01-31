@@ -13,7 +13,7 @@ return [
     */
    
     'supportsCredentials' => false,
-    'allowedOrigins' => ['http://localhost:7000','http://akpmiztest.tk'],
+    'allowedOrigins' => ['http://localhost:7000','http://akpmiztest.ml'],
     'allowedHeaders' => ['*'],
     'allowedMethods' => ['*'],
     'exposedHeaders' => [],
