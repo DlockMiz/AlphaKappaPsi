@@ -110,7 +110,7 @@ export default {
         }
         this.$http.post(getReqParams).then(response => {
           this.fund_requirement = response.data[0].parameters
-          if (this.fundraising <= this.fund_requirement) {
+          if (this.fundraising >= this.fund_requirement) {
             document.getElementById("fundraising_box").style = "border-color: green;"
           }
         })
