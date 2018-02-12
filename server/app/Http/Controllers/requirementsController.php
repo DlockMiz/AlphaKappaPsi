@@ -5,11 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ActiveRequirement;
 use App\RequirementParam;
+use Illuminate\Support\Facades\DB;
+
 
 
 
 class requirementsController extends Controller
 {
+    public function submitComments(Request $request) {
+        DB::table('comments')->insert(
+            ['comments' => $request->comments]
+        );
+    }
+
     public function checkActiveRequirements(Request $request) {
     	$data = ActiveRequirement::find($request->id);
 		return $data;

@@ -42,6 +42,9 @@ export const checkActiveRequirements = apiDomain + 'api/checkActiveRequirements'
 export const fufillRequirement = apiDomain + 'api/fufillRequirement'
 export const getReqParams = apiDomain + 'api/getReqParams'
 
+//comments
+export const submitComments = apiDomain + 'api/submitComments'
+
 
 
 

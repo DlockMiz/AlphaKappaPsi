@@ -252,7 +252,7 @@ export default {
   padding: 5px;
 }
 
-#addFund {
+#addFundBox {
   background-color: lightgrey;
   width: 300px;
   position: absolute;
@@ -260,7 +260,7 @@ export default {
   padding: 10px;
 }
 
-#addFund input,
+#addFundBox input,
 textarea {
   width: 100%;
   margin-top: 10px;

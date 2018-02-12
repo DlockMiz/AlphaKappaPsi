@@ -60,6 +60,10 @@ Route::post('/checkActiveRequirements', 'requirementsController@checkActiveRequi
 Route::post('/fufillRequirement', 'requirementsController@fufillRequirement');
 Route::post('/getReqParams', 'requirementsController@getReqParams');
 
+//comments
+Route::post('/submitComments', 'requirementsController@submitComments');
+
+
 
 
 

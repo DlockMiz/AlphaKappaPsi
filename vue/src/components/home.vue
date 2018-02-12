@@ -1,12 +1,49 @@
 <template>
   <div>
+    <div style="width: 50%; float:left;">
+      Wanted Features:
+      <hr> In the creation of highly customizable events, have an option to put sign ups on MasterDoc.
+      <hr>
+      <hr> Some form of password recovery or change.
+      <hr>
+      <hr> Give exec ability to change a users requirements status.
+      <hr>
+      <hr> Give exec ability to change the parameters for completing requirements.
+      <hr>
+      <hr> Upcoming Events Page for both Current Events and Account
+      <hr>
+    </div>
+    <div style="width: 50%; float:left;">
+    	<center>Comments</center>
+    	<center><textarea v-model="comments" style="width: 65%; height: 400px;"></textarea></center>
+    	<center><button @click="submitComments()">Submit Comments</button></center>
+    </div>
   </div>
 </template>
 <script>
+import{ submitComments } from '../router/config.js'
+
+
 export default {
   data() {
-    return {}
+    return {
+    	comments: '',
+    }
   },
+
+  methods:{
+  	submitComments(){
+  		var postData = {
+  			comments: this.comments
+  		}
+
+  		this.$http.post(submitComments, postData).then(response =>{
+  			console.log(response.data)
+  			alert('Thanks for your comments.')
+  			location.reload();
+  		})
+  	}
+  }
 }
 
 </script>
