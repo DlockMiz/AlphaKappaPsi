@@ -12,21 +12,6 @@
         {{unexcused}} Left
       </div>
     </div>
-    <!-- <div class="req_title" id="spring_f_box">
-      Fundraising Spring
-      <div class="req_content">
-        Spring: 1 B-Ball Games
-      </div>
-    </div>
-    <div class="req_title" id="fall_f_box">
-      Fall Fundraising
-      <div class="req_content">
-        B-Ball Games: {{fall_f_bball}}
-      </div>
-      <div class="req_content">
-        F-Ball Games: {{fall_f_football}}
-      </div>
-    </div> -->
     <div class="req_title" id="fundraising_box">
       Fundraising
       <div class="req_content">
