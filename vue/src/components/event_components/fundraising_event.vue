@@ -11,13 +11,13 @@
       <input v-model="addLocation" class="input is-info" type="text" placeholder="Location...">
       <input v-model="addMaxUsers" class="input is-info" type="number" placeholder="Max Users...">
       <textarea v-model="addDesc" class="textarea is-info" type="text" placeholder="Description..."></textarea>
-      <center><a class="button is-info" @click="addFundraisingEvent()" style="margin-top: 10px;">Add Event</a></center>
+      <center><a class="button is-info" @click="addEvent()" style="margin-top: 10px;">Add Event</a></center>
     </div>
     <div id="fundEventBox" v-for="(event, index) event in events" style="margin-top: 50px;">
       <i v-show="$store.state.user.status == '1'" class="fa fa-minus-square icon_hover" @click="showDeleteEvent(index)" aria-hidden="true"></i>
       <i v-show="$store.state.user.status == '1'" class="fa fa-pencil-square icon_hover" @click="showEditEvent(index)" aria-hidden="true"></i>
-      <div id="editBrotherEventWrapper">
-        <div :id="'editBrotherEventBox'+index" style="display: none;">
+      <div id="editFundEventWrapper">
+        <div :id="'editFundEventBox'+index" style="display: none;">
           <input v-model="event.title" class="input is-info" type="text" placeholder="Title...">
           <input v-model="event.time" class="input is-info" type="text" placeholder="Time...">
           <datepicker v-model="event.date" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }"></datepicker>
@@ -27,7 +27,7 @@
           <center><a class="button is-info" @click="editEvent(index)" style="margin-top: 10px;">Edit Event</a></center>
         </div>
       </div>
-      <div :id="'deleteBrotherEventBox'+index" style="display: none;">
+      <div :id="'deleteFundEventBox'+index" style="display: none;">
         <center>
           <h1>Are you sure you want to delete this event?</h1></center>
         <center><a class="button is-info" @click="deleteEvent(index)" style="margin-top: 10px;">Delete Event</a></center>
@@ -128,13 +128,12 @@ export default {
       })
     },
     signUp(index) {
-      this.events[index].users.id.push(this.$store.state.user.id)
-
       var postData = {
-        id: this.events[index].id,
-        signed_users: JSON.stringify(this.events[index].users),
+        id: this.$store.state.user.id,
+        event_id: this.events[index].id,
       }
       this.$http.post(userSignedEvent, postData).then(response => {
+        location.reload()
         if (response.data == 'fail') {
           alert('The Event is Filled')
           location.reload()
@@ -142,7 +141,7 @@ export default {
       })
     },
 
-    addFundraisingEvent() {
+    addEvent() {
       var users = { "id": [] }
       var postData = {
         title: this.addTitle,
@@ -177,27 +176,27 @@ export default {
 
     showEditEvent(index) {
       if ($('#fundEventBox' + index).css('display') == 'block') {
-        $("#editBrotherEventBox" + index).show()
+        $("#editFundEventBox" + index).show()
         $("#fundEventBox" + index).hide()
-      } else if ($('#fundEventBox' + index).css('display') == 'none' && $('#deleteBrotherEventBox' + index).css('display') == 'none') {
-        $("#editBrotherEventBox" + index).hide()
+      } else if ($('#fundEventBox' + index).css('display') == 'none' && $('#deleteFundEventBox' + index).css('display') == 'none') {
+        $("#editFundEventBox" + index).hide()
         $("#fundEventBox" + index).show()
-      } else if ($('#deleteBrotherEventBox' + index).css('display') == 'block' && $('#fundEventBox' + index).css('display') == 'none') {
-        $("#deleteBrotherEventBox" + index).hide()
-        $("#editBrotherEventBox" + index).show()
+      } else if ($('#deleteFundEventBox' + index).css('display') == 'block' && $('#fundEventBox' + index).css('display') == 'none') {
+        $("#deleteFundEventBox" + index).hide()
+        $("#editFundEventBox" + index).show()
       }
     },
 
     showDeleteEvent(index) {
       if ($('#fundEventBox' + index).css('display') == 'block') {
-        $("#deleteBrotherEventBox" + index).show()
+        $("#deleteFundEventBox" + index).show()
         $("#fundEventBox" + index).hide()
-      } else if ($('#fundEventBox' + index).css('display') == 'none' && $('#editBrotherEventBox' + index).css('display') == 'none') {
-        $("#deleteBrotherEventBox" + index).hide()
+      } else if ($('#fundEventBox' + index).css('display') == 'none' && $('#editFundEventBox' + index).css('display') == 'none') {
+        $("#deleteFundEventBox" + index).hide()
         $("#fundEventBox" + index).show()
-      } else if ($('#editBrotherEventBox' + index).css('display') == 'block' && $('#fundEventBox' + index).css('display') == 'none') {
-        $("#editBrotherEventBox" + index).hide()
-        $("#deleteBrotherEventBox" + index).show()
+      } else if ($('#editFundEventBox' + index).css('display') == 'block' && $('#fundEventBox' + index).css('display') == 'none') {
+        $("#editFundEventBox" + index).hide()
+        $("#deleteFundEventBox" + index).show()
       }
     },
 
@@ -266,18 +265,18 @@ textarea {
   margin-top: 10px;
 }
 
-#editBrotherEventBox {
+#editFundEventBox {
   padding: 10px;
   background-color: lightgrey;
 }
 
-#editBrotherEventWrapper input,
+#editFundEventWrapper input,
 textarea {
   width: 100%;
   margin-top: 10px;
 }
 
-#deleteBrotherEventBox {
+#deleteFundEventBox {
   background-color: lightgrey;
   padding: 10px;
 }

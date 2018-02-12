@@ -121,13 +121,12 @@ export default {
       })
     },
     signUp(index) {
-      this.events[index].users.id.push(this.$store.state.user.id)
-
       var postData = {
-        id: this.events[index].id,
-        signed_users: JSON.stringify(this.events[index].users),
+        id: this.$store.state.user.id,
+        event_id: this.events[index].id,
       }
       this.$http.post(userSignedEvent, postData).then(response => {
+        location.reload()
         if (response.data == 'fail') {
           alert('The Event is Filled')
           location.reload()

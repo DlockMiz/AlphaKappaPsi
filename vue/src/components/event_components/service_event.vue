@@ -5,18 +5,18 @@
     </div>
     <i v-show="$store.state.user.status == '1' " @click="showAddEvent = !showAddEvent" id="addEventIcon" class="fa fa-plus-square fa-2x" aria-hidden="true"></i>
     <div v-show="showAddEvent" id="addServiceBox">
-      <input v-model="addServiceTitle" class="input is-info" type="text" placeholder="Title...">
-      <input v-model="addServiceTime" class="input is-info" type="text" placeholder="Time...">
-      <datepicker v-model="addServiceDate" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }" style="width:280px !important;"></datepicker>
-      <input v-model="addServiceLocation" class="input is-info" type="text" placeholder="Location...">
+      <input v-model="addTitle" class="input is-info" type="text" placeholder="Title...">
+      <input v-model="addTime" class="input is-info" type="text" placeholder="Time...">
+      <datepicker v-model="addDate" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }" style="width:280px !important;"></datepicker>
+      <input v-model="addLocation" class="input is-info" type="text" placeholder="Location...">
       <input v-model="addMaxUsers" class="input is-info" type="number" placeholder="Max Users...">
       <input v-model="numberOfHours" class="input is-info" type="text" placeholder="# of Hours for Requirements">
-      <textarea v-model="addServiceDesc" class="textarea is-info" type="text" placeholder="Description..."></textarea>
-      <center><a class="button is-info" @click="addServiceEvent()" style="margin-top: 10px;">Add Event</a></center>
+      <textarea v-model="addDesc" class="textarea is-info" type="text" placeholder="Description..."></textarea>
+      <center><a class="button is-info" @click="addEvent()" style="margin-top: 10px;">Add Event</a></center>
     </div>
     <div id="serviceEventBox" v-for="(event, index) event in events" style="margin-top: 50px;">
-      <i v-show="$store.state.user.status == '1'" class="fa fa-minus-square icon_hover" @click="showDeleteServiceEvent(index)" aria-hidden="true"></i>
-      <i v-show="$store.state.user.status == '1'" class="fa fa-pencil-square icon_hover" @click="showEditServiceEvent(index)" aria-hidden="true"></i>
+      <i v-show="$store.state.user.status == '1'" class="fa fa-minus-square icon_hover" @click="showDelteEvent(index)" aria-hidden="true"></i>
+      <i v-show="$store.state.user.status == '1'" class="fa fa-pencil-square icon_hover" @click="showEditEvent(index)" aria-hidden="true"></i>
       <div id="editServiceEventWrapper">
         <div :id="'editServiceEventBox'+index" style="display: none;">
           <input v-model="event.title" class="input is-info" type="text" placeholder="Title...">
@@ -26,13 +26,13 @@
           <input v-model="event.max_users" class="input is-info" type="number" placeholder="Max Users...">
           <input v-model="event.hours" class="input is-info" type="text" placeholder="# of Hours...">
           <textarea v-model="event.description" class="textarea is-info" type="text" placeholder="Description..."></textarea>
-          <center><a class="button is-info" @click="editServiceEvent(index)" style="margin-top: 10px;">Edit Event</a></center>
+          <center><a class="button is-info" @click="editEvent(index)" style="margin-top: 10px;">Edit Event</a></center>
         </div>
       </div>
       <div :id="'deleteServiceEventBox'+index" style="display: none;">
         <center>
           <h1>Are you sure you want to delete this event?</h1></center>
-        <center><a class="button is-info" @click="deleteServiceEvent(index)" style="margin-top: 10px;">Delete Event</a></center>
+        <center><a class="button is-info" @click="deleteEvent(index)" style="margin-top: 10px;">Delete Event</a></center>
       </div>
       <div :id="'serviceEventBox'+index">
         <h1 style="text-align: center; font-size: 16pt;">{{event.title}}</h1>
@@ -60,21 +60,18 @@ import { getEvents, addEvent, userSignedEvent, editEvent, deleteEvent } from '..
 
 window.$ = window.jQuery = require('jquery');
 
-
 export default {
   data() {
     return {
       events: [],
       showAddEvent: false,
       showEvent: true,
-      showDeleteEvent: false,
-      showEditEvent: false,
-      addServiceTitle: '',
-      addServiceTime: '',
+      addTitle: '',
+      addTime: '',
       numberOfHours: '',
-      addServiceDate: '',
-      addServiceLocation: '',
-      addServiceDesc: '',
+      addDate: '',
+      addLocation: '',
+      addDesc: '',
       addMaxUsers: ''
     }
   },
@@ -125,15 +122,12 @@ export default {
       })
     },
     signUp(index) {
-      this.events[index].users.id.push(this.$store.state.user.id)
-
       var postData = {
         id: this.$store.state.user.id,
         event_id: this.events[index].id,
-        signed_users: JSON.stringify(this.events[index].users),  
       }
       this.$http.post(userSignedEvent, postData).then(response => {
-        console.log(response.data)
+        location.reload()
         if (response.data == 'fail') {
           alert('The Event is Filled')
           location.reload()
@@ -141,16 +135,16 @@ export default {
       })
     },
 
-    addServiceEvent() {
+    addEvent() {
       var users = { "id": [] }
       var postData = {
-        title: this.addServiceTitle,
-        location: this.addServiceLocation,
-        date: this.addServiceDate,
-        time: this.addServiceTime,
-        description: this.addServiceDesc,
+        title: this.addTitle,
+        location: this.addLocation,
+        date: this.addDate,
+        time: this.addTime,
+        description: this.addDesc,
         event_type: "service",
-        month: this.addServiceDate.split("/")[1],
+        month: this.addDate.split("/")[1],
         signed_users: JSON.stringify(users),
         max_users: this.addMaxUsers,
         hours: this.numberOfHours,
@@ -174,7 +168,7 @@ export default {
       })
     },
 
-    showEditServiceEvent(index) {
+    showEditEvent(index) {
       if ($('#serviceEventBox' + index).css('display') == 'block') {
         $("#editServiceEventBox" + index).show()
         $("#serviceEventBox" + index).hide()
@@ -187,7 +181,7 @@ export default {
       }
     },
 
-    showDeleteServiceEvent(index) {
+    showDelteEvent(index) {
       if ($('#serviceEventBox' + index).css('display') == 'block') {
         $("#deleteServiceEventBox" + index).show()
         $("#serviceEventBox" + index).hide()
@@ -200,7 +194,7 @@ export default {
       }
     },
 
-    editServiceEvent(index) {
+    editEvent(index) {
       var postData = {
         id: this.events[index].id,
         title: this.events[index].title,
@@ -215,7 +209,7 @@ export default {
       this.$http.post(editEvent, postData).then(response => { location.reload() })
     },
 
-    deleteServiceEvent(index) {
+    deleteEvent(index) {
       var postData = {
         id: this.events[index].id
       }
