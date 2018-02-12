@@ -91,9 +91,7 @@ class memberListController extends Controller
 
             $req->id = $user->id;
             $req->absence = 0;
-            $req->spring_basketball = 0;
-            $req->fall_basketball = 0;
-            $req->fall_football = 0;
+            $req->fundraising = 0;
             $req->service = 0;
             $req->prof_dev = 0;
             $req->save();

@@ -21,11 +21,12 @@ class eventController extends Controller
         if($request->type == 'current'){
             $data = Event::get()
             ->where('completed', '=', '0');
-            return $data;
+            return $data->values();
+
         }else if($request->type == 'past'){
             $data = Event::get()
             ->where('completed', '=', '1');
-            return $data;
+            return $data->values();
         } else{
             $data = Event::get();
             return $data;

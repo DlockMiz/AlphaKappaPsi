@@ -14,18 +14,15 @@
         <hr>
         <li><a class="link is-info"><i class="fa fa-black-tie" aria-hidden="true"></i>Merchandise</a></li>
         <hr>
-        <li><a class="link is-info"><i class="fa fa-home" aria-hidden="true"></i>Homecoming</a></li>
+        <li><a class="link is-info"><i class="fa fa-home" aria-hidden="true"></i>Homecoming / Business Week</a></li>
         <hr>
-        <li><a class="link is-info"><i class="fa fa-money" aria-hidden="true"></i>Fundraising</a></li>
+        <li><a class="link is-info" @click="loadPage('fundraising')" id="fundraising" ><i class="fa fa-money" aria-hidden="true"></i>Fundraising</a></li>
         <hr>
-        <li><a class="link is-info"><i class="fa fa-handshake-o" aria-hidden="true"></i>Professional Development</a></li>
+        <li><a class="link is-info" @click="loadPage('professional_development')" id="professional_development"><i class="fa fa-handshake-o" aria-hidden="true"></i>Professional Development</a></li>
         <hr>
         <li><a class="link is-info" @click="loadPage('service_event')" id="service_event"><i class="fa fa-trash" aria-hidden="true"></i>Service</a></li>
         <hr>
-        <li><a class="link is-info"><i class="fa fa-users" aria-hidden="true"></i>Brotherhood</a></li>
-        <hr>
-        <li><a class="link is-info"><i class="fa fa-id-card" aria-hidden="true"></i>Membership</a></li>
-        <hr>
+        <li><a class="link is-info" @click="loadPage('brotherhood')" id="brotherhood"><i class="fa fa-users" aria-hidden="true"></i>Brotherhood</a></li>
       </ul>
     </aside>
   </div>

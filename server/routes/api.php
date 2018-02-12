@@ -45,8 +45,6 @@ Route::post('/switchAttendance', 'eventController@switchAttendance');
 Route::post('/setPastEvent', 'eventController@setPastEvent');
 Route::post('/setPastEvent', 'eventController@setPastEvent');
 
-
-
 //accounts settings routes
 Route::post('/loadSignedEvents', 'accountSettingsController@loadSignedEvents');
 Route::post('/getRegisteredUsers', 'memberListController@getRegisteredUsers');
@@ -60,6 +58,8 @@ Route::post('/getSignedUsers', 'memberListController@getSignedUsers');
 //requirement routes
 Route::post('/checkActiveRequirements', 'requirementsController@checkActiveRequirements');
 Route::post('/fufillRequirement', 'requirementsController@fufillRequirement');
+Route::post('/getReqParams', 'requirementsController@getReqParams');
+
 
 
 

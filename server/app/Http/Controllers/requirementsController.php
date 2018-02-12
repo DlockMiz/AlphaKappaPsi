@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ActiveRequirement;
+use App\RequirementParam;
+
 
 
 class requirementsController extends Controller
@@ -13,6 +15,11 @@ class requirementsController extends Controller
 		return $data;
     }
 
+    public function getReqParams(Request $request) {
+        $data = RequirementParam::get();
+        return $data;
+    }
+
     public function fufillRequirement(Request $request) {
     	if(strcmp($request->event["event_type"],"service")==0){
 	    	foreach ($request->attended_users as $key => $value) {
@@ -20,7 +27,19 @@ class requirementsController extends Controller
 	    		$user->service += (int)$request->event["hours"];
 	    		$user->save();
 	    	}
-    	}
+    	} else if(strcmp($request->event["event_type"],"prof_dev")==0){
+            foreach ($request->attended_users as $key => $value) {
+                $user = ActiveRequirement::find($value["id"]);
+                $user->prof_dev += (int)$request->event["hours"];
+                $user->save();
+            }
+        } else if(strcmp($request->event["event_type"],"fundraising")==0){
+            foreach ($request->attended_users as $key => $value) {
+                $user = ActiveRequirement::find($value["id"]);
+                $user->fundraising += 1;
+                $user->save();
+            }
+        } 
     	return $request;
     }
 }

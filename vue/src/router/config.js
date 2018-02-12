@@ -40,6 +40,8 @@ export const editUser = apiDomain + 'api/editUser'
 //requirements controller
 export const checkActiveRequirements = apiDomain + 'api/checkActiveRequirements'
 export const fufillRequirement = apiDomain + 'api/fufillRequirement'
+export const getReqParams = apiDomain + 'api/getReqParams'
+
 
 
 

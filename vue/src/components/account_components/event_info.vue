@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div style="overflow: auto;">
     <a href="#/account_page/exec_event_viewer"><i class="fa fa-angle-left fa-1x" aria-hidden="true"> Back</i></a>
     <a class="button is-info" style="margin-left: 20px;" @click="completeEvent()">Complete Event</a>
-    <div>
+    <div style="min-width: 1300px;">
       <div style="float:left;">
         <table class="table">
           <thead>

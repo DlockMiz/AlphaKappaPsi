@@ -45,22 +45,14 @@ export default {
       }
       this.$http.post(getAllEvents, postData).then(response => {
         var that = this
-        var length = Object.keys(response.data[0]).length
+        var length = response.data.length //Object.keys(response.data[0]).length
+        console.log(response.data)
         for (var i = 0; i < length; i++) {
-          if (length > 1) {
-            var obj = {
-              id: response.data[0][i].id,
-              title: response.data[0][i].title,
-              date: response.data[0][i].date,
-              type: response.data[0][i].event_type
-            }
-          } else {
-            var obj = {
-              id: response.data[0][0].id,
-              title: response.data[0][0].title,
-              date: response.data[0][0].date,
-              type: response.data[0][0].event_type
-            }
+          var obj = {
+            id: response.data[i].id,
+            title: response.data[i].title,
+            date: response.data[i].date,
+            type: response.data[i].event_type
           }
           that.events.push(obj)
         }

@@ -1,9 +1,11 @@
 <template>
   <div>
     <div class="select is-info" style="margin: 15px;">
-      <select>
-        <option>Service</option>
-        <option>Brotherhood</option>
+      <select v-model="selected">
+        <option value="service">Service</option>
+        <option value="prof_dev">Professional Development</option>
+        <option value="brotherhood">Brotherhood</option>
+        <option value="fundraising">Fundraising</option>
       </select>
     </div>
     <div v-for="event in events">
@@ -26,17 +28,28 @@ import { loadSignedEvents } from '../../router/config'
 export default {
   data() {
     return {
-      events: []
+      events: [],
+      selected: 'service'
     }
   },
 
   mounted: function() {
     this.loadEvents()
   },
+  watch: {
+    selected: function() {
+      this.loadEvents()
+    }
+  },
 
   methods: {
     loadEvents() {
-      this.$http.post(loadSignedEvents, this.$store.state.user.id).then(response => {
+      var postData = {
+        id: this.$store.state.user.id,
+        event_type: this.selected
+      }
+      this.$http.post(loadSignedEvents, postData).then(response => {
+        console.log(response.data)
         this.events = response.data
       })
     }
