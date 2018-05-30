@@ -9,13 +9,10 @@
         <div>
           <div>Only Selected Can View:</div>
           <label class="radio">
-            <input style="margin-left: 20px;" type="radio" name="exec"> Exec
+            <input style="margin-left: 20px;" class="selectedView" type="checkbox" name="active" value="2" checked> Active
           </label>
           <label class="radio">
-            <input style="margin-left: 20px;" type="radio" name="active"> Active
-          </label>
-          <label class="radio">
-            <input style="margin-left: 20px;" type="radio" name="pledge"> Pledge
+            <input style="margin-left: 20px;" class="selectedView" type="checkbox" name="pledge" value="3" checked> Pledge
           </label>
         </div>
       </center>
@@ -27,11 +24,22 @@
       <textarea v-model="addDesc" class="textarea is-info" type="text" placeholder="Description..."></textarea>
       <center><a class="button is-info" @click="addProfEvent()" style="margin-top: 10px;">Add Event</a></center>
     </div>
-    <div id="profDevEventBox" v-for="(event, index) event in events" style="margin-top: 50px;">
+    <div id="profDevEventBox" v-for="(event, index) event in events" style="margin-top: 50px;" v-show="event.current_perms[0] == $store.state.user.status || event.current_perms[1] == $store.state.user.status || event.current_perms[2] == $store.state.user.status">
       <i v-show="$store.state.user.status == '1'" class="fa fa-minus-square icon_hover" @click="showDeleteEvent(index)" aria-hidden="true"></i>
       <i v-show="$store.state.user.status == '1'" class="fa fa-pencil-square icon_hover" @click="showEditEvent(index)" aria-hidden="true"></i>
       <div id="editProfEventWrapper">
         <div :id="'editProfEventBox'+index" style="display: none;">
+          <div>
+            <center>
+              <div>Only Selected Can View:</div>
+              <label class="radio">
+                <input style="margin-left: 20px;" type="checkbox" :class="'selectedViewActive'+event.id" :name="'active_edit'+index" value="2"> Active
+              </label>
+              <label class="radio">
+                <input style="margin-left: 20px;" type="checkbox" :class="'selectedViewPledge'+event.id" :name="'pledge_edit'+index" value="3"> Pledge
+              </label>
+            </center>
+          </div>
           <input v-model="event.title" class="input is-info" type="text" placeholder="Title...">
           <input v-model="event.time" class="input is-info" type="text" placeholder="Time...">
           <datepicker v-model="event.date" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }"></datepicker>
@@ -105,6 +113,11 @@ export default {
       this.$http.post(getEvents, postData).then(response => {
         var that = this
         response.data.forEach(function(event) {
+          var perms = JSON.parse(event.censor_perms)
+          var parse_perms = []
+          perms.id.forEach(function(p) {
+            parse_perms.push(p)
+          })
           var maxUsers = false
           var counted_users = 0
           var parse = JSON.parse(event.signed_users)
@@ -128,7 +141,9 @@ export default {
             users: JSON.parse(event.signed_users),
             is_max_users: maxUsers,
             max_users: event.max_users,
-            hours: event.hours
+            hours: event.hours,
+            current_perms: parse_perms
+
           }
           that.events.push(obj)
         })
@@ -162,14 +177,26 @@ export default {
         max_users: this.addMaxUsers,
         hours: this.numberOfHours,
         attended_users: JSON.stringify(users),
-        complete: 0
+        complete: 0,
+        censor_perms: {}
       }
+      var radios = document.getElementsByClassName('selectedView');
+      var censor_perms = { id: ['1', '0', '0'] }
+      for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked)
+          censor_perms.id[i+1] = radios[i].value
+      }
+      postData.censor_perms = JSON.stringify(censor_perms)
       this.$http.post(addEvent, postData).then(response => { location.reload() })
     },
 
     checkSignedIn() {
       var that = this
       this.events.forEach(function(event) {
+        if (event.current_perms[1] == '2')
+          $('.selectedViewActive' + event.id).prop('checked', true)
+        if (event.current_perms[2] == '3')
+          $('.selectedViewPledge' + event.id).prop('checked', true)
         event.users.id.forEach(function(id) {
           if (id == that.$store.state.user.id) {
             $(document).ready(function() {
@@ -218,7 +245,18 @@ export default {
         month: this.events[index].date.split("/")[1],
         max_users: this.events[index].max_users,
         hours: this.events[index].hours,
+        censor_perms: {}
       }
+      var a_radios = document.getElementsByClassName('selectedViewActive' + this.events[index].id);
+      var p_radios = document.getElementsByClassName('selectedViewPledge' + this.events[index].id);
+      var censor_perms = { id: ['1', '0', '0'] }
+
+      if (a_radios[0].checked == true)
+        censor_perms.id[1] = '2'
+      if (p_radios[0].checked == true)
+        censor_perms.id[2] = '3'
+
+      postData.censor_perms = JSON.stringify(censor_perms)
       this.$http.post(editEvent, postData).then(response => { location.reload() })
     },
 

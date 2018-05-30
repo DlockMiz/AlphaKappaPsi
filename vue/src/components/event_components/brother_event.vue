@@ -33,10 +33,10 @@
             <div>
               <div>Only Selected Can View:</div>
               <label class="radio">
-                <input style="margin-left: 20px;" class="selectedView" type="checkbox" :class="'selectedViewActive'+event.id" :name="'active_edit'+index" value="2"> Active
+                <input style="margin-left: 20px;" type="checkbox" :class="'selectedViewActive'+event.id" :name="'active_edit'+index" value="2"> Active
               </label>
               <label class="radio">
-                <input style="margin-left: 20px;" class="selectedView" type="checkbox" :class="'selectedViewPledge'+event.id" :name="'pledge_edit'+index" value="3"> Pledge
+                <input style="margin-left: 20px;" type="checkbox" :class="'selectedViewPledge'+event.id" :name="'pledge_edit'+index" value="3"> Pledge
               </label>
             </div>
           </center>
@@ -185,13 +185,13 @@ export default {
       }
 
       var radios = document.getElementsByClassName('selectedView');
+      console.log(radios)
       var censor_perms = { id: ['1', '0', '0'] }
       for (var i = 0; i < radios.length; i++) {
         if (radios[i].checked)
-          censor_perms.id[i] = radios[i].value
+          censor_perms.id[i+1] = radios[i].value
       }
-      postData.censor_perms = JSON.stringify(censor_perms)
-
+      postData.censor_perms = JSON.stringify(censor_perms)  
       this.$http.post(addEvent, postData).then(response => { location.reload() })
     },
 
@@ -257,14 +257,9 @@ export default {
       var p_radios = document.getElementsByClassName('selectedViewPledge'+this.events[index].id);  
       var censor_perms = { id: ['1', '0', '0'] }
 
-      console.log(a_radios)
-      console.log(p_radios)
-
-
-
       if(a_radios[0].checked == true)
         censor_perms.id[1] = '2'
-      else if(p_radios[0].checked == true)
+      if(p_radios[0].checked == true)
         censor_perms.id[2] = '3'
 
       postData.censor_perms = JSON.stringify(censor_perms)
