@@ -5,6 +5,20 @@
     </div>
     <i v-show="$store.state.user.status == '1' " @click="showAddEvent = !showAddEvent" id="addEventIcon" class="fa fa-plus-square fa-2x" aria-hidden="true"></i>
     <div v-show="showAddEvent" id="addServiceBox">
+      <center>
+        <div>
+          <div>Only Selected Can View:</div>
+          <label class="radio">
+            <input style="margin-left: 20px;" type="radio" name="exec"> Exec
+          </label>
+          <label class="radio">
+            <input style="margin-left: 20px;" type="radio" name="active"> Active
+          </label>
+          <label class="radio">
+            <input style="margin-left: 20px;" type="radio" name="pledge"> Pledge
+          </label>
+        </div>
+      </center>
       <input v-model="addTitle" class="input is-info" type="text" placeholder="Title...">
       <input v-model="addTime" class="input is-info" type="text" placeholder="Time...">
       <datepicker v-model="addDate" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }" style="width:280px !important;"></datepicker>
@@ -127,11 +141,11 @@ export default {
         event_id: this.events[index].id,
       }
       this.$http.post(userSignedEvent, postData).then(response => {
-        location.reload()
         if (response.data == 'fail') {
           alert('The Event is Filled')
           location.reload()
         }
+        location.reload()
       })
     },
 
@@ -204,7 +218,7 @@ export default {
         description: this.events[index].description,
         month: this.events[index].date.split("/")[1],
         max_users: this.events[index].max_users,
-        hours:this.events[index].hours,
+        hours: this.events[index].hours,
       }
       this.$http.post(editEvent, postData).then(response => { location.reload() })
     },

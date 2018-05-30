@@ -1,17 +1,6 @@
 <template>
   <div>
     <div style="width: 50%; float:left;">
-      Wanted Features:
-      <hr> In the creation of highly customizable events, have an option to put sign ups on MasterDoc.
-      <hr>
-      <hr> Some form of password recovery or change.
-      <hr>
-      <hr> Give exec ability to change a users requirements status.
-      <hr>
-      <hr> Give exec ability to change the parameters for completing requirements.
-      <hr>
-      <hr> Upcoming Events Page for both Current Events and Account
-      <hr>
     </div>
     <div style="width: 50%; float:left;">
     	<center>Comments</center>

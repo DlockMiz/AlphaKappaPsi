@@ -29,6 +29,10 @@ export default new Router({
         name: 'Requirements Page',
         component: resolve => require(['../components/account_components/requirements_page.vue'], resolve)
       }, {
+        path: '/account_page/switch_requests',
+        name: 'Requirements Page',
+        component: resolve => require(['../components/account_components/switch_requests.vue'], resolve)
+      }, {
         path: '/account_page/signed_events',
         name: 'Signed Events',
         component: resolve => require(['../components/account_components/signed_events.vue'], resolve)

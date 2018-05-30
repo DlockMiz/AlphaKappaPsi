@@ -31,12 +31,6 @@
         {{prof_dev}} Event
       </div>
     </div>
-    <div class="req_title" id="dues_box">
-      Dues
-      <div class="req_content">
-        {{dues}}
-      </div>
-    </div>
   </div>
 </template>
 <script>
@@ -50,7 +44,6 @@ export default {
       absences: '',
       unexcused: '',
       fundraising: '',
-      dues: '',
       fund_requirement: ''
     }
   },
@@ -67,7 +60,6 @@ export default {
         this.prof_dev = response.data.prof_dev
         this.absences = response.data.absence
         this.unexcused = response.data.unexcused
-        this.dues = response.data.dues
         this.fundraising = response.data.fundraising
 
         if (this.service_hours == 4)
@@ -78,13 +70,6 @@ export default {
 
         if (this.absences <= 3)
           document.getElementById("absences_box").style = "border-color: green;"
-
-        if (this.dues == null)
-          this.dues = 'Not Payed'
-        else if (this.dues == 'payed') {
-          this.dues = 'Payed'
-          document.getElementById("dues_box").style = "border-color: green;"
-        }
 
         if (this.unexcused == null) {
           this.unexcused = '1'

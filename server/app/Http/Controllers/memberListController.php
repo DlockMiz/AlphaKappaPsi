@@ -18,6 +18,14 @@ class memberListController extends Controller
 		return $data;
     }
 
+    public function removeRequestedUsers(Request $request) {
+        for($i = 0 ; $i < sizeof($request->id); $i++){
+            $data = RequestedUser::find($request->id[$i]);
+            $data->delete();
+        }
+        return 'success';
+    }
+
     public function getSignedUsers(Request $request) {
         $users = [];
         $event = Event::find($request->event_id);

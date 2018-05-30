@@ -8,7 +8,7 @@
         <option value="fundraising">Fundraising</option>
       </select>
     </div>
-    <div v-for="event in events">
+    <div v-for="(event, index) event in events">
       <div id="loadSignedEventsBox">
         <center>
           <h1>{{event.title}}</h1></center>
@@ -18,17 +18,22 @@
         <p>Date: {{event.date}}</p>
         <hr>
         <p>Location: {{event.location}}</p>
+        <hr>
+        <center>
+          <a class="button is-info" v-show="backOutValidity[index].isUnSignValid" @click="unSignUserFromEvent(event.id)">Un-Sign</a>
+          <a class="button is-warning" @click="requestUserSwitch(index)">Request Switch</a>
+        </center>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { loadSignedEvents } from '../../router/config'
-
+import { loadSignedEvents, removeSignedUser, requestUserSwitch } from '../../router/config'
 export default {
   data() {
     return {
       events: [],
+      backOutValidity: [],
       selected: 'service'
     }
   },
@@ -43,14 +48,64 @@ export default {
   },
 
   methods: {
+    requestUserSwitch(index) {
+      var postData = {
+        id: this.$store.state.user.id,
+        post_event: this.events[index]
+      }
+
+      this.$swal({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.$http.post(requestUserSwitch, postData).then(response => {
+            if (response.data == 100)
+              this.$swal('No No No', 'You have already put in a request!', 'error')
+            else if(response.data == 200)
+              this.$swal('You should reload the page!','Reload the page and the event should disappear, someone probably replaced you! :)', 'error')
+            else
+              this.$swal('Awesome', 'The request has been posted', 'success')
+          })
+        } else
+          return
+      })
+    },
     loadEvents() {
       var postData = {
         id: this.$store.state.user.id,
         event_type: this.selected
       }
       this.$http.post(loadSignedEvents, postData).then(response => {
-        console.log(response.data)
+        this.backOutValidity = []
+        var that = this
+        response.data.forEach(function(event) {
+          var date = event.date.split("/")
+          var eventDate = new Date(date[0], parseInt(date[1]) - 1, date[2])
+          var currentDate = new Date
+
+          var valid = {
+            isUnSignValid: false
+          }
+          if (eventDate.getDate() - currentDate.getDate() >= 2)
+            valid.isUnSignValid = true
+          that.backOutValidity.push(valid)
+        })
         this.events = response.data
+      })
+    },
+    unSignUserFromEvent(id) {
+      var postData = {
+        event_id: id,
+        user_id: this.$store.state.user.id
+      }
+      this.$http.post(removeSignedUser, postData).then(response => {
+        location.reload()
       })
     }
   }

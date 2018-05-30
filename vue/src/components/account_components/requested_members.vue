@@ -10,7 +10,12 @@
             <th>
               Email
             </th>
-            <th></th>
+            <th>
+              Add
+            </th>
+            <th>
+              Remove
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -19,18 +24,24 @@
             <td>{{user.email}}
             </td>
             <td>
-              <input type="checkbox" id="checkedMember" :value="user.id">
-              <!-- <input type="checkbox" id="removeMember" :value="user.id"> -->
+              <center>
+                <input :name="'request'+index" type="radio" class="addMember" :value="user.id">
+              </center>
+            </td>
+            <td>
+              <center>
+                <input :name="'request'+index" type="radio" class="removeMember" :value="user.id">
+              </center>
             </td>
           </tr>
-          <a @click="addMembers()" class="button is-info" style="margin-top: 15px;">Add Members</a>
+          <a @click="addMembers()" class="button is-info" style="margin-top: 15px;">Add and Remove Members</a>
         </tbody>
       </table>
     </div>
   </div>
 </template>
 <script>
-import { getRequestedUsers, addRequestedUsers } from '../../router/config.js'
+import { getRequestedUsers, addRequestedUsers, removeRequestedUsers } from '../../router/config.js'
 window.$ = window.jQuery = require('jquery');
 
 export default {
@@ -54,25 +65,39 @@ export default {
       })
     },
     addMembers() {
-      var allInputs = document.getElementsByTagName("input")
+      this.removeMemebers()
+      var allInputs = document.getElementsByClassName("addMember")
       var checkedInputs = []
 
       for (var i = 0, max = allInputs.length; i < max; i++) {
-        if (allInputs[i].checked == true)
+        if (allInputs[i].checked == true) {
           checkedInputs.push(allInputs[i].value)
+        }
       }
 
-      if(checkedInputs.length == 0){
+      if (checkedInputs.length == 0) {
         alert('Please Check the Users.')
         return
       }
 
-
       var postData = { id: checkedInputs }
+      this.$http.post(addRequestedUsers, postData).then(response => {})
+    },
+    removeMemebers() {
+      var allInputs = document.getElementsByClassName("removeMember")
+      var checkedInputs = []
 
-      this.$http.post(addRequestedUsers, postData).then(response => {
-        location.reload();
-      })
+      for (var i = 0, max = allInputs.length; i < max; i++) {
+        if (allInputs[i].checked == true) {
+          checkedInputs.push(allInputs[i].value)
+        }
+      }
+      var postData = { id: checkedInputs }
+      if (confirm("Are you sure you want to do this, this action cannot be undone.")) {
+        this.$http.post(removeRequestedUsers, postData).then(response => {
+          location.reload();
+        })
+      }
     }
   },
   mounted: function() {

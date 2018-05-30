@@ -8,6 +8,7 @@ import VueResource from 'vue-resource'
 import Vuex from 'vuex'
 import store from './store.js';
 import VueGoodTable from 'vue-good-table';
+import VueSweetalert2 from 'vue-sweetalert2';
 
 
 
@@ -21,6 +22,7 @@ Vue.use(VueResource)
 Vue.use(Vuex)
 Vue.use(store)
 Vue.use(VueGoodTable);
+Vue.use(VueSweetalert2);
 
 
 /* eslint-disable no-new */

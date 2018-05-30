@@ -44,6 +44,12 @@ Route::post('/attendUser', 'eventController@attendUser');
 Route::post('/switchAttendance', 'eventController@switchAttendance');
 Route::post('/setPastEvent', 'eventController@setPastEvent');
 Route::post('/setPastEvent', 'eventController@setPastEvent');
+Route::post('/removeSignedUser', 'eventController@removeSignedUser');
+Route::post('/requestUserSwitch', 'eventController@requestUserSwitch');
+Route::post('/getAllSwitchRequests', 'eventController@getAllSwitchRequests');
+Route::post('/switchRequestedUser', 'eventController@switchRequestedUser');
+
+
 
 //accounts settings routes
 Route::post('/loadSignedEvents', 'accountSettingsController@loadSignedEvents');
@@ -52,6 +58,7 @@ Route::post('/getUser', 'memberListController@getUser');
 Route::post('/editUser', 'memberListController@editUser');
 Route::post('/getRequestedUsers', 'memberListController@getRequestedUsers');
 Route::post('/addRequestedUsers', 'memberListController@addRequestedUsers');
+Route::post('/removeRequestedUsers', 'memberListController@removeRequestedUsers');
 Route::post('/getSignedUsers', 'memberListController@getSignedUsers');
 
 

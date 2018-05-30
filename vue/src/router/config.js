@@ -25,6 +25,14 @@ export const getSingleEvent = apiDomain + 'api/getSingleEvent'
 export const attendUser = apiDomain + 'api/attendUser'
 export const switchAttendance = apiDomain + 'api/switchAttendance'
 export const setPastEvent = apiDomain + 'api/setPastEvent'
+export const removeSignedUser = apiDomain + 'api/removeSignedUser'
+export const requestUserSwitch = apiDomain + 'api/requestUserSwitch'
+export const getAllSwitchRequests = apiDomain + 'api/getAllSwitchRequests'
+export const switchRequestedUser = apiDomain + 'api/switchRequestedUser'
+
+
+
+
 
 
 //account settings routes
@@ -32,6 +40,7 @@ export const loadSignedEvents = apiDomain + 'api/loadSignedEvents'
 export const getRegisteredUsers = apiDomain + 'api/getRegisteredUsers'
 export const getRequestedUsers = apiDomain + 'api/getRequestedUsers'
 export const addRequestedUsers = apiDomain + 'api/addRequestedUsers'
+export const removeRequestedUsers = apiDomain + 'api/removeRequestedUsers'
 export const getSignedUsers = apiDomain + 'api/getSignedUsers'
 export const getUser = apiDomain + 'api/getUser'
 export const editUser = apiDomain + 'api/editUser'

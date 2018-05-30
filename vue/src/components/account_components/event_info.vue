@@ -1,8 +1,23 @@
 <template>
-  <div style="overflow: auto;">
-    <a href="#/account_page/exec_event_viewer"><i class="fa fa-angle-left fa-1x" aria-hidden="true"> Back</i></a>
-    <a class="button is-info" style="margin-left: 20px;" @click="completeEvent()">Complete Event</a>
-    <div style="min-width: 1300px;">
+  <div>
+    <div style="overflow: auto;">
+      <a href="#/account_page/exec_event_viewer"><i class="fa fa-angle-left fa-1x" aria-hidden="true"> Back</i></a>
+      <a class="button is-info" style="margin-left: 20px;" @click="completeEvent()">Complete Event</a>
+      <a class="button is-warning" style="margin-left: 20px;" @click="replaceMembers()">Replace Two Memebers</a>
+    </div>
+    <div v-show="showReplaceMembersBox">
+      <div class="listBox" @click="changeDisplayName()">
+        <replace_members_list_one></replace_members_list_one>
+      </div>
+      <div class="listBox" @click="changeDisplayName()">
+        <replace_members_list_two></replace_members_list_two>
+      </div>
+      <div id="testBox" style="padding-top: 90px;">
+        Switch <strong id="mem1"></strong> with <strong id="mem2"></strong> for <strong>This Event</strong>
+      </div>
+      <a class="button is-info" @click="">Replace Member</a>
+    </div>
+    <div style="min -width: 1300px; float:left;">
       <div style="float:left;">
         <table class="table">
           <thead>
@@ -60,17 +75,14 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 <script>
 window.$ = window.jQuery = require('jquery');
-import {
-  getSingleEvent,
-  getSignedUsers,
-  attendUser,
-  switchAttendance,
-  setPastEvent,
-  fufillRequirement
-} from '../../router/config.js'
+
+import replace_members_list_one from './replace_members_list_one'
+import replace_members_list_two from './replace_members_list_two'
+import { getSingleEvent, getSignedUsers, attendUser, switchAttendance, setPastEvent, fufillRequirement } from '../../router/config.js'
 
 export default {
   data() {
@@ -80,7 +92,12 @@ export default {
       users: [],
       attends: [],
       non_attends: [],
+      showReplaceMembersBox: false,
     }
+  },
+  components: {
+    replace_members_list_one,
+    replace_members_list_two,
   },
   methods: {
     getEvent() {
@@ -92,6 +109,12 @@ export default {
         this.loadAttended()
         this.loadUsers()
       })
+    },
+    changeDisplayName() {
+      setTimeout(function() {
+        document.getElementById("mem1").innerHTML = localStorage.getItem("replace_member_one")
+        document.getElementById("mem2").innerHTML = localStorage.getItem("replace_member_two")
+      }, 200)
     },
     loadUsers() {
       var users = JSON.parse(this.event.signed_users)
@@ -229,21 +252,23 @@ export default {
         this.$router.push('/account_page/exec_event_viewer')
       })
 
-      var postData2= {
+      var postData2 = {
         attended_users: this.attends,
         event: this.event,
         hours: this.event.hours
       }
-      this.$http.post(fufillRequirement, postData2).then(response => {
-        console.log(response.data)
-      })
+      this.$http.post(fufillRequirement, postData2).then(response => {})
+    },
+
+    replaceMembers() {
+      this.showReplaceMembersBox = !this.showReplaceMembersBox
     }
   },
 
   mounted: function() {
     this.id = localStorage.getItem("event")
     this.getEvent()
-  }
+  },
 }
 
 </script>
@@ -255,6 +280,14 @@ export default {
 
 .editUserInfo select {
   width: 100%;
+}
+
+.listBox {
+  float: left;
+  margin: 10px;
+  height: 200px;
+  overflow: auto;
+  border: 3px black solid;
 }
 
 </style>

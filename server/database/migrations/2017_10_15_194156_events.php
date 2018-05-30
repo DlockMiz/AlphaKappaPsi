@@ -23,7 +23,8 @@ class Events extends Migration
             $table->json('attended_users');
             $table->json('non_attended_users');
             $table->integer('max_users');
-            $table->string('hours');
+            $table->string('hours')->nullable();
+            $table->json('censor_perms');
             $table->json('signed_users');
             $table->string('event_type');
             $table->string('description');

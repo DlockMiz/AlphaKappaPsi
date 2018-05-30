@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class RequirementsPage extends Migration
+class SwitchRequests extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class RequirementsPage extends Migration
      */
     public function up()
     {
-        Schema::create('active_requirements', function (Blueprint $table) {
+        Schema::create('switch_requests', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('absence');
-            $table->string('unexcused');
-            $table->integer('fundraising');
-            $table->integer('service');
-            $table->integer('prof_dev');
+            $table->integer('event_id');
+            $table->integer('poster_id');
             $table->timestamps();
         });
     }
