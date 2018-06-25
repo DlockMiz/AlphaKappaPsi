@@ -23,9 +23,26 @@ Vue.use(Vuex)
 Vue.use(store)
 Vue.use(VueGoodTable);
 Vue.use(VueSweetalert2);
-Vue.use(GoogleAuth, { client_id: '943071753575-uu0bqt7cb71gl23oegikkh0u4td0dp37.apps.googleusercontent.com' })
-Vue.googleAuth().load()
 
+var api_key
+var call
+
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    this.api_key = JSON.parse(this.responseText)[0].api_key
+    Vue.use(GoogleAuth, { client_id: this.api_key })
+    Vue.googleAuth().load()
+  }
+};
+
+if(window.location.hostname == 'localhost')
+	call = 'http://akp.test/api/getGoogleApiKey'
+else
+	call = 'http://server.akpmiztest.ml/api/getGoogleApiKey'
+
+xhttp.open("POST", call, true);
+xhttp.send();
 
 /* eslint-disable no-new */
 new Vue({

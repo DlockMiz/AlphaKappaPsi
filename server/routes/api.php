@@ -31,6 +31,7 @@ Route::post('/deleteEvent', 'calendarController@deleteEvent');
 //login and register routes
 Route::post('/findUser', 'loginController@findUser');
 Route::post('/addUser', 'loginController@addUser');
+Route::post('/getGoogleApiKey', 'loginController@getGoogleApiKey');
 
 //event routes
 Route::post('/getEvents', 'eventController@getEvents');

@@ -16,6 +16,13 @@ class loginController extends Controller
 		->get();
         return $data;
     }
+
+    public function getGoogleApiKey(Request $request) {
+        $data = DB::table('api_keys')
+            ->get()
+            ->where('id','=','1');
+        return $data;
+    }
     public function addUser(Request $request){
     	$data = new RequestedUser;
         $hash = password_hash($request->password, PASSWORD_DEFAULT);
