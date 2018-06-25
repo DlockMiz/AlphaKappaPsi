@@ -30,11 +30,12 @@ export default {
 
   methods: {
     googleSheets(){
-      var sheetId = '1yRwjUaXYb9mazn3K8ZHu-fcImWIYoMPWKsjyg2dSIQY'
-      var apiKey = 'AIzaSyCEMLeO6dZ_KY4N_3-3YWwYd7ZMHm2lrlc'
-      this.$http.get('https://sheets.googleapis.com/v4/spreadsheets/'+sheetId+'/values/Fundraising!A2:A10?key='+apiKey).then(response =>{
-        console.log(response.data)
-      })
+      // var sheetId = '1yRwjUaXYb9mazn3K8ZHu-fcImWIYoMPWKsjyg2dSIQY'
+      // var apiKey = 'AIzaSyCEMLeO6dZ_KY4N_3-3YWwYd7ZMHm2lrlc'
+      // this.$http.get('https://sheets.googleapis.com/v4/spreadsheets/'+sheetId+'/values/Fundraising!A2:A10?key='+apiKey).then(response =>{
+      //   console.log(response.data)
+      // })
+       this.$swal('Nice!', "You have taken this event!", 'success').then((result) => { location.reload() })
     },
 
     submitComments() {

@@ -21,14 +21,17 @@ methods.signInAdmin = function() {
       email: googleUser.w3.U3
     }
     that.$http.post(findUser, postData).then(response => {
-      var userCreds = {}
-      userCreds.id = response.data[0].id
-      userCreds.name = response.data[0].name
-      userCreds.status = response.data[0].status
+      if (response.data.length != 0) {
+        var userCreds = {}
+        userCreds.id = response.data[0].id
+        userCreds.name = response.data[0].name
+        userCreds.status = response.data[0].status
 
-      that.$store.dispatch('setUser', userCreds).then(response => {
-        that.$router.push('/')
-      })
+        that.$store.dispatch('setUser', userCreds).then(response => {
+          that.$router.push('/')
+        })
+      }else
+      that.$swal('Nope!','This is not a registered account!','error')
     })
   })
 }
