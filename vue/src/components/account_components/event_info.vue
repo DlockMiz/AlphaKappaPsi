@@ -15,7 +15,7 @@
       <div id="testBox" style="padding-top: 90px;">
         Switch <strong id="mem1"></strong> with <strong id="mem2"></strong> for <strong>This Event</strong>
       </div>
-      <a class="button is-info" @click="">Replace Member</a>
+      <a class="button is-info" @click="replaceSelectedMembers()">Replace Member</a>
     </div>
     <div style="min -width: 1300px; float:left;">
       <div style="float:left;">
@@ -262,7 +262,14 @@ export default {
 
     replaceMembers() {
       this.showReplaceMembersBox = !this.showReplaceMembersBox
-    }
+    },
+    replaceSelectedMembers() {
+      var postData = {
+        user_one_id: localStorage.getItem('replace_member_one_id'),
+        user_two_id: localStorage.getItem('replace_member_two_id')
+      }
+      console.log(postData)
+    },
   },
 
   mounted: function() {

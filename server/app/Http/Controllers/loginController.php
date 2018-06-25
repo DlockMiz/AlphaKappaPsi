@@ -14,15 +14,7 @@ class loginController extends Controller
     public function findUser(Request $request) {
 		$data = User::where('email', $request->email)
 		->get();
-        
-        if(sizeof($data) == 0){
-            return 'fail';
-        }
-		if(password_verify($request->password, $data[0]->password)){
-            return $data;
-        }else{
-            return 'fail';
-        }
+        return $data;
     }
     public function addUser(Request $request){
     	$data = new RequestedUser;

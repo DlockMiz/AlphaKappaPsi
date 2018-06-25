@@ -48,7 +48,7 @@ Route::post('/removeSignedUser', 'eventController@removeSignedUser');
 Route::post('/requestUserSwitch', 'eventController@requestUserSwitch');
 Route::post('/getAllSwitchRequests', 'eventController@getAllSwitchRequests');
 Route::post('/switchRequestedUser', 'eventController@switchRequestedUser');
-
+Route::post('/addExecAccount', 'eventController@addExecAccount');
 
 
 //accounts settings routes

@@ -48,6 +48,19 @@ class eventController extends Controller
         return [$data, $user];
     }
 
+    public function addExecAccount(Request $request){
+        $email = $request->email;
+        $name = $request->name;
+
+        $user  = new User();
+        $user->email = $email;
+        $user->name = $name;
+        $user->status = '1';
+        $user->save();
+
+        return 200;
+    }
+
     public function requestUserSwitch(Request $request){
         $event = $request->post_event;
         $bool = false;

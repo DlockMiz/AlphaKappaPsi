@@ -47,7 +47,6 @@ export default {
       const authUser = {}
       authUser.email = this.pawprint + "@mail.missouri.edu"
       authUser.password = this.password
-
       this.confirmUser(authUser)
     },
 
@@ -82,11 +81,11 @@ export default {
 
 
     },
-
     confirmUser(user) {
       this.$http.post(findUser, user).then(response => {
-        if (response.data == 'fail') {
+        if (response.data.length == 0) {
           this.showLoginFail = true
+
         } else {
           this.showLoginFail = false
           this.userCreds.id = response.data[0].id

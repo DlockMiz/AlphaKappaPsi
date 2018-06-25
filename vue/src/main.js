@@ -9,7 +9,7 @@ import Vuex from 'vuex'
 import store from './store.js';
 import VueGoodTable from 'vue-good-table';
 import VueSweetalert2 from 'vue-sweetalert2';
-
+import GoogleAuth from 'vue-google-auth'
 
 
 
@@ -23,6 +23,8 @@ Vue.use(Vuex)
 Vue.use(store)
 Vue.use(VueGoodTable);
 Vue.use(VueSweetalert2);
+Vue.use(GoogleAuth, { client_id: '943071753575-uu0bqt7cb71gl23oegikkh0u4td0dp37.apps.googleusercontent.com' })
+Vue.googleAuth().load()
 
 
 /* eslint-disable no-new */

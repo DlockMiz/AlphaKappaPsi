@@ -5,6 +5,7 @@
       <div class="req_content">
         {{absences}} Total
       </div>
+      <a class="button is-danger">Change Absences</a>
     </div>
     <div class="req_title" id="unexcused_box">
       Unexcused Absences

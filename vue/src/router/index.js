@@ -106,5 +106,9 @@ export default new Router({
     path: '/login',
     name: 'Login Page',
     component: resolve => require(['../components/login.vue'], resolve)
+  }, {
+    path: '/admin_login',
+    name: 'Admin Login Page',
+    component: resolve => require(['../components/admin_login.vue'], resolve)
   }]
 })

@@ -1,5 +1,5 @@
-export const apiDomain = 'http://akp.test/'
-// export const apiDomain = 'http://server.akpmiztest.ml/'
+// export const apiDomain = 'http://akp.test/'
+export const apiDomain = 'http://server.akpmiztest.ml/'
 
 
 //calendar routes
@@ -32,9 +32,6 @@ export const switchRequestedUser = apiDomain + 'api/switchRequestedUser'
 
 
 
-
-
-
 //account settings routes
 export const loadSignedEvents = apiDomain + 'api/loadSignedEvents'
 export const getRegisteredUsers = apiDomain + 'api/getRegisteredUsers'
@@ -44,6 +41,7 @@ export const removeRequestedUsers = apiDomain + 'api/removeRequestedUsers'
 export const getSignedUsers = apiDomain + 'api/getSignedUsers'
 export const getUser = apiDomain + 'api/getUser'
 export const editUser = apiDomain + 'api/editUser'
+export const addExecAccount = apiDomain + 'api/addExecAccount'
 
 
 //requirements controller
