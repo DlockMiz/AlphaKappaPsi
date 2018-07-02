@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Event;
 use App\PastEvent;
 use App\SwitchRequest;
+use App\ActiveRequirement;
 use App\User;
 
 
@@ -52,11 +53,24 @@ class eventController extends Controller
         $email = $request->email;
         $name = $request->name;
 
+        // $id = DB::table('active_requirements')->insertGetId(
+        // ['email' => 'john@example.com', 'votes' => 0]
+        // );
+
         $user  = new User();
+        $req = new ActiveRequirement;
+
         $user->email = $email;
         $user->name = $name;
         $user->status = '1';
         $user->save();
+
+        $req->id = $user->id;
+        $req->absence = 0;
+        $req->fundraising = 0;
+        $req->service = 0;
+        $req->prof_dev = 0;
+        $req->save();
 
         return 200;
     }

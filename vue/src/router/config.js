@@ -1,5 +1,5 @@
-export const apiDomain = 'http://akp.test/'
-// export const apiDomain = 'http://server.akpmiztest.ml/'
+// export const apiDomain = 'http://akp.test/'
+export const apiDomain = 'http://server.akpmiztest.ml/'
 
 
 //calendar routes
@@ -48,6 +48,8 @@ export const addExecAccount = apiDomain + 'api/addExecAccount'
 export const checkActiveRequirements = apiDomain + 'api/checkActiveRequirements'
 export const fufillRequirement = apiDomain + 'api/fufillRequirement'
 export const getReqParams = apiDomain + 'api/getReqParams'
+export const changeReq = apiDomain + 'api/changeReqParams'
+
 
 //comments
 export const submitComments = apiDomain + 'api/submitComments'

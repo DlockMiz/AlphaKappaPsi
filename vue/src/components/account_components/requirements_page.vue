@@ -5,7 +5,6 @@
       <div class="req_content">
         {{absences}} Total
       </div>
-      <a class="button is-danger">Change Absences</a>
     </div>
     <div class="req_title" id="unexcused_box">
       Unexcused Absences
@@ -19,23 +18,34 @@
         Required Events: {{fund_requirement}}
         <hr> Completed Events: {{fundraising}}
       </div>
+      <div style="margin-top: 50px;">
+        <a style="font-size: .8vw; width: 60%;" @click="changeReqParam('fund')" class="button is-info is-small">Change Required Events</a>
+      </div>
     </div>
     <div class="req_title" id="hours_box">
       Service
       <div class="req_content">
-        {{service_hours}} Hours
+        Required Hours: {{service_req}}
+        <hr> {{service_hours}} Completed Hours
+      </div>
+      <div style="margin-top: 50px;">
+        <a style="font-size: .8vw; width: 60%;" @click="changeReqParam('service')" class="button is-info is-small">Change Required Service Hours</a>
       </div>
     </div>
     <div class="req_title" id="prof_dev_box">
-      Prof Dev
+      Professional Development
       <div class="req_content">
-        {{prof_dev}} Event
+        Required Events: {{prof_dev_req}}
+        <hr> {{prof_dev}} Completed Events
+      </div>
+      <div style="margin-top: 50px;">
+        <a style="font-size: .8vw; width: 60%;" @click="changeReqParam('prof_dev')" class="button is-info is-small">Change Prof Dev Requirements</a>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { checkActiveRequirements, getReqParams } from '../../router/config.js'
+import { checkActiveRequirements, getReqParams, changeReq } from '../../router/config.js'
 
 export default {
   data() {
@@ -45,11 +55,42 @@ export default {
       absences: '',
       unexcused: '',
       fundraising: '',
-      fund_requirement: ''
+      fund_requirement: '',
+      service_req: '',
+      prof_dev_req: ''
     }
   },
 
   methods: {
+
+    changeReqParam(type) {
+      var that = this
+      switch (type) {
+        case 'fund':
+          var that = this
+          const { value: name } = this.$swal({
+            title: 'Input New Requirement',
+            input: 'number',
+            inputPlaceholder: 'Input New Requirement',
+            showCancelButton: true,
+            inputValue: that.fund_requirement,
+            inputValidator: (value) => {
+              return !value && 'You need to write something!'
+            }
+          }).then(response => {
+            var postData = {
+              type: type,
+              value: response.value
+            }
+            that.$http.post(changeReq, postData).then(response => {
+              if (response.data == 200) {
+                that.$swal('Success!', 'Parameter Succesfully Changed', 'success')
+              }
+            })
+          })
+          break;
+      }
+    },
 
     checkRequirements() {
       var postData = {
@@ -81,8 +122,17 @@ export default {
         }
         this.$http.post(getReqParams).then(response => {
           this.fund_requirement = response.data[0].parameters
+          this.service_req = response.data[1].parameters
+          this.prof_dev_req = response.data[2].parameters
+
           if (this.fundraising >= this.fund_requirement) {
             document.getElementById("fundraising_box").style = "border-color: green;"
+          }
+          if (this.service >= this.service_req) {
+            document.getElementById("hours_box").style = "border-color: green;"
+          }
+          if (this.prof_dev >= this.prof_dev_req) {
+            document.getElementById("prof_dev_box").style = "border-color: green;"
           }
         })
       })
@@ -97,7 +147,7 @@ export default {
 </script>
 <style>
 .req_title {
-  font-size: 16pt;
+  font-size: 1.2vw;
   text-align: center;
   padding: 5px;
   float: left;

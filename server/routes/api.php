@@ -67,6 +67,8 @@ Route::post('/getSignedUsers', 'memberListController@getSignedUsers');
 Route::post('/checkActiveRequirements', 'requirementsController@checkActiveRequirements');
 Route::post('/fufillRequirement', 'requirementsController@fufillRequirement');
 Route::post('/getReqParams', 'requirementsController@getReqParams');
+Route::post('/changeReqParams', 'requirementsController@changeReqParams');
+
 
 //comments
 Route::post('/submitComments', 'requirementsController@submitComments');

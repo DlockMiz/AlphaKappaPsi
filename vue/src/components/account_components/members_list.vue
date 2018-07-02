@@ -4,7 +4,7 @@
     <div style="margin-bottom: 10px;" v-show="showExecAddInputs" class="addExecBox">
       <center>
         <div style="line-height: 55px;">
-          <input style="margin-bottom: 10px; margin-top: 10px; width: 63%;" class="input is-info" type="text" name="email" v-model="registerEmail" placeholder="Email..."> @gmail.com
+          <input style="margin-bottom: 10px; margin-top: 10px; width: 63%;" class="input is-info" type="text" name="email" v-model="registerEmail" placeholder="Email..."> <b style="font-size:1vw">@gmail.com</b>
         </div>
       </center>
       <center>

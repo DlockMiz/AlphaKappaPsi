@@ -28,6 +28,13 @@ class requirementsController extends Controller
         return $data;
     }
 
+    public function changeReqParams(Request $request) {
+        $data = RequirementParam::select()
+        ->where('event_type', '=', $request->type)
+        ->update(['parameters' => $request->value]);
+        return $data;
+    }
+
     public function fufillRequirement(Request $request) {
     	if(strcmp($request->event["event_type"],"service")==0){
 	    	foreach ($request->attended_users as $key => $value) {
