@@ -183,8 +183,10 @@ export default {
       var radios = document.getElementsByClassName('selectedView');
       var censor_perms = { id: ['1', '0', '0'] }
       for (var i = 0; i < radios.length; i++) {
-        if (radios[i+1].checked)
-          censor_perms.id[i] = radios[i].value
+        console.log(radios[i].checked)
+
+        if (radios[i].checked)
+          censor_perms.id[i+1] = radios[i].value
       }
       postData.censor_perms = JSON.stringify(censor_perms)
       this.$http.post(addEvent, postData).then(response => { location.reload() })

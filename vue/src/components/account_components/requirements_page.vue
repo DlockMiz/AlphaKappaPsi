@@ -26,7 +26,7 @@
       Service
       <div class="req_content">
         Required Hours: {{service_req}}
-        <hr> {{service_hours}} Completed Hours
+        <hr> {{service_hours}} - Completed Hours
       </div>
       <div style="margin-top: 50px;">
         <a style="font-size: .8vw; width: 60%;" @click="changeReqParam('service')" class="button is-info is-small">Change Required Service Hours</a>
