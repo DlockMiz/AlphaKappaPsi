@@ -14,7 +14,12 @@ class loginController extends Controller
     public function findUser(Request $request) {
 		$data = User::where('email', $request->email)
 		->get();
-        return $data;
+
+        if(password_verify($request->password,$data->pass)){
+            return $data;
+        } else {
+            return null;
+        }
     }
 
     public function getGoogleApiKey(Request $request) {
