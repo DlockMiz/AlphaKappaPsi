@@ -83,6 +83,7 @@ export default {
     },
     confirmUser(user) {
       this.$http.post(findUser, user).then(response => {
+        console.log(response.data)
 
         if (response.data.length == 0) {
           this.showLoginFail = true
@@ -94,7 +95,10 @@ export default {
           this.userCreds.status = response.data[0].status
 
           this.$store.dispatch('setUser', this.userCreds).then(response => {
-            this.$router.push('/')
+            if(window.location.hostname == 'localhost'){
+              window.location.href="http://localhost:7000/"
+              window.lcdoation.href="akpmiztest.ml"
+            }       
           })
         }
         return

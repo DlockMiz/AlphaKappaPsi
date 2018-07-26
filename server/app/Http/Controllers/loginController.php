@@ -12,7 +12,6 @@ use App\RequestedUser;
 class loginController extends Controller
 {
     public function findUser(Request $request) {
-
         if($request->type == 'admin'){
             $data = User::where('email', $request->email)
             ->get();
