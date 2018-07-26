@@ -16,6 +16,7 @@ class Comments extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
             $table->longText('comments');
+            $table->longText('name');            
         });
     }
 

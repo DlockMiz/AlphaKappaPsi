@@ -56,8 +56,7 @@ export default {
     },
     logoutUser() {
       sessionStorage.clear()
-      this.$router.push('/')
-      location.reload()
+      this.$swal('Logout Successfull', "", 'success').then((result) => { this.$router.push('/'); setTimeout(function(){location.reload()},1000) })      
     },
     checkUser() {
       if (this.$store.state.user != null) {

@@ -12,13 +12,20 @@ use App\RequestedUser;
 class loginController extends Controller
 {
     public function findUser(Request $request) {
-		$data = User::where('email', $request->email)
-		->get();
 
-        if(password_verify($request->password,$data->pass)){
+        if($request->type == 'admin'){
+            $data = User::where('email', $request->email)
+            ->get();
             return $data;
         } else {
-            return null;
+            $data = User::where('email', $request->email)
+            ->get();
+
+            if(password_verify($request->password,$data[0]->password)){
+                return $data;
+            } else {
+                return null;
+            }
         }
     }
 

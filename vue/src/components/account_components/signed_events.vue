@@ -105,7 +105,7 @@ export default {
         user_id: this.$store.state.user.id
       }
       this.$http.post(removeSignedUser, postData).then(response => {
-        location.reload()
+        this.$swal('Confirmed!', "You are no longer signed up for this event!", 'success').then((result) => { location.reload() })
       })
     }
   }

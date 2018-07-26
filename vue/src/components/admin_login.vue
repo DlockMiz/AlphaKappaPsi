@@ -18,7 +18,8 @@ methods.signInAdmin = function() {
   this.$googleAuth().directAccess()
   this.$googleAuth().signIn(function(googleUser) {
     var postData = {
-      email: googleUser.w3.U3
+      email: googleUser.w3.U3,
+      type: 'admin'
     }
     that.$http.post(findUser, postData).then(response => {
       if (response.data.length != 0) {

@@ -54,7 +54,7 @@ export default {
         if (result.value) {
           this.$http.post(switchRequestedUser, postData).then(response => {
             if (response.data == 300)
-              this.$swal('No No No', "You can't replace yourself!", 'error')
+              this.$swal('No No No', "You can't replace yourself! Or something you are already signed up for!", 'error')
             else
               this.$swal('Nice!', "You have taken this event!", 'success').then((result) => { location.reload() })
           })

@@ -67,16 +67,31 @@ class memberListController extends Controller
 
     public function getUser(Request $request) {
 		$data = User::find($request->id);
+        if(isset($request->type)){
+            if($request->type == 'requirements'){
+                $requirements = ActiveRequirement::find($request->id);
+                return[$data,$requirements];
+            }
+        }
+
 		return $data;
     }
 
     public function editUser(Request $request) {
-		$data = User::find($request->id);
-		$data->name = $request->name;
-		$data->email = $request->email;
-		$data->status = $request->status;
+		$data = User::find($request->user['id']);
+        $requirements = ActiveRequirement::find($request->user['id']);
+
+        $requirements->service = $request->requirements['service'];
+        $requirements->prof_dev = $request->requirements['prof_dev'];
+        $requirements->fundraising = $request->requirements['fundraising'];
+
+
+		$data->name = $request->user['name'];
+		$data->email = $request->user['email'];
+		$data->status = $request->user['status'];
 		$data->save();
-		return 'success';
+        $requirements->save();
+		return 200;
     }
     public function getRequestedUsers(Request $request) {
 		$data = RequestedUser::get();

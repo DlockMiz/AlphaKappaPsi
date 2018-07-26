@@ -9,7 +9,7 @@ class User extends Model
     protected $fillable = [
         'id', 'password','email','status'
     ];
-    protected $hidden = [
-        // 'password'
-    ];
+    // protected $hidden = [
+    //     // 'password'
+    // ];
 }

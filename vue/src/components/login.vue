@@ -59,12 +59,12 @@ export default {
       var $emailCheck = this.registerEmail.split('@')
 
       if (this.registerEmail == '' || this.registerPassword == '' || this.registerName == '') {
-        alert('Please fill in all the blanks.')
+        this.$swal('Error', "Please fill in all the blanks!", 'error')
         return
       }
 
       if ($emailCheck[1] != 'mail.missouri.edu') {
-        alert('Email must end in @mail.missouri.edu')
+        this.$swal('Error', "Email must end in @mail.missouri.edu", 'error')
         return
       }
 
@@ -76,13 +76,14 @@ export default {
       }
 
       this.$http.post(addUser, postData).then(response => {
-        this.$router.push('/')
+          this.$swal('Registration Confirmed', "You can login when an Executive approves your account!", 'success').then((result) => { this.$router.push('/') })
       })
 
 
     },
     confirmUser(user) {
       this.$http.post(findUser, user).then(response => {
+
         if (response.data.length == 0) {
           this.showLoginFail = true
 

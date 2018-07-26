@@ -4,13 +4,13 @@
     <hr>
     <i class="fa fa-pencil-square fa-2x" aria-hidden="true" @click="showEditMember()"></i>
     <hr>
-    <h1 v-show="showName">Name: {{user.name}}</h1>
+    <h1 v-show="showData">Name: {{user.name}}</h1>
     <input class="editUserInfo input is-info" v-model="user.name">
     <hr>
-    <h1 v-show="showEmail">Email: {{user.email}}</h1>
+    <h1 v-show="showData">Email: {{user.email}}</h1>
     <input class="editUserInfo input is-info" v-model="user.email">
     <hr>
-    <h1 v-show="showStatus">Status: {{user.status}}</h1>
+    <h1 v-show="showData">Status: {{user.status}}</h1>
     <div class="select is-info editUserInfo">
       <select v-model="user.status">
         <option>Pledge</option>
@@ -19,8 +19,32 @@
       </select>
     </div>
     <hr>
-    <h1 v-show="showID">ID: {{user.id}}</h1>
-    <hr v-show="showID">
+    <h1 v-show="showData">ID: {{user.id}}</h1>
+    <hr v-show="showData">
+    <div>
+      <strong>Current Requirement Status:</strong>
+      <div style="margin-top: 10px;">
+        <div style="margin-top: 5px;">
+          <div v-show="showData">Fundraising: {{requirements.fundraising}}</div>
+          <div class="editUserInfo">Fundraising
+            <input class="input is-info" type="number" name="fundraising" v-model="requirements.fundraising">
+          </div>
+        </div>
+        <div style="margin-top: 5px;">
+          <div v-show="showData">Service: {{requirements.service}}</div>
+          <div class="editUserInfo">Service
+            <input class="input is-info" type="number" name="service" v-model="requirements.service">
+          </div>
+        </div>
+        <div style="margin-top: 5px;">
+          <div v-show="showData">Proffessional Development: {{requirements.prof_dev}}</div>
+          <div class="editUserInfo">Proffessional Development
+            <input class="input is-info" type="number" name="prof_dev" v-model="requirements.prof_dev">
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
     <a class="button is-info" v-show="editButton" @click="editMember()">Edit Member</a>
   </div>
 </template>
@@ -33,20 +57,21 @@ export default {
     return {
       id: 0,
       user: {},
-      showName: true,
-      showEmail: true,
-      showStatus: true,
-      showID: true,
-      editButton: false
+      showData: true,
+      editButton: false,
+      requirements: {}
     }
   },
   methods: {
     getUser() {
       var postData = {
-        id: this.id
+        id: this.id,
+        type: 'requirements'
       }
       this.$http.post(getUser, postData).then(response => {
-        this.user = response.data
+        console.log(response.data)
+        this.user = response.data[0]
+        this.requirements = response.data[1]
         switch (this.user.status) {
           case '1':
             this.user.status = 'Executive'
@@ -61,13 +86,10 @@ export default {
       })
     },
     showEditMember() {
-      this.showName = !this.showName
-      this.showEmail = !this.showEmail
-      this.showStatus = !this.showStatus
-      this.showID = !this.showID
+      this.showData = !this.showData
       this.editButton = !this.editButton
 
-      if (this.showName == true) {
+      if (this.showData == true) {
         $('.editUserInfo').hide()
       } else {
         $('.editUserInfo').show()
@@ -86,14 +108,12 @@ export default {
           break;
       }
       var postData = {
-        name: this.user.name,
-        id: this.user.id,
-        email: this.user.email,
-        status: this.user.status
+        user: this.user,
+        requirements: this.requirements
       }
+
       this.$http.post(editUser, postData).then(response => {
-        console.log(response.data)
-        location.reload()
+        this.$swal('Nice!', "This users profile has been changed!", 'success').then((result) => { location.reload() })
       })
     },
   },
@@ -108,7 +128,7 @@ export default {
 <style>
 .editUserInfo {
   display: none;
-  width: 20%;
+  width: 30%;
 }
 
 .editUserInfo select {

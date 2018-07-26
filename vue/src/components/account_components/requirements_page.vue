@@ -16,10 +16,10 @@
       Fundraising
       <div class="req_content">
         Required Events: {{fund_requirement}}
-        <hr> Completed Events: {{fundraising}}
+        <hr> {{fundraising}} - Completed Events
       </div>
-      <div style="margin-top: 50px;">
-        <a style="font-size: .8vw; width: 60%;" @click="changeReqParam('fund')" class="button is-info is-small">Change Required Events</a>
+      <div v-if="$store.state.user.id != 1" style="margin-top: 50px;">
+        <a style="font-size: .8vw; width: 60%;" @click="changeReqParam('fundraising', fund_requirement)" class="button is-info is-small">Change Required Events</a>
       </div>
     </div>
     <div class="req_title" id="hours_box">
@@ -28,18 +28,18 @@
         Required Hours: {{service_req}}
         <hr> {{service_hours}} - Completed Hours
       </div>
-      <div style="margin-top: 50px;">
-        <a style="font-size: .8vw; width: 60%;" @click="changeReqParam('service')" class="button is-info is-small">Change Required Service Hours</a>
+      <div v-if="$store.state.user.id != 1" style="margin-top: 50px;">
+        <a style="font-size: .8vw; width: 60%;" @click="changeReqParam('service', service_req)" class="button is-info is-small">Change Required Service Hours</a>
       </div>
     </div>
     <div class="req_title" id="prof_dev_box">
       Professional Development
       <div class="req_content">
         Required Events: {{prof_dev_req}}
-        <hr> {{prof_dev}} Completed Events
+        <hr> {{prof_dev}} - Completed Events
       </div>
-      <div style="margin-top: 50px;">
-        <a style="font-size: .8vw; width: 60%;" @click="changeReqParam('prof_dev')" class="button is-info is-small">Change Prof Dev Requirements</a>
+      <div v-if="$store.state.user.id != 1" style="margin-top: 50px;">
+        <a style="font-size: .8vw; width: 60%;" @click="changeReqParam('prof_dev', prof_dev_req)" class="button is-info is-small">Change Prof Dev Requirements</a>
       </div>
     </div>
   </div>
@@ -63,33 +63,39 @@ export default {
 
   methods: {
 
-    changeReqParam(type) {
+    changeReqParam(type, current) {
       var that = this
-      switch (type) {
-        case 'fund':
-          var that = this
-          const { value: name } = this.$swal({
-            title: 'Input New Requirement',
-            input: 'number',
-            inputPlaceholder: 'Input New Requirement',
-            showCancelButton: true,
-            inputValue: that.fund_requirement,
-            inputValidator: (value) => {
-              return !value && 'You need to write something!'
+      const { value: name } = this.$swal({
+        title: 'Input New Requirement',
+        input: 'number',
+        inputPlaceholder: 'Input New Requirement',
+        showCancelButton: true,
+        inputValue: current,
+        inputValidator: (value) => {
+          return !value && 'You need to write something!'
+        }
+      }).then(response => {
+        var postData = {
+          type: type,
+          value: response.value
+        }
+        that.$http.post(changeReq, postData).then(response => {
+          if (response.data) {
+            that.$swal('Success!', 'Parameter Succesfully Changed', 'success')
+            switch(type){
+              case 'fundraising':
+              this.fund_requirement = response.data
+              break;
+              case 'prof_dev':
+              this.prof_dev_req = response.data              
+              break;
+              case 'service':
+              this.service_req = response.data              
+              break;
             }
-          }).then(response => {
-            var postData = {
-              type: type,
-              value: response.value
-            }
-            that.$http.post(changeReq, postData).then(response => {
-              if (response.data == 200) {
-                that.$swal('Success!', 'Parameter Succesfully Changed', 'success')
-              }
-            })
-          })
-          break;
-      }
+          }
+        })
+      })
     },
 
     checkRequirements() {

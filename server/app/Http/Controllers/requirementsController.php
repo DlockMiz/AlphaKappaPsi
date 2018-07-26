@@ -14,7 +14,8 @@ class requirementsController extends Controller
 {
     public function submitComments(Request $request) {
         DB::table('comments')->insert(
-            ['comments' => $request->comments]
+            ['comments' => $request->comments,
+            'name' => $request->name]
         );
     }
 
@@ -32,7 +33,7 @@ class requirementsController extends Controller
         $data = RequirementParam::select()
         ->where('event_type', '=', $request->type)
         ->update(['parameters' => $request->value]);
-        return $data;
+        return $request->value;
     }
 
     public function fufillRequirement(Request $request) {
@@ -51,7 +52,7 @@ class requirementsController extends Controller
         } else if(strcmp($request->event["event_type"],"fundraising")==0){
             foreach ($request->attended_users as $key => $value) {
                 $user = ActiveRequirement::find($value["id"]);
-                $user->fundraising += 1;
+                $user->fundraising += (int)$request->event["hours"];
                 $user->save();
             }
         } 

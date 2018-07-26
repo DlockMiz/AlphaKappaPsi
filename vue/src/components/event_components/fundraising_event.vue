@@ -19,6 +19,7 @@
       <input v-model="addTitle" class="input is-info" type="text" placeholder="Title...">
       <input v-model="addTime" class="input is-info" type="text" placeholder="Time...">
       <datepicker v-model="addDate" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }" style="width:280px !important;"></datepicker>
+      <input v-model="addPoints" class="input is-info" type="text" placeholder="Points...">
       <input v-model="addLocation" class="input is-info" type="text" placeholder="Location...">
       <input v-model="addMaxUsers" class="input is-info" type="number" placeholder="Max Users...">
       <textarea v-model="addDesc" class="textarea is-info" type="text" placeholder="Description..."></textarea>
@@ -62,6 +63,8 @@
           <hr>
           <h2><b>Date:</b> {{event.date}}</h2>
           <hr>
+          <h2><b>Points:</b> {{event.hours}}</h2>
+          <hr>
           <h2><b>Location:</b> {{event.location}}</h2>
           <hr>
           <h2 style="margin-bottom: 12px;"> <b>Description:</b> </h2>
@@ -89,6 +92,7 @@ export default {
       showEvent: true,
       reqParam: '',
       addTitle: '',
+      addPoints: '',
       addTime: '',
       numberOfHours: '',
       addDate: '',
@@ -99,7 +103,7 @@ export default {
   },
 
   mounted: function() {
-    this.getBrotherEvents()
+    this.getFundEvents()
     this.getFundParams()
   },
 
@@ -114,7 +118,7 @@ export default {
         this.reqParam = response.data[0].parameters
       })
     },
-    getBrotherEvents() {
+    getFundEvents() {
       var postData = {
         event_type: "fundraising"
       }
@@ -183,7 +187,7 @@ export default {
         month: this.addDate.split("/")[1],
         signed_users: JSON.stringify(users),
         max_users: this.addMaxUsers,
-        hours: this.numberOfHours,
+        hours: this.addPoints,
         attended_users: JSON.stringify(users),
         complete: 0,
         censor_perms: {}
@@ -192,7 +196,7 @@ export default {
       var censor_perms = { id: ['1', '0', '0'] }
       for (var i = 0; i < radios.length; i++) {
         if (radios[i].checked)
-          censor_perms.id[i+1] = radios[i].value
+          censor_perms.id[i + 1] = radios[i].value
       }
 
       postData.censor_perms = JSON.stringify(censor_perms)
