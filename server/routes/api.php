@@ -61,6 +61,10 @@ Route::post('/getRequestedUsers', 'memberListController@getRequestedUsers');
 Route::post('/addRequestedUsers', 'memberListController@addRequestedUsers');
 Route::post('/removeRequestedUsers', 'memberListController@removeRequestedUsers');
 Route::post('/getSignedUsers', 'memberListController@getSignedUsers');
+Route::post('/registerCurrentUserWithGoogle', 'accountSettingsController@registerCurrentUserWithGoogle');
+Route::post('/signInActiveWithGoogle', 'loginController@signInActiveWithGoogle');
+Route::post('/unlinkGoogleAccount', 'accountSettingsController@unlinkGoogleAccount');
+
 
 
 //requirement routes

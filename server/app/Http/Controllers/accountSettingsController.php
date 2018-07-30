@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use app\Http\Controllers;
 use App\Event;
+use App\User;
+
 
 class accountSettingsController extends Controller
 {
@@ -24,5 +26,19 @@ class accountSettingsController extends Controller
 			 }
 		 }
 		return $events;
+    }
+
+    public function registerCurrentUserWithGoogle(Request $request){
+    	$user = User::find($request->user_id);
+    	$user->google_email = $request->email;
+    	$user->save();
+    	return $user->google_email;
+    }
+
+    public function unlinkGoogleAccount(Request $request){
+    	$user = User::find($request->user_id);
+    	$user->google_email = null;
+    	$user->save();
+    	return;
     }
 }

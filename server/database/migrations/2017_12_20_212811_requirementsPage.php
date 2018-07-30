@@ -15,11 +15,11 @@ class RequirementsPage extends Migration
     {
         Schema::create('active_requirements', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('absence');
-            $table->string('unexcused');
-            $table->integer('fundraising');
-            $table->integer('service');
-            $table->integer('prof_dev');
+            $table->integer('absence')->nullable();
+            $table->string('unexcused')->nullable(;
+            $table->integer('fundraising')->nullable(;
+            $table->integer('service')->nullable(;
+            $table->integer('prof_dev')->nullable(;
             $table->timestamps();
         });
     }

@@ -6,15 +6,16 @@
         <div id="loginBox">
           <input style="width:50%;" class="input is-info input_tags" type="text" v-model="pawprint" placeholder="Pawprint...">
           <a id="emailTag">@mail.missouri.edu</a>
-          <input class="input is-info input_tags" type="password" v-model="password" placeholder="Password...">
+          <input id="finalInput" class="input is-info input_tags" v-on:keyup.enter="loginUser()" type="password" v-model="password" placeholder="Password...">
           <a id="loginPageButton" @click="loginUser()" class="button is-info inputs">Login</a>
+          <a @click="signInWithGoogle()" id="loginGoogleButton" class="button"><img src="../assets/images/google_icon.png" style="height: 15px;"></a>
           <a id="failedTag" v-show="showLoginFail">Login Failed</a>
         </div>
         <div id="registerBox">
           <input class="input is-info input_tags" type="text" name="email" v-model="registerEmail" placeholder="Email...">
           <input class="input is-info input_tags" type="text" name="username" v-model="registerName" placeholder="Name...">
           <input class="input is-info input_tags" type="password" name="pass" v-model="registerPassword" placeholder="Password...">
-          <input class="input is-info input_tags" type="password" name="pass" v-model="checkPass" placeholder="Check Password...">
+          <input class="input is-info input_tags" v-on:keyup.enter="registerUser()" type="password" name="pass" v-model="checkPass" placeholder="Check Password...">
           <a id="failedTag" v-show="noPasswordMatch">Passwords Do Not Match</a>
           <a id="registerPageButton" @click="registerUser()" class="button is-info inputs">Register</a>
         </div>
@@ -24,7 +25,7 @@
 </template>
 <script>
 import { store } from '../store.js'
-import { findUser, addUser } from '../router/config'
+import { findUser, addUser, signInActiveWithGoogle } from '../router/config'
 
 export default {
   data() {
@@ -76,15 +77,13 @@ export default {
       }
 
       this.$http.post(addUser, postData).then(response => {
-          this.$swal('Registration Confirmed', "You can login when an Executive approves your account!", 'success').then((result) => { this.$router.push('/') })
+        this.$swal('Registration Confirmed', "You can login when an Executive approves your account!", 'success').then((result) => { this.$router.push('/') })
       })
 
 
     },
     confirmUser(user) {
       this.$http.post(findUser, user).then(response => {
-        console.log(response.data)
-
         if (response.data.length == 0) {
           this.showLoginFail = true
 
@@ -93,15 +92,45 @@ export default {
           this.userCreds.id = response.data[0].id
           this.userCreds.name = response.data[0].name
           this.userCreds.status = response.data[0].status
+          this.userCreds.google_email = response.data[0].google_email
 
           this.$store.dispatch('setUser', this.userCreds).then(response => {
-            if(window.location.hostname == 'localhost'){
-              window.location.href="http://localhost:7000/"
-              window.lcdoation.href="akpmiztest.ml"
-            }       
+            if (window.location.hostname == 'localhost') {
+              window.location.href = "http://localhost:7000/"
+            } else {
+              window.location.href = "akpmiztest.ml"
+            }
           })
         }
         return
+      })
+    },
+    signInWithGoogle() {
+      var that = this
+      this.$googleAuth().directAccess()
+      this.$googleAuth().signIn(function(googleUser) {
+        var postData = {
+          email: googleUser.w3.U3,
+        }
+        that.$http.post(signInActiveWithGoogle, postData).then(response => {
+          if (response.data.length != 0) {
+            that.showLoginFail = false
+            that.userCreds.id = response.data[0].id
+            that.userCreds.name = response.data[0].name
+            that.userCreds.status = response.data[0].status
+            that.userCreds.google_email = response.data[0].google_email
+
+            that.$store.dispatch('setUser', that.userCreds).then(response => {
+              if (window.location.hostname == 'localhost') {
+                window.location.href = "http://localhost:7000/"
+              } else {
+                window.location.href = "akpmiztest.ml"
+              }
+            })
+          } else{
+            that.$swal('You need an Alpha Kappa Psi Account First', "Once you have a registered account by an executive, you can go into your settings and link a google account, allowing you access to login this way.", 'error')
+          }
+        })
       })
     }
   }
@@ -121,7 +150,8 @@ export default {
 .input_tags,
 #loginPageButton,
 #failedTag,
-#registerPageButton {
+#registerPageButton,
+#loginGoogleButton {
   margin-top: 10px;
   width: 100%;
   float: left;
@@ -152,7 +182,7 @@ export default {
 #emailTag {
   font-size: 1vw;
   color: #3273dc;
-  line-height: 50px;
+  line-height: 40px;
   margin-top: 15px;
 }
 

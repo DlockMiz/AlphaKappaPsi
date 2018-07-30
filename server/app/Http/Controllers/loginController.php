@@ -27,6 +27,11 @@ class loginController extends Controller
             }
         }
     }
+    public function signInActiveWithGoogle(Request $request){
+        $user = User::where('google_email',$request->email)
+        ->get();
+        return $user;
+    }
 
     public function getGoogleApiKey(Request $request) {
         $data = DB::table('api_keys')

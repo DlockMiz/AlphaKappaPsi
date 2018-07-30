@@ -25,7 +25,7 @@
           </ul>
         </li>
         <hr v-show="$store.state.user.status == 1">
-        <li><a>Account Settings</a></li>
+        <li><a @click="loadPage('account_settings')" id="account_settings">Account Settings</a></li>
         <hr>
       </ul>
     </aside>

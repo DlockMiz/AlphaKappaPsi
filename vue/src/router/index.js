@@ -29,6 +29,10 @@ export default new Router({
         name: 'Requirements Page',
         component: resolve => require(['../components/account_components/requirements_page.vue'], resolve)
       }, {
+        path: '/account_page/account_settings',
+        name: 'Account Settings Page',
+        component: resolve => require(['../components/account_components/account_settings.vue'], resolve)
+      }, {
         path: '/account_page/switch_requests',
         name: 'Requirements Page',
         component: resolve => require(['../components/account_components/switch_requests.vue'], resolve)
