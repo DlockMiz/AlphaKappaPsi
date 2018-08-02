@@ -22,7 +22,7 @@ export default {
         }, 100);
       },
       columns: [{
-        label: 'Name',
+        label: 'Signed Members',
         field: 'name',
         filterable: true,
       }, ],
@@ -32,12 +32,12 @@ export default {
     getEvent() {
       this.$http.post(getSingleEvent, localStorage.getItem("event")).then(response => {
         this.event = response.data[0]
+        this.loadUsers()        
       })
     },
     loadUsers() {
       var that = this
       setTimeout(function() {
-        console.log(that.event)
         var users = JSON.parse(that.event.signed_users)
 
         var postData = {
@@ -60,7 +60,6 @@ export default {
   },
   mounted: function() {
     this.getEvent()
-    this.loadUsers()
   },
 }
 

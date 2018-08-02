@@ -1,9 +1,10 @@
 <template>
   <div>
-    <div style="width: 33%; float:left; border-left: solid green 3px;border-right: solid green 3px; height: 1000px; margin-left: 10px;">
+    <div style="width: 32%; float:left; border-left: solid green 3px;border-right: solid green 3px; height: 1000px; margin-left: 10px;">
       <center>TWITTER / INSTAGRAM FEED</center>
+      <button @click="googleSheets()">test</button>
     </div>
-    <div style="width: 33%; float:left; border-left: solid blue 3px;border-right: solid blue 3px; height: 1000px; margin-left: 10px;">
+    <div style="width: 32%; float:left; border-left: solid blue 3px;border-right: solid blue 3px; height: 1000px; margin-left: 10px;">
       <!-- <div style="text-align:center; width: 40%; float:left; margin-left: 50px;">
         <div>Comments</div>
         <textarea v-model="comments" style="width: 100%; height: 300px;"></textarea>
@@ -15,9 +16,9 @@
       </div> -->
       <center>UPCOMING EVENTS FEED</center>
     </div>
-    <div style="width: 500px; float:left; border-left: solid black 3px; border-right: solid black 3px; margin-left: 10px;">
+    <div id="pageContainer" style="width: 32%; float:left; border-left: solid black 3px; border-right: solid black 3px; margin-left: 10px;">
       <div class="facebook" style="float:right;" id="fb-root"></div>
-      <div class="fb-page facebook" data-href="https://www.facebook.com/AKPsiMizzou" data-tabs="timeline" data-width="500" data-height="1000" data-small-header="true" data-adapt-container-width="false" data-hide-cover="true" data-show-facepile="false">
+      <div class="fb-page facebook" data-href="https://www.facebook.com/AKPsiMizzou" data-tabs="timeline" data-width="500" data-height="1000" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false">
         <blockquote cite="https://www.facebook.com/AKPsiMizzou" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/AKPsiMizzou">Alpha Kappa Psi - Mizzou</a></blockquote>
       </div>
     </div>
@@ -39,6 +40,9 @@ $(window).on('load', function() {
   $(".facebook").delay(2000).animate({ opacity: 1 }, 2000)
 })
 
+
+
+
 export default {
   data() {
     return {
@@ -49,6 +53,15 @@ export default {
   mounted: function() {},
 
   methods: {
+
+    googleSheets(){
+      var sheetId = '1yRwjUaXYb9mazn3K8ZHu-fcImWIYoMPWKsjyg2dSIQY'
+      var apiKey = 'AIzaSyCEMLeO6dZ_KY4N_3-3YWwYd7ZMHm2lrlc'
+      this.$http.get('https://sheets.googleapis.com/v4/spreadsheets/'+sheetId+'/values/Fundraising!A2:A10?key='+apiKey).then(response =>{
+        console.log(response.data)
+      })
+    },
+
 
     submitComments() {
       var postData = {
@@ -75,6 +88,11 @@ export default {
   opacity: 0;
   font-size: 21px;
   text-align: center;
+}
+
+
+.fb-comments, .fb-comments * {
+    width:100% !important;
 }
 
 </style>

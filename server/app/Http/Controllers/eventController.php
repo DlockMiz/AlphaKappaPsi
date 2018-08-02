@@ -53,10 +53,6 @@ class eventController extends Controller
         $email = $request->email;
         $name = $request->name;
 
-        // $id = DB::table('active_requirements')->insertGetId(
-        // ['email' => 'john@example.com', 'votes' => 0]
-        // );
-
         $user  = new User();
         $req = new ActiveRequirement;
 
@@ -168,7 +164,7 @@ class eventController extends Controller
     	$data->save();
     	return 'success';
     }
-        public function editEvent(Request $request){
+    public function editEvent(Request $request){
         $data = Event::find($request->id);
         $data->title = $request->title;
         $data->location = $request->location;
@@ -210,6 +206,34 @@ class eventController extends Controller
         $data->save();
         return 'success';
     }
+
+    public function clearAttendees(Request $request) {
+        $event = Event::find($request->event_id);
+        $array = json_encode((object)['id'=> array()]);
+
+        $event->attended_users = $array;                     
+        $event->non_attended_users = $array;
+        $event->save();
+        return $event;     
+    }
+
+    public function switchUsers(Request $request) {
+        $user1 = $request->id_one;
+        $user2 = $request->id_two;
+        $event = Event::find($request->event_id);
+        $users = json_decode($event->signed_users,true);
+
+        if(array_search($user2,$users['id']))
+            return 200;
+
+        $index = array_search($user1,$users['id']);
+        $users['id'][$index] = (int)$user2;
+        $event->signed_users = json_encode($users);
+        $event->save();
+
+        return;
+    }
+
     public function removeSignedUser(Request $request) {
         $data = Event::find($request->event_id);
 

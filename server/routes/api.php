@@ -50,6 +50,10 @@ Route::post('/requestUserSwitch', 'eventController@requestUserSwitch');
 Route::post('/getAllSwitchRequests', 'eventController@getAllSwitchRequests');
 Route::post('/switchRequestedUser', 'eventController@switchRequestedUser');
 Route::post('/addExecAccount', 'eventController@addExecAccount');
+Route::post('/clearAttendees', 'eventController@clearAttendees');
+Route::post('/switchUsers', 'eventController@switchUsers');
+
+
 
 
 //accounts settings routes

@@ -4,6 +4,7 @@
       <a href="#/account_page/exec_event_viewer"><i class="fa fa-angle-left fa-1x" aria-hidden="true"> Back</i></a>
       <a class="button is-info" style="margin-left: 20px;" @click="completeEvent()">Complete Event</a>
       <a class="button is-warning" style="margin-left: 20px;" @click="replaceMembers()">Replace Two Memebers</a>
+      <a class="button is-warning" style="margin-left: 20px;" @click="resetAttendedList()">Reset Attended List</a>
     </div>
     <div v-show="showReplaceMembersBox">
       <div class="listBox" @click="changeDisplayName()">
@@ -17,7 +18,8 @@
       </div>
       <a class="button is-info" @click="replaceSelectedMembers()">Replace Member</a>
     </div>
-    <div style="min -width: 1300px; float:left;">
+    <center><img id="loading" style="margin-top: 100px;" src="../../assets/images/loading.gif" height="200" width="200"></center>
+    <div id="tableWrapper" style="min-width: 1300px; float:left;">
       <div style="float:left;">
         <table class="table">
           <thead>
@@ -82,7 +84,7 @@ window.$ = window.jQuery = require('jquery');
 
 import replace_members_list_one from './replace_members_list_one'
 import replace_members_list_two from './replace_members_list_two'
-import { getSingleEvent, getSignedUsers, attendUser, switchAttendance, setPastEvent, fufillRequirement } from '../../router/config.js'
+import { getSingleEvent, getSignedUsers, attendUser, switchAttendance, setPastEvent, fufillRequirement, clearAttendees, switchUsers } from '../../router/config.js'
 
 export default {
   data() {
@@ -101,6 +103,7 @@ export default {
   },
   methods: {
     getEvent() {
+      $('#loading').show()
       this.$http.post(getSingleEvent, this.id).then(response => {
         this.event = response.data[0]
         if (this.event.completed == 1) {
@@ -126,6 +129,8 @@ export default {
       }
 
       this.$http.post(getSignedUsers, postData).then(response => {
+        $('#loading').hide()
+        $('#tableWrapper').show()
         var that = this
         response.data.forEach(function(user) {
           var obj = {
@@ -150,6 +155,7 @@ export default {
       this.$http.post(getSignedUsers, postData).then(response => {
         var that = this
         response.data.forEach(function(user) {
+
           var obj = {
             id: user.id,
             name: user.name,
@@ -265,14 +271,48 @@ export default {
     },
     replaceSelectedMembers() {
       var postData = {
-        user_one_id: localStorage.getItem('replace_member_one_id'),
-        user_two_id: localStorage.getItem('replace_member_two_id')
+        id_one: localStorage.getItem('replace_member_one_id'),
+        id_two: localStorage.getItem('replace_member_two_id'),
+        event_id: localStorage.getItem("event")
       }
-      console.log(postData)
+
+      if (postData.id_one == postData.id_two) {
+        this.$swal('Error', 'The two people you selcted are the same.', 'error')
+        return
+      }
+
+      this.$http.post(switchUsers, postData).then(response => {
+        if (response.data == 200) {
+          this.$swal('Error', 'This person is already signed up for this event!', 'error')
+          return
+        } else {
+          $('#loading').show()
+          $('#tableWrapper').hide()
+          this.users = [];
+          this.getEvent()
+        }
+      })
     },
+    resetAttendedList() {
+      $('#loading').show()
+      $('#tableWrapper').hide()
+
+      this.attends = null
+      this.non_attends = null
+
+      var postData = {
+        event_id: localStorage.getItem("event")
+      }
+
+      this.$http.post(clearAttendees, postData).then(response => {
+        this.users = [];
+        this.loadUsers()
+      })
+    }
   },
 
   mounted: function() {
+    $('#tableWrapper').hide()
     this.id = localStorage.getItem("event")
     this.getEvent()
   },

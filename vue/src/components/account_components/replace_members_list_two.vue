@@ -21,7 +21,7 @@ export default {
         }, 100);
       },
       columns: [{
-        label: 'Name',
+        label: 'All Members',
         field: 'name',
         filterable: true,
       }, ],

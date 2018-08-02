@@ -29,6 +29,9 @@ export const removeSignedUser = apiDomain + 'api/removeSignedUser'
 export const requestUserSwitch = apiDomain + 'api/requestUserSwitch'
 export const getAllSwitchRequests = apiDomain + 'api/getAllSwitchRequests'
 export const switchRequestedUser = apiDomain + 'api/switchRequestedUser'
+export const clearAttendees = apiDomain + 'api/clearAttendees'
+export const switchUsers = apiDomain + 'api/switchUsers'
+
 
 
 

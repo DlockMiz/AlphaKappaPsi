@@ -4,6 +4,7 @@
       If you cannot create a customized event, please use the master doc <a>here</a>.
     </div>
     <i v-show="$store.state.user.status == '1' " @click="showAddEvent = !showAddEvent" id="addEventIcon" class="fa fa-plus-square fa-2x" aria-hidden="true"></i>
+    <!-- below is adding an event -->    
     <div v-show="showAddEvent" id="addFundBox">
       <center>
         <div>
