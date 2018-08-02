@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div>
+    <center><img id="loading" style="margin-top: 100px;" src="../../assets/images/loading.gif" height="200" width="200"></center>
+    <div id="eventWrapper">
       <table class="table">
         <thead>
           <tr>
@@ -53,6 +54,8 @@ export default {
   methods: {
     loadUsers() {
       this.$http.post(getRequestedUsers).then(response => {
+        $('#loading').hide()
+        $('#eventWrapper').show()
         var that = this
         response.data.forEach(function(user) {
           var obj = {
@@ -101,6 +104,8 @@ export default {
     }
   },
   mounted: function() {
+    $('#loading').show()
+    $('#eventWrapper').hide()
     this.loadUsers()
     if (this.$store.state.user.status != 1) {
       alert('Executive Only Page')

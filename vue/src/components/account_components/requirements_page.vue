@@ -1,50 +1,54 @@
 <template>
   <div>
-    <div class="req_title" id="absences_box">
-      Absences
-      <div class="req_content">
-        {{absences}} Total
+    <center><img id="loading" style="margin-top: 100px;" src="../../assets/images/loading.gif" height="200" width="200"></center>    
+    <div id="reqWrapper">
+      <div class="req_title" id="absences_box">
+        Absences
+        <div class="req_content">
+          {{absences}} Total
+        </div>
       </div>
-    </div>
-    <div class="req_title" id="unexcused_box">
-      Unexcused Absences
-      <div class="req_content">
-        {{unexcused}} Left
+      <div class="req_title" id="unexcused_box">
+        Unexcused Absences
+        <div class="req_content">
+          {{unexcused}} Left
+        </div>
       </div>
-    </div>
-    <div class="req_title" id="fundraising_box">
-      Fundraising
-      <div class="req_content">
-        Required Events: {{fund_requirement}}
-        <hr> {{fundraising}} - Completed Events
+      <div class="req_title" id="fundraising_box">
+        Fundraising
+        <div class="req_content">
+          Required Events: {{fund_requirement}}
+          <hr> {{fundraising}} - Completed Events
+        </div>
+        <div v-if="$store.state.user.id != 1" style="margin-top: 50px;">
+          <a style="font-size: .8vw; width: 60%;" @click="changeReqParam('fundraising', fund_requirement)" class="button is-info is-small">Change Required Events</a>
+        </div>
       </div>
-      <div v-if="$store.state.user.id != 1" style="margin-top: 50px;">
-        <a style="font-size: .8vw; width: 60%;" @click="changeReqParam('fundraising', fund_requirement)" class="button is-info is-small">Change Required Events</a>
+      <div class="req_title" id="hours_box">
+        Service
+        <div class="req_content">
+          Required Hours: {{service_req}}
+          <hr> {{service_hours}} - Completed Hours
+        </div>
+        <div v-if="$store.state.user.id != 1" style="margin-top: 50px;">
+          <a style="font-size: .8vw; width: 60%;" @click="changeReqParam('service', service_req)" class="button is-info is-small">Change Required Service Hours</a>
+        </div>
       </div>
-    </div>
-    <div class="req_title" id="hours_box">
-      Service
-      <div class="req_content">
-        Required Hours: {{service_req}}
-        <hr> {{service_hours}} - Completed Hours
-      </div>
-      <div v-if="$store.state.user.id != 1" style="margin-top: 50px;">
-        <a style="font-size: .8vw; width: 60%;" @click="changeReqParam('service', service_req)" class="button is-info is-small">Change Required Service Hours</a>
-      </div>
-    </div>
-    <div class="req_title" id="prof_dev_box">
-      Professional Development
-      <div class="req_content">
-        Required Events: {{prof_dev_req}}
-        <hr> {{prof_dev}} - Completed Events
-      </div>
-      <div v-if="$store.state.user.id != 1" style="margin-top: 50px;">
-        <a style="font-size: .8vw; width: 60%;" @click="changeReqParam('prof_dev', prof_dev_req)" class="button is-info is-small">Change Prof Dev Requirements</a>
+      <div class="req_title" id="prof_dev_box">
+        Professional Development
+        <div class="req_content">
+          Required Events: {{prof_dev_req}}
+          <hr> {{prof_dev}} - Completed Events
+        </div>
+        <div v-if="$store.state.user.id != 1" style="margin-top: 50px;">
+          <a style="font-size: .8vw; width: 60%;" @click="changeReqParam('prof_dev', prof_dev_req)" class="button is-info is-small">Change Prof Dev Requirements</a>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+window.$ = window.jQuery = require('jquery');
 import { checkActiveRequirements, getReqParams, changeReq } from '../../router/config.js'
 
 export default {
@@ -82,16 +86,16 @@ export default {
         that.$http.post(changeReq, postData).then(response => {
           if (response.data) {
             that.$swal('Success!', 'Parameter Succesfully Changed', 'success')
-            switch(type){
+            switch (type) {
               case 'fundraising':
-              this.fund_requirement = response.data
-              break;
+                this.fund_requirement = response.data
+                break;
               case 'prof_dev':
-              this.prof_dev_req = response.data              
-              break;
+                this.prof_dev_req = response.data
+                break;
               case 'service':
-              this.service_req = response.data              
-              break;
+                this.service_req = response.data
+                break;
             }
           }
         })
@@ -127,6 +131,8 @@ export default {
           document.getElementById("unexcused_box").style = "border-color: green;"
         }
         this.$http.post(getReqParams).then(response => {
+          $('#loading').hide()
+          $('#reqWrapper').show()
           this.fund_requirement = response.data[0].parameters
           this.service_req = response.data[1].parameters
           this.prof_dev_req = response.data[2].parameters
@@ -146,6 +152,8 @@ export default {
   },
 
   mounted: function() {
+    $('#loading').show()
+    $('#reqWrapper').hide()
     this.checkRequirements()
   }
 }

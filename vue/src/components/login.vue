@@ -117,6 +117,7 @@ export default {
             that.showLoginFail = false
             that.userCreds.id = response.data[0].id
             that.userCreds.name = response.data[0].name
+            that.userCreds.email = response.data[0].email            
             that.userCreds.status = response.data[0].status
             that.userCreds.google_email = response.data[0].google_email
 
