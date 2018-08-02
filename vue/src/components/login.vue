@@ -97,8 +97,8 @@ export default {
           this.$store.dispatch('setUser', this.userCreds).then(response => {
             if (window.location.hostname == 'localhost') {
               window.location.href = "http://localhost:7000/"
-            } else {
-              window.location.href = "akpmiztest.ml"
+            } else if (window.location.hostname == 'akpmiztest.ml')  {
+              window.location = "akpmiztest.ml"
             }
           })
         }

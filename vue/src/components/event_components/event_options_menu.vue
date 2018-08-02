@@ -12,10 +12,10 @@
           </ul>
         </li>
         <hr>
-        <li><a class="link is-info"><i class="fa fa-black-tie" aria-hidden="true"></i>Merchandise</a></li>
-        <hr>
-        <li><a class="link is-info"><i class="fa fa-home" aria-hidden="true"></i>Homecoming / Business Week</a></li>
-        <hr>
+        <!-- <li><a class="link is-info"><i class="fa fa-black-tie" aria-hidden="true"></i>Merchandise</a></li>
+        <hr> -->
+        <!-- <li><a class="link is-info"><i class="fa fa-home" aria-hidden="true"></i>Homecoming / Business Week</a></li>
+        <hr> -->
         <li><a class="link is-info" @click="loadPage('fundraising')" id="fundraising" ><i class="fa fa-money" aria-hidden="true"></i>Fundraising</a></li>
         <hr>
         <li><a class="link is-info" @click="loadPage('professional_development')" id="professional_development"><i class="fa fa-handshake-o" aria-hidden="true"></i>Professional Development</a></li>
