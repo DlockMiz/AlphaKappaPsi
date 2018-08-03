@@ -23,6 +23,9 @@
         <li><a class="link is-info" @click="loadPage('service_event')" id="service_event"><i class="fa fa-trash" aria-hidden="true"></i>Service</a></li>
         <hr>
         <li><a class="link is-info" @click="loadPage('brotherhood')" id="brotherhood"><i class="fa fa-users" aria-hidden="true"></i>Brotherhood</a></li>
+        <hr>
+        <li><a class="link is-info" @click="loadPage('chapter_comments')" id="chapter_comments"><i class="fa fa-commenting" aria-hidden="true"></i>Chapter Comments</a></li>
+        <hr>        
       </ul>
     </aside>
   </div>

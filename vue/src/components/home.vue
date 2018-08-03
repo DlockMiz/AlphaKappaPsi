@@ -17,31 +17,14 @@
       <center>UPCOMING EVENTS FEED</center>
     </div>
     <div id="pageContainer" style="width: 32%; float:left; border-left: solid black 3px; border-right: solid black 3px; margin-left: 10px;">
-      <div class="facebook" style="float:right;" id="fb-root"></div>
-      <div class="fb-page facebook" data-href="https://www.facebook.com/AKPsiMizzou" data-tabs="timeline" data-width="500" data-height="1000" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false">
-        <blockquote cite="https://www.facebook.com/AKPsiMizzou" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/AKPsiMizzou">Alpha Kappa Psi - Mizzou</a></blockquote>
-      </div>
+      <center><iframe class="fbIframe facebook" src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAKPsiMizzou&tabs=timeline&width=500&height=1000&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" width="500" height="1000" style="border:none;" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+      </center>
     </div>
   </div>
 </template>
 <script>
 import { submitComments } from '../router/config.js'
 window.$ = window.jQuery = require('jquery');
-
-$(window).on('load', function() {
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s);
-    js.id = id;
-    js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.1';
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-  $(".facebook").delay(2000).animate({ opacity: 1 }, 2000)
-})
-
-
-
 
 export default {
   data() {
@@ -50,18 +33,18 @@ export default {
     }
   },
 
-  mounted: function() {},
+  mounted: function() {
+    $(".facebook").delay(1000).animate({ opacity: 1 }, 3000)
+  },
 
   methods: {
 
-    googleSheets(){
+    googleSheets() {
       var sheetId = '1yRwjUaXYb9mazn3K8ZHu-fcImWIYoMPWKsjyg2dSIQY'
       var apiKey = 'AIzaSyCEMLeO6dZ_KY4N_3-3YWwYd7ZMHm2lrlc'
-      this.$http.get('https://sheets.googleapis.com/v4/spreadsheets/'+sheetId+'/values/Fundraising!A2:A10?key='+apiKey).then(response =>{
-        console.log(response.data)
+      this.$http.get('https://sheets.googleapis.com/v4/spreadsheets/' + sheetId + '/values/Fundraising!A2:A10?key=' + apiKey).then(response => {
       })
     },
-
 
     submitComments() {
       var postData = {
@@ -90,9 +73,14 @@ export default {
   text-align: center;
 }
 
+#pageContainer {
+  overflow-x: scroll;  
+  z-index: 1;
+}
 
-.fb-comments, .fb-comments * {
-    width:100% !important;
+#pageContainer iframe {
+  position: relative;
+  z-index: 0;
 }
 
 </style>

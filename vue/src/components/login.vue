@@ -24,6 +24,7 @@
   </div>
 </template>
 <script>
+window.$ = window.jQuery = require('jquery');  
 import { store } from '../store.js'
 import { findUser, addUser, signInActiveWithGoogle } from '../router/config'
 
@@ -82,6 +83,9 @@ export default {
 
 
     },
+    goHome(){
+      this.$router.push('/')
+    },
     confirmUser(user) {
       this.$http.post(findUser, user).then(response => {
         if (response.data.length == 0) {
@@ -95,11 +99,7 @@ export default {
           this.userCreds.google_email = response.data[0].google_email
 
           this.$store.dispatch('setUser', this.userCreds).then(response => {
-            if (window.location.hostname == 'localhost') {
-              window.location.href = "http://localhost:7000/"
-            } else if (window.location.hostname == 'akpmiztest.ml')  {
-              window.location = "akpmiztest.ml"
-            }
+            this.goHome()
           })
         }
         return
@@ -120,13 +120,8 @@ export default {
             that.userCreds.email = response.data[0].email            
             that.userCreds.status = response.data[0].status
             that.userCreds.google_email = response.data[0].google_email
-
             that.$store.dispatch('setUser', that.userCreds).then(response => {
-              if (window.location.hostname == 'localhost') {
-                window.location.href = "http://localhost:7000/"
-              } else {
-                window.location.href = "akpmiztest.ml"
-              }
+              that.goHome()
             })
           } else{
             that.$swal('You need an Alpha Kappa Psi Account First', "Once you have a registered account by an executive, you can go into your settings and link a google account, allowing you access to login this way.", 'error')

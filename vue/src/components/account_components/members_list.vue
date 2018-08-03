@@ -1,19 +1,22 @@
 <template>
   <div>
-    <a style="margin-bottom: 10px;" @click="showExecAddInputs = !showExecAddInputs" class="button is-info">Add Exec Account</a>
-    <div style="margin-bottom: 10px;" v-show="showExecAddInputs" class="addExecBox">
-      <center>
-        <div style="line-height: 55px;">
-          <input style="margin-bottom: 10px; margin-top: 10px; width: 63%;" class="input is-info" type="text" name="email" v-model="registerEmail" placeholder="Email..."> <b style="font-size:1vw">@gmail.com</b>
-        </div>
-      </center>
-      <center>
-        <input style="margin-bottom: 10px; margin-top: 10px; width: 93%;" class="input is-info" type="text" name="username" v-model="registerName" placeholder="Position Name...">
-        <a style="margin-bottom: 10px;" @click="addExecAccount()" class="button is-info">Submit</a>
-      </center>
-    </div>
-    <div>
-      <vue-good-table :columns="columns" :rows="users" :paginate="true" :lineNumbers="true" :onClick="viewUser" />
+    <center><img id="loading" style="margin-top: 100px;" src="../../assets/images/loading.gif" height="200" width="200"></center>    
+    <div id="memListWrapper">
+      <a style="margin-bottom: 10px;" @click="showExecAddInputs = !showExecAddInputs" class="button is-info">Add Exec Account</a>
+      <div style="margin-bottom: 10px;" v-show="showExecAddInputs" class="addExecBox">
+        <center>
+          <div style="line-height: 55px;">
+            <input style="margin-bottom: 10px; margin-top: 10px; width: 63%;" class="input is-info" type="text" name="email" v-model="registerEmail" placeholder="Email..."> <b style="font-size:1vw">@gmail.com</b>
+          </div>
+        </center>
+        <center>
+          <input style="margin-bottom: 10px; margin-top: 10px; width: 93%;" class="input is-info" type="text" name="username" v-model="registerName" placeholder="Position Name...">
+          <a style="margin-bottom: 10px;" @click="addExecAccount()" class="button is-info">Submit</a>
+        </center>
+      </div>
+      <div>
+        <vue-good-table :columns="columns" :rows="users" :paginate="true" :lineNumbers="true" :onClick="viewUser" />
+      </div>
     </div>
   </div>
 </template>
@@ -55,7 +58,11 @@ export default {
   },
   methods: {
     loadUsers() {
+      $('#loading').show()
+      $('#memListWrapper').hide()
       this.$http.post(getRegisteredUsers).then(response => {
+        $('#loading').hide()
+        $('#memListWrapper').show()
         var that = this
         response.data.forEach(function(user) {
           var status
@@ -94,7 +101,7 @@ export default {
       }
       this.$http.post(addExecAccount, postData).then(response => {
         if (response.data == 200)
-          this.$swal('Success!', 'Executive Account has been made!', 'success').then((result) =>{
+          this.$swal('Success!', 'Executive Account has been made!', 'success').then((result) => {
             location.reload()
           })
       })

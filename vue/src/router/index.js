@@ -104,6 +104,10 @@ export default new Router({
         path: '/event_page/fundraising',
         name: 'Fundraising Event',
         component: resolve => require(['../components/event_components/fundraising_event.vue'], resolve)
+      }, {
+        path: '/event_page/chapter_comments',
+        name: 'Chapter Comments',
+        component: resolve => require(['../components/event_components/chapter_comments.vue'], resolve)
       }]
     }]
   }, {

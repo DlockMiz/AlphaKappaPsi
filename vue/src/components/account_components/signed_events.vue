@@ -8,26 +8,33 @@
         <option value="fundraising">Fundraising</option>
       </select>
     </div>
-    <div v-for="(event, index) event in events">
-      <div id="loadSignedEventsBox">
-        <center>
-          <h1>{{event.title}}</h1></center>
-        <hr>
-        <p>Time: {{event.time}}</p>
-        <hr>
-        <p>Date: {{event.date}}</p>
-        <hr>
-        <p>Location: {{event.location}}</p>
-        <hr>
-        <center>
-          <a class="button is-info" v-show="backOutValidity[index].isUnSignValid" @click="unSignUserFromEvent(event.id)">Un-Sign</a>
-          <a class="button is-warning" @click="requestUserSwitch(index)">Request Switch</a>
-        </center>
+    <center><img id="loading" style="margin-top: 100px;" src="../../assets/images/loading.gif" height="200" width="200"></center>
+    <div id="myEventsWrapper">
+      <div v-if="this.events[0] == null">
+        You have not signed up for any events in this category.
+      </div>
+      <div v-for="(event, index) event in events">
+        <div id="loadSignedEventsBox">
+          <center>
+            <h1>{{event.title}}</h1></center>
+          <hr>
+          <p>Time: {{event.time}}</p>
+          <hr>
+          <p>Date: {{event.date}}</p>
+          <hr>
+          <p>Location: {{event.location}}</p>
+          <hr>
+          <center>
+            <a class="button is-info" v-show="backOutValidity[index].isUnSignValid" @click="unSignUserFromEvent(event.id)">Un-Sign</a>
+            <a class="button is-warning" @click="requestUserSwitch(index)">Request Switch</a>
+          </center>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+window.$ = window.jQuery = require('jquery');
 import { loadSignedEvents, removeSignedUser, requestUserSwitch } from '../../router/config'
 export default {
   data() {
@@ -67,8 +74,8 @@ export default {
           this.$http.post(requestUserSwitch, postData).then(response => {
             if (response.data == 100)
               this.$swal('No No No', 'You have already put in a request!', 'error')
-            else if(response.data == 200)
-              this.$swal('You should reload the page!','Reload the page and the event should disappear, someone probably replaced you! :)', 'error')
+            else if (response.data == 200)
+              this.$swal('You should reload the page!', 'Reload the page and the event should disappear, someone probably replaced you! :)', 'error')
             else
               this.$swal('Awesome', 'The request has been posted', 'success')
           })
@@ -77,11 +84,15 @@ export default {
       })
     },
     loadEvents() {
+      $('#loading').show()
+      $('#myEventsWrapper').hide()
       var postData = {
         id: this.$store.state.user.id,
         event_type: this.selected
       }
       this.$http.post(loadSignedEvents, postData).then(response => {
+        $('#loading').hide()
+        $('#myEventsWrapper').show()
         this.backOutValidity = []
         var that = this
         response.data.forEach(function(event) {
@@ -97,6 +108,7 @@ export default {
           that.backOutValidity.push(valid)
         })
         this.events = response.data
+        
       })
     },
     unSignUserFromEvent(id) {

@@ -1,12 +1,15 @@
 <template>
   <div>
-    <div v-for="(event, index) event in events">
-      <div class="requestBox">
-        <center>
-          <h1 style="margin:5px;" class="title is-4">{{event.title}}</h1>
-          <h1 style="margin:5px;" class="subtitle is-6">Posted By: {{users[index].name}}</h1>
-          <button style="margin:5px;" @click="switchUser(event.event_id, users[index].id, event.id)" class="button is-info">Switch</button>
-        </center>
+    <center><img id="loading" style="margin-top: 100px;" src="../../assets/images/loading.gif" height="200" width="200"></center>
+    <div id="switchWrapper">
+      <div v-for="(event, index) event in events">
+        <div class="requestBox">
+          <center>
+            <h1 style="margin:5px;" class="title is-4">{{event.title}}</h1>
+            <h1 style="margin:5px;" class="subtitle is-6">Posted By: {{users[index].name}}</h1>
+            <button style="margin:5px;" @click="switchUser(event.event_id, users[index].id, event.id)" class="button is-info">Switch</button>
+          </center>
+        </div>
       </div>
     </div>
   </div>
@@ -27,11 +30,13 @@ export default {
 
   methods: {
     loadEvents() {
+      $('#loading').show()
+      $('#switchWrapper').hide()
       this.$http.post(getAllSwitchRequests).then(response => {
+        $('#loading').hide()
+        $('#switchWrapper').show()
         this.events = response.data[0]
         this.users = response.data[1]
-        console.log(response.data)
-
       })
     },
     switchUser(eventid, posterid, switchid) {

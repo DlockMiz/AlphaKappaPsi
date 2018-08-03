@@ -1,78 +1,81 @@
 <template>
   <div>
-    <div>
+    <!-- <div>
       If you cannot create a customized event, please use the master doc <a>here</a>.
-    </div>
-    <i v-show="$store.state.user.status == '1' " @click="showAddEvent = !showAddEvent" id="addEventIcon" class="fa fa-plus-square fa-2x" aria-hidden="true"></i>
-    <!-- below is adding an event -->    
-    <div v-show="showAddEvent" id="addFundBox">
-      <center>
-        <div>
-          <div>Only Selected Can View:</div>
-          <label class="radio">
-            <input style="margin-left: 20px;" class="selectedView" type="checkbox" name="active" value="2" checked> Active
-          </label>
-          <label class="radio">
-            <input style="margin-left: 20px;" class="selectedView" type="checkbox" name="pledge" value="3" checked> Pledge
-          </label>
-        </div>
-      </center>
-      <input v-model="addTitle" class="input is-info" type="text" placeholder="Title...">
-      <input v-model="addTime" class="input is-info" type="text" placeholder="Time...">
-      <datepicker v-model="addDate" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }" style="width:280px !important;"></datepicker>
-      <input v-model="addPoints" class="input is-info" type="text" placeholder="Points...">
-      <input v-model="addLocation" class="input is-info" type="text" placeholder="Location...">
-      <input v-model="addMaxUsers" class="input is-info" type="number" placeholder="Max Users...">
-      <textarea v-model="addDesc" class="textarea is-info" type="text" placeholder="Description..."></textarea>
-      <center><a class="button is-info" @click="addEvent()" style="margin-top: 10px;">Add Event</a></center>
-    </div>
-    <div id="fundEventBox" v-for="(event, index) event in events" style="margin-top: 50px;" v-show="event.current_perms[0] == $store.state.user.status || event.current_perms[1] == $store.state.user.status || event.current_perms[2] == $store.state.user.status">
-      <i v-show="$store.state.user.status == '1'" class="fa fa-minus-square icon_hover" @click="showDeleteEvent(index)" aria-hidden="true"></i>
-      <i v-show="$store.state.user.status == '1'" class="fa fa-pencil-square icon_hover" @click="showEditEvent(index)" aria-hidden="true"></i>
-      <div id="editFundEventWrapper">
-        <div :id="'editFundEventBox'+index" style="display: none;">
-          <div>
-            <center>
-              <div>Only Selected Can View:</div>
-              <label class="radio">
-                <input style="margin-left: 20px;" type="checkbox" :class="'selectedViewActive'+event.id" :name="'active_edit'+index" value="2"> Active
-              </label>
-              <label class="radio">
-                <input style="margin-left: 20px;" type="checkbox" :class="'selectedViewPledge'+event.id" :name="'pledge_edit'+index" value="3"> Pledge
-              </label>
-            </center>
-          </div>
-          <input v-model="event.title" class="input is-info" type="text" placeholder="Title...">
-          <input v-model="event.time" class="input is-info" type="text" placeholder="Time...">
-          <datepicker v-model="event.date" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }"></datepicker>
-          <input v-model="event.location" class="input is-info" type="text" placeholder="Location...">
-          <input v-model="event.max_users" class="input is-info" type="number" placeholder="Max Users...">
-          <textarea v-model="event.description" class="textarea is-info" type="text" placeholder="Description..."></textarea>
-          <center><a class="button is-info" @click="editEvent(index)" style="margin-top: 10px;">Edit Event</a></center>
-        </div>
-      </div>
-      <div :id="'deleteFundEventBox'+index" style="display: none;">
+    </div> -->
+    <center><img id="loading" style="margin-top: 100px;" src="../../assets/images/loading.gif" height="200" width="200"></center>
+    <div id="fundEventWrapper">
+      <i v-show="$store.state.user.status == '1' " @click="showAddEvent = !showAddEvent" id="addEventIcon" class="fa fa-plus-square fa-2x" aria-hidden="true"></i>
+      <!-- below is adding an event -->
+      <div v-show="showAddEvent" id="addFundBox">
         <center>
-          <h1>Are you sure you want to delete this event?</h1></center>
-        <center><a class="button is-info" @click="deleteEvent(index)" style="margin-top: 10px;">Delete Event</a></center>
+          <div>
+            <div>Only Selected Can View:</div>
+            <label class="radio">
+              <input style="margin-left: 20px;" class="selectedView" type="checkbox" name="active" value="2" checked> Active
+            </label>
+            <label class="radio">
+              <input style="margin-left: 20px;" class="selectedView" type="checkbox" name="pledge" value="3" checked> Pledge
+            </label>
+          </div>
+        </center>
+        <input v-model="addTitle" class="input is-info" type="text" placeholder="Title...">
+        <input v-model="addTime" class="input is-info" type="text" placeholder="Time...">
+        <datepicker v-model="addDate" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }" style="width:280px !important;"></datepicker>
+        <input v-model="addPoints" class="input is-info" type="text" placeholder="Points...">
+        <input v-model="addLocation" class="input is-info" type="text" placeholder="Location...">
+        <input v-model="addMaxUsers" class="input is-info" type="number" placeholder="Max Users...">
+        <textarea v-model="addDesc" class="textarea is-info" type="text" placeholder="Description..."></textarea>
+        <center><a class="button is-info" @click="addEvent()" style="margin-top: 10px;">Add Event</a></center>
       </div>
-      <div :id="'fundEventBox'+index">
-        <h1 style="text-align: center; font-size: 16pt;">{{event.title}}</h1>
-        <div>
-          <hr>
-          <h2><b>Time:</b> {{event.time}}</h2>
-          <hr>
-          <h2><b>Date:</b> {{event.date}}</h2>
-          <hr>
-          <h2><b>Points:</b> {{event.hours}}</h2>
-          <hr>
-          <h2><b>Location:</b> {{event.location}}</h2>
-          <hr>
-          <h2 style="margin-bottom: 12px;"> <b>Description:</b> </h2>
-          <p style="height: 150px; overflow: auto">{{event.description}}</p>
-          <hr>
-          <center><a v-show="event.is_max_users == false" :id="'fundSignUpButton'+event.id" :name="event.title" class="button is-info" @click="signUp(index)">Sign Up</a></center>
-          <center><a v-show="event.is_max_users == true" style="color:blue">Event Full</a></center>
+      <div id="fundEventBox" v-for="(event, index) event in events" style="margin-top: 50px;" v-show="event.current_perms[0] == $store.state.user.status || event.current_perms[1] == $store.state.user.status || event.current_perms[2] == $store.state.user.status">
+        <i v-show="$store.state.user.status == '1'" class="fa fa-minus-square icon_hover" @click="showDeleteEvent(index)" aria-hidden="true"></i>
+        <i v-show="$store.state.user.status == '1'" class="fa fa-pencil-square icon_hover" @click="showEditEvent(index)" aria-hidden="true"></i>
+        <div id="editFundEventWrapper">
+          <div :id="'editFundEventBox'+index" style="display: none;">
+            <div>
+              <center>
+                <div>Only Selected Can View:</div>
+                <label class="radio">
+                  <input style="margin-left: 20px;" type="checkbox" :class="'selectedViewActive'+event.id" :name="'active_edit'+index" value="2"> Active
+                </label>
+                <label class="radio">
+                  <input style="margin-left: 20px;" type="checkbox" :class="'selectedViewPledge'+event.id" :name="'pledge_edit'+index" value="3"> Pledge
+                </label>
+              </center>
+            </div>
+            <input v-model="event.title" class="input is-info" type="text" placeholder="Title...">
+            <input v-model="event.time" class="input is-info" type="text" placeholder="Time...">
+            <datepicker v-model="event.date" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }"></datepicker>
+            <input v-model="event.location" class="input is-info" type="text" placeholder="Location...">
+            <input v-model="event.max_users" class="input is-info" type="number" placeholder="Max Users...">
+            <textarea v-model="event.description" class="textarea is-info" type="text" placeholder="Description..."></textarea>
+            <center><a class="button is-info" @click="editEvent(index)" style="margin-top: 10px;">Edit Event</a></center>
+          </div>
+        </div>
+        <div :id="'deleteFundEventBox'+index" style="display: none;">
+          <center>
+            <h1>Are you sure you want to delete this event?</h1></center>
+          <center><a class="button is-info" @click="deleteEvent(index)" style="margin-top: 10px;">Delete Event</a></center>
+        </div>
+        <div :id="'fundEventBox'+index">
+          <h1 style="text-align: center; font-size: 16pt;">{{event.title}}</h1>
+          <div>
+            <hr>
+            <h2><b>Time:</b> {{event.time}}</h2>
+            <hr>
+            <h2><b>Date:</b> {{event.date}}</h2>
+            <hr>
+            <h2><b>Points:</b> {{event.hours}}</h2>
+            <hr>
+            <h2><b>Location:</b> {{event.location}}</h2>
+            <hr>
+            <h2 style="margin-bottom: 12px;"> <b>Description:</b> </h2>
+            <p style="height: 150px; overflow: auto">{{event.description}}</p>
+            <hr>
+            <center><a v-show="event.is_max_users == false" :id="'fundSignUpButton'+event.id" :name="event.title" class="button is-info" @click="signUp(index)">Sign Up</a></center>
+            <center><a v-show="event.is_max_users == true" style="color:blue">Event Full</a></center>
+          </div>
         </div>
       </div>
     </div>
@@ -105,7 +108,6 @@ export default {
 
   mounted: function() {
     this.getFundEvents()
-    this.getFundParams()
   },
 
   beforeUpdate: function() {
@@ -113,17 +115,15 @@ export default {
   },
 
   methods: {
-    getFundParams() {
-      this.$http.post(getReqParams).then(response => {
-        console.log(response.data)
-        this.reqParam = response.data[0].parameters
-      })
-    },
     getFundEvents() {
+      $('#loading').show()
+      $('#fundEventWrapper').hide()
       var postData = {
         event_type: "fundraising"
       }
       this.$http.post(getEvents, postData).then(response => {
+        $('#loading').hide()
+        $('#fundEventWrapper').show()
         var that = this
         response.data.forEach(function(event) {
           var perms = JSON.parse(event.censor_perms)

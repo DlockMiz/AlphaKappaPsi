@@ -34,10 +34,10 @@ export default {
     this.checkUser()
     $('#bars').click(function() {
       if (settingsBox == false) {
-        $('#settingsBox').show(500)
+        $('#settingsBox').show(100)
         settingsBox = true
       } else {
-        $('#settingsBox').hide(500)
+        $('#settingsBox').hide(100)
         settingsBox = false
       }
     })
@@ -48,7 +48,6 @@ export default {
   },
   methods: {
     goToLogin(e) {
-      console.log(e)
       if (e) {
         this.$router.push('/admin_login')
       } else
