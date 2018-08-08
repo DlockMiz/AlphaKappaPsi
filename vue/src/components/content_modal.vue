@@ -1,37 +1,39 @@
 <template>
-  <div>
+  <div v-if="propsData.showModal">
     <div id="backgroundModalWrapper">
       <div id="modalWrapper">
+        <i @click="$emit('close-modal')" class="fa fa-window-close fa-2x" aria-hidden="true" style="color: red; cursor: pointer;"></i>
         <slot></slot>
       </div>
     </div>
   </div>
 </template>
 <script>
+var methods = {}
 export default {
   name: 'modal',
   data() {
-    return {
-
-    }
+    return {}
   },
+  methods: methods,
+  props: ['propsData'],
   mounted: function() {
-    // var body = document.getElementsByTagName('body')
+    this.$on('close-modal', function() {
+      this.propsData.showModal = false
+    })
   }
 }
 
 </script>
 <style>
-
 #modalWrapper {
   border: black solid 3px;
   background-color: white;
   overflow: scroll;
   padding: 20px;
   width: 50%;
-  margin:auto;
+  margin: auto;
   margin-top: 10%;
-  max-height: 500px;
   z-index: 1;
 }
 
@@ -41,7 +43,7 @@ export default {
   bottom: 0;
   right: 0;
   position: fixed;
-  background-color: rgba(0,0,0,.5);
+  background-color: rgba(0, 0, 0, .5);
 }
 
 </style>
