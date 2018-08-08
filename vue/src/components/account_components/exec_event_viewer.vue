@@ -45,8 +45,7 @@ export default {
       }
       this.$http.post(getAllEvents, postData).then(response => {
         var that = this
-        var length = response.data.length //Object.keys(response.data[0]).length
-        console.log(response.data)
+        var length = response.data.length
         for (var i = 0; i < length; i++) {
           var obj = {
             id: response.data[i].id,

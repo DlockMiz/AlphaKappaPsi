@@ -12,6 +12,7 @@ class calendarController extends Controller
 {
     public function loadDates(Request $request) {
 		$data = DB::table('events')
+        ->where('event_type','!=','chapter_comments')
 		->get();
 		return $data;
     }

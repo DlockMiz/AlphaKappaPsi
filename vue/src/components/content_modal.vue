@@ -3,7 +3,7 @@
     <div id="backgroundModalWrapper">
       <div id="modalWrapper">
         <i @click="$emit('close-modal')" class="fa fa-window-close fa-2x" aria-hidden="true" style="color: red; cursor: pointer;"></i>
-        <slot></slot>
+        <slot :propsData="propsData"></slot>
       </div>
     </div>
   </div>

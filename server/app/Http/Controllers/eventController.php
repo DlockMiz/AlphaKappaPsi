@@ -99,6 +99,7 @@ class eventController extends Controller
     public function getEvents(Request $request) {
 		$data = Event::where('event_type', $request->event_type)
         ->where('completed', '=', 0)
+        ->orderBy('date', 'desc')
         ->get();
 		return $data;
     }
@@ -106,7 +107,8 @@ class eventController extends Controller
     public function getAllEvents(Request $request) {
         if($request->type == 'current'){
             $data = Event::get()
-            ->where('completed', '=', '0');
+            ->where('completed', '=', '0')
+            ->where('event_type', '!=', 'chapter_comments');            
             return $data->values();
 
         }else if($request->type == 'past'){
@@ -158,7 +160,7 @@ class eventController extends Controller
         $data->max_users = $request->max_users;
         $data->attended_users = $request->attended_users;
         $data->non_attended_users = $request->attended_users;
-        $data->completed = $request->complete;
+        $data->completed = 0;
         $data->censor_perms = $request->censor_perms;
 
     	$data->save();

@@ -11,6 +11,9 @@
           </center>
         </div>
       </div>
+      <div v-if="events != null">
+        There is currently no one requesting to switch out of an event.
+      </div>
     </div>
   </div>
 </template>
