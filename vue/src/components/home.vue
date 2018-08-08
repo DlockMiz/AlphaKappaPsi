@@ -1,19 +1,19 @@
 <template>
+  <div style="font-size: 60pt;top:0;left:0;background-color:white;position: fixed; width: 100%;">
+    <center>
+      I'M BREAKING UP WITH YOU.
+    </center>
+  </div>
+</template>
+
+<!-- <template>
   <div>
     <div style="width: 32%; float:left; border-left: solid green 3px;border-right: solid green 3px; height: 1000px; margin-left: 10px;">
       <center>TWITTER / INSTAGRAM FEED</center>
       <button @click="googleSheets()">test</button>
     </div>
     <div style="width: 32%; float:left; border-left: solid blue 3px;border-right: solid blue 3px; height: 1000px; margin-left: 10px;">
-      <!-- <div style="text-align:center; width: 40%; float:left; margin-left: 50px;">
-        <div>Comments</div>
-        <textarea v-model="comments" style="width: 100%; height: 300px;"></textarea>
-        <button @click="submitComments()">Submit Comments</button>
-      </div>
-      <div style="width: 40%; float:left;">
-        <div style="line-height: 30px; float: left; margin-left: 20px; font-size: 15px; width:40%; height: 400px;">If you have any suggestions to make the website flow better or any small quality of life improvments, please leave a comment, anything I can do to improve the site goes a long way for everyone! <strong><br><br>Thanks - Daniel</strong>
-        </div>
-      </div> -->
+      
       <center>UPCOMING EVENTS FEED</center>
     </div>
     <div id="pageContainer" style="width: 32%; float:left; border-left: solid black 3px; border-right: solid black 3px; margin-left: 10px;">
@@ -83,4 +83,14 @@ export default {
   z-index: 0;
 }
 
-</style>
+</style> -->
+
+<!-- <div style="text-align:center; width: 40%; float:left; margin-left: 50px;">
+        <div>Comments</div>
+        <textarea v-model="comments" style="width: 100%; height: 300px;"></textarea>
+        <button @click="submitComments()">Submit Comments</button>
+      </div>
+      <div style="width: 40%; float:left;">
+        <div style="line-height: 30px; float: left; margin-left: 20px; font-size: 15px; width:40%; height: 400px;">If you have any suggestions to make the website flow better or any small quality of life improvments, please leave a comment, anything I can do to improve the site goes a long way for everyone! <strong><br><br>Thanks - Daniel</strong>
+        </div>
+      </div> -->
