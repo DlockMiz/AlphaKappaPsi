@@ -35,13 +35,13 @@ import Datepicker from 'vue-bulma-datepicker'
 export default {
   data() {
     return {
-      title: '',
-      time: '',
-      hours: '',
-      date: '',
-      location: '',
-      desc: '',
-      max: ''
+      title: null,
+      time: null,
+      hours: null,
+      date: null,
+      location: null,
+      desc: null,
+      max: null
     }
   },
   components: {
@@ -50,6 +50,10 @@ export default {
   props: ['propsData'],
   methods: {
     addEvent() {
+      if (this.title == null || this.time == null || this.date == null || this.location == null || this.max == null || this.hours) {
+        this.$swal('Error', 'You must fill out every field!', 'error')
+        return;
+      }
       var users = { "id": [] }
       var postData = {
         title: this.title,
