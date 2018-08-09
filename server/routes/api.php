@@ -52,7 +52,8 @@ Route::post('/switchRequestedUser', 'eventController@switchRequestedUser');
 Route::post('/addExecAccount', 'eventController@addExecAccount');
 Route::post('/clearAttendees', 'eventController@clearAttendees');
 Route::post('/switchUsers', 'eventController@switchUsers');
-
+Route::post('/getChapterComments', 'eventController@getChapterComments');
+Route::post('/submitChapterComment', 'eventController@submitChapterComment');
 
 
 

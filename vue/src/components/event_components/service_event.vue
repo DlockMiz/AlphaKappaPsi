@@ -1,32 +1,12 @@
 <template>
   <div>
-    <!-- <div>
-      If you cannot create a customized event, please use the master doc <a>here</a>.
-    </div> -->
     <center><img id="loading" style="margin-top: 100px;" src="../../assets/images/loading.gif" height="200" width="200"></center>
     <div id="servEventWrapper">
-      <i v-show="$store.state.user.status == '1' " @click="showAddEvent = !showAddEvent" id="addEventIcon" class="fa fa-plus-square fa-2x" aria-hidden="true"></i>
-      <div v-show="showAddEvent" id="addServiceBox">
-        <center>
-          <div>
-            <div>Only Selected Can View:</div>
-            <label class="radio">
-              <input style="margin-left: 20px;" class="selectedView" type="checkbox" name="active" value="2" checked> Active
-            </label>
-            <label class="radio">
-              <input style="margin-left: 20px;" class="selectedView" type="checkbox" name="pledge" value="3" checked> Pledge
-            </label>
-          </div>
-        </center>
-        <input v-model="addTitle" class="input is-info" type="text" placeholder="Title...">
-        <input v-model="addTime" class="input is-info" type="text" placeholder="Time...">
-        <datepicker v-model="addDate" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }" style="width:280px !important;"></datepicker>
-        <input v-model="addLocation" class="input is-info" type="text" placeholder="Location...">
-        <input v-model="addMaxUsers" class="input is-info" type="number" placeholder="Max Users...">
-        <input v-model="numberOfHours" class="input is-info" type="text" placeholder="# of Hours for Requirements">
-        <textarea v-model="addDesc" class="textarea is-info" type="text" placeholder="Description..."></textarea>
-        <center><a class="button is-info" @click="addEvent()" style="margin-top: 10px;">Add Event</a></center>
-      </div>
+      <a v-show="$store.state.user.status == '1' " @click="propsData.showModal = true" id="addEventIcon" class="button is-info" aria-hidden="true">Create Service Event</a>
+      <h1 style="text-align: center;" v-if="events.length == 0" class="title is-2">No Current Events</h1>      
+      <modal :propsData="propsData">
+        <service-event-form :propsData="propsData"></service-event-form>
+      </modal>
       <div id="serviceEventBox" v-for="(event, index) event in events" style="margin-top: 50px;" v-show="event.current_perms[0] == $store.state.user.status || event.current_perms[1] == $store.state.user.status || event.current_perms[2] == $store.state.user.status">
         <i v-show="$store.state.user.status == '1'" class="fa fa-minus-square icon_hover" @click="showDelteEvent(index)" aria-hidden="true"></i>
         <i v-show="$store.state.user.status == '1'" class="fa fa-pencil-square icon_hover" @click="showEditEvent(index)" aria-hidden="true"></i>
@@ -80,8 +60,10 @@
   </div>
 </template>
 <script>
+import modal from '../content_modal'
 import Datepicker from 'vue-bulma-datepicker'
-import { getEvents, addEvent, userSignedEvent, editEvent, deleteEvent } from '../../router/config'
+import ServiceEventForm from './add_event_forms/service_event_form'
+import { getEvents, userSignedEvent, editEvent, deleteEvent } from '../../router/config'
 
 window.$ = window.jQuery = require('jquery');
 
@@ -89,15 +71,10 @@ export default {
   data() {
     return {
       events: [],
-      showAddEvent: false,
       showEvent: true,
-      addTitle: '',
-      addTime: '',
-      numberOfHours: '',
-      addDate: '',
-      addLocation: '',
-      addDesc: '',
-      addMaxUsers: ''
+      propsData: {
+        showModal: this.showModal
+      }
     }
   },
 
@@ -108,9 +85,20 @@ export default {
   beforeUpdate: function() {
     this.checkSignedIn()
   },
+  watch: {
+    propsData: {
+      handler: function(value) {
+        if (this.propsData.showModal == false) {
+          this.getServiceEvents()
+        }
+      },
+      deep: true,
+    }
+  },
 
   methods: {
     getServiceEvents() {
+      this.events = []
       $('#loading').show()
       $('#servEventWrapper').hide()
       var postData = {
@@ -163,40 +151,13 @@ export default {
       }
       this.$http.post(userSignedEvent, postData).then(response => {
         if (response.data == 'fail') {
-          alert('The Event is Filled')
-          location.reload()
+          this.$swal('Error', 'This event is already filled!', 'error')
+          this.getBrotherEvents()
         }
-        location.reload()
+        this.$swal('Success', 'You are now signed up for this event.', 'success').then((result) => {
+          $('#serviceSignUpButton' + this.events[index].id).hide()
+        })
       })
-    },
-
-    addEvent() {
-      var users = { "id": [] }
-      var postData = {
-        title: this.addTitle,
-        location: this.addLocation,
-        date: this.addDate,
-        time: this.addTime,
-        description: this.addDesc,
-        event_type: "service",
-        month: this.addDate.split("/")[1],
-        signed_users: JSON.stringify(users),
-        max_users: this.addMaxUsers,
-        hours: this.numberOfHours,
-        attended_users: JSON.stringify(users),
-        complete: 0,
-        censor_perms: {}
-      }
-      var radios = document.getElementsByClassName('selectedView');
-      var censor_perms = { id: ['1', '0', '0'] }
-      for (var i = 0; i < radios.length; i++) {
-        console.log(radios[i].checked)
-
-        if (radios[i].checked)
-          censor_perms.id[i + 1] = radios[i].value
-      }
-      postData.censor_perms = JSON.stringify(censor_perms)
-      this.$http.post(addEvent, postData).then(response => { location.reload() })
     },
 
     checkSignedIn() {
@@ -266,20 +227,29 @@ export default {
         censor_perms.id[2] = '3'
 
       postData.censor_perms = JSON.stringify(censor_perms)
-      this.$http.post(editEvent, postData).then(response => { location.reload() })
+      this.$http.post(editEvent, postData).then(response => {
+        this.$swal('Event Edited', '', 'success').then((result) => {
+          this.events[index] = postData
+          this.showEditEvent(index)
+        })
+      })
     },
 
     deleteEvent(index) {
       var postData = {
         id: this.events[index].id
       }
-      this.$http.post(deleteEvent, postData).then(response => { location.reload() })
+      this.$http.post(deleteEvent, postData).then(response => {
+        this.getServiceEvents()
+      })
     }
 
   },
 
   components: {
     Datepicker,
+    ServiceEventForm,
+    modal
   },
 
 }
@@ -295,19 +265,6 @@ export default {
   float: left;
 }
 
-#addServiceBox {
-  background-color: lightgrey;
-  width: 300px;
-  position: absolute;
-  margin: 40px;
-  padding: 10px;
-}
-
-#addServiceBox input,
-textarea {
-  width: 100%;
-  margin-top: 10px;
-}
 
 #editServiceEventBox {
   padding: 10px;
@@ -325,9 +282,6 @@ textarea {
   padding: 10px;
 }
 
-.flatpickr-month {
-  height: 50px !important;
-}
 
 #signUpButtons {
   display: inline;
@@ -336,6 +290,7 @@ textarea {
 #addEventIcon {
   float: left;
   position: absolute;
+  margin-left: 40px;
   margin-top: 10px;
 }
 
@@ -345,6 +300,10 @@ textarea {
 
 .icon_hover:hover {
   cursor: pointer;
+}
+
+.button {
+  position: static;
 }
 
 </style>

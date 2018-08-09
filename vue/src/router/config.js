@@ -31,7 +31,8 @@ export const getAllSwitchRequests = apiDomain + 'api/getAllSwitchRequests'
 export const switchRequestedUser = apiDomain + 'api/switchRequestedUser'
 export const clearAttendees = apiDomain + 'api/clearAttendees'
 export const switchUsers = apiDomain + 'api/switchUsers'
-
+export const getChapterComments = apiDomain + 'api/getChapterComments'
+export const submitChapterComment = apiDomain + 'api/submitChapterComment'
 
 
 

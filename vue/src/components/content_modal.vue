@@ -3,7 +3,7 @@
     <div id="backgroundModalWrapper">
       <div id="modalWrapper">
         <i @click="$emit('close-modal')" class="fa fa-window-close fa-2x" aria-hidden="true" style="color: red; cursor: pointer;"></i>
-        <slot :propsData="propsData"></slot>
+        <slot></slot>
       </div>
     </div>
   </div>
@@ -29,12 +29,12 @@ export default {
 #modalWrapper {
   border: black solid 3px;
   background-color: white;
-  overflow: scroll;
+  overflow: auto;
   padding: 20px;
   width: 50%;
   margin: auto;
   margin-top: 10%;
-  z-index: 1;
+  z-index: 1000;
 }
 
 #backgroundModalWrapper {

@@ -11,7 +11,7 @@
           </center>
         </div>
       </div>
-      <div v-if="events != null">
+      <div v-if="events.length == 0">
         There is currently no one requesting to switch out of an event.
       </div>
     </div>
@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       events: [],
-      uesrs: []
+      users:[]
     }
   },
 

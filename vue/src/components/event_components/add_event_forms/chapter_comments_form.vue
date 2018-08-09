@@ -41,7 +41,8 @@ export default {
         location: this.form.location,
         date: this.form.date,
         signed_users: JSON.stringify(users),
-        attended_users: JSON.stringify(users)
+        attended_users: JSON.stringify(users),
+        censor_perms: JSON.stringify({ id: ['0', '0', '0'] })              
       }
       this.$http.post(addEvent, postData).then(response => {
         if (response.data == 'success') {

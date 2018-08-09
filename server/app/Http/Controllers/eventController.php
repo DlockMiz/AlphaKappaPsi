@@ -9,6 +9,8 @@ use App\PastEvent;
 use App\SwitchRequest;
 use App\ActiveRequirement;
 use App\User;
+use App\ChapterComment;
+
 
 
 
@@ -102,6 +104,21 @@ class eventController extends Controller
         ->orderBy('date', 'desc')
         ->get();
 		return $data;
+    }
+
+    public function getChapterComments(Request $request) {
+        $data = ChapterComment::where('chapter_id','=',$request->chapter_id)
+        ->get();
+        return $data;
+    }
+
+    public function submitChapterComment(Request $request) {
+        $comment = new ChapterComment();
+        $comment->chapter_id = $request->chapter_id;
+        $comment->comment = $request->comment;
+        $comment->save();
+
+        return 'success';
     }
 
     public function getAllEvents(Request $request) {

@@ -69,7 +69,6 @@ export default {
         type: 'requirements'
       }
       this.$http.post(getUser, postData).then(response => {
-        console.log(response.data)
         this.user = response.data[0]
         this.requirements = response.data[1]
         switch (this.user.status) {
