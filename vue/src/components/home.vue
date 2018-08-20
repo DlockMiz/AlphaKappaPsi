@@ -2,7 +2,6 @@
   <div>
     <div style="width: 32%; float:left; border-left: solid green 3px;border-right: solid green 3px; height: 1000px; margin-left: 10px;">
       <center>TWITTER / INSTAGRAM FEED</center>
-      <button @click="googleSheets()">test</button>
     </div>
     <div style="width: 32%; float:left; border-left: solid blue 3px;border-right: solid blue 3px; height: 1000px; margin-left: 10px;">
       <!-- <div style="text-align:center; width: 40%; float:left; margin-left: 50px;">

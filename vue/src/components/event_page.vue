@@ -17,8 +17,8 @@ export default {
   methods: {
     checkUserLogin() {
       if (this.$store.state.user == null) {
-        alert('== Please login to view this page. ==')
         this.$router.push('/')
+        this.$swal('You must be logged in to see!', "", 'error')
       }
     },
   },

@@ -162,10 +162,10 @@ export default {
       this.$http.post(userSignedEvent, postData).then(response => {
         if (response.data == 'fail') {
           this.$swal('Error', 'This event is already filled!', 'error')
-          this.getBrotherEvents()
+          this.getProfDevEvents()
         }
         this.$swal('Success', 'You are now signed up for this event.', 'success').then((result) => {
-          $('#serviceSignUpButton' + this.events[index].id).hide()
+          $('#profDevSignUpButton' + this.events[index].id).hide()
         })
       })
     },
