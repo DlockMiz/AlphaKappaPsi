@@ -290,16 +290,8 @@ textarea {
 #addEventIcon {
   float: left;
   position: absolute;
-  margin-left: 40px;
   margin-top: 10px;
-}
-
-#addEventIcon:hover {
-  cursor: pointer;
-}
-
-.icon_hover:hover {
-  cursor: pointer;
+  margin-left: 40px;
 }
 
 .button {
