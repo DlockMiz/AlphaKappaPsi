@@ -96,11 +96,22 @@ export default {
         }
       }
       var postData = { id: checkedInputs }
-      if (confirm("Are you sure you want to do this, this action cannot be undone.")) {
-        this.$http.post(removeRequestedUsers, postData).then(response => {
-          location.reload();
-        })
-      }
+      this.$swal({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.$http.post(removeRequestedUsers, postData).then(response => {
+            this.users = []
+            this.loadUsers()
+          })
+        }
+      })
     }
   },
   mounted: function() {

@@ -50,7 +50,7 @@ export default {
   props: ['propsData'],
   methods: {
     addEvent() {
-      if (this.title == null || this.time == null || this.date == null || this.location == null || this.max == null || this.hours) {
+      if (this.title == null || this.time == null || this.date == null || this.location == null || this.max == null || this.hours == null) {
         this.$swal('Error', 'You must fill out every field!', 'error')
         return;
       }

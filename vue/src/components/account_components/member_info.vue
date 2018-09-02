@@ -96,9 +96,9 @@ export default {
     },
     editMember() {
       switch (this.user.status) {
-        case 'Executive':
-          this.user.status = '1'
-          break;
+        // case 'Executive':
+        //   this.user.status = '1'
+        //   break;
         case 'Active':
           this.user.status = '2'
           break;

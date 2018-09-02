@@ -91,7 +91,7 @@ export default {
     addExecAccount() {
       if (this.registerName == null || this.registerEmail == null) {
         this.$swal('Uh Oh', 'Please fill in the required fields (Email and Name)', 'error').then((result) => {
-          location.reload()
+          this.loadUsers()
           return
         })
       }

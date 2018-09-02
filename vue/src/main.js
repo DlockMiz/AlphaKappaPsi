@@ -39,7 +39,7 @@ xhttp.onreadystatechange = function() {
 if(window.location.hostname == 'localhost')
 	call = 'http://akp.test/api/getGoogleApiKey'
 else
-	call = 'http://server.akpmiztest.ml/api/getGoogleApiKey'
+	call = 'http://server.akpsimiz.com/api/getGoogleApiKey'
 
 xhttp.open("POST", call, true);
 xhttp.send();
