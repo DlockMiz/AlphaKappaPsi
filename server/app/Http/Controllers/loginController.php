@@ -13,7 +13,7 @@ class loginController extends Controller
 {
     public function findUser(Request $request) {
         if($request->type == 'admin'){
-            $data = User::where('email', $request->email)
+            $data = User::where('google_email', $request->email)
             ->get();
             return $data;
         } else {
