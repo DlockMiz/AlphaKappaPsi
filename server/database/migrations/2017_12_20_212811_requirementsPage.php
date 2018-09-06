@@ -19,7 +19,7 @@ class RequirementsPage extends Migration
             $table->string('unexcused')->nullable(;
             $table->integer('fundraising')->nullable(;
             $table->integer('service')->nullable(;
-            $table->integer('prof_dev')->nullable(;
+            $table->integer('prof_dev')->nullable();
             $table->timestamps();
         });
     }
