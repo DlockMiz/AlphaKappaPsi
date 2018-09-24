@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\ActiveRequirement;
 use App\RequirementParam;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SignedEventEmail;
 
 
 

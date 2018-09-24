@@ -69,6 +69,11 @@ Route::post('/getSignedUsers', 'memberListController@getSignedUsers');
 Route::post('/registerCurrentUserWithGoogle', 'accountSettingsController@registerCurrentUserWithGoogle');
 Route::post('/signInActiveWithGoogle', 'loginController@signInActiveWithGoogle');
 Route::post('/unlinkGoogleAccount', 'accountSettingsController@unlinkGoogleAccount');
+Route::post('/linkNotiEmail', 'accountSettingsController@linkNotiEmail');
+
+
+//email routres
+Route::post('/sendSignedUsersEmail', 'emailController@sendSignedUsersEmail');
 
 
 
@@ -81,6 +86,7 @@ Route::post('/changeReqParams', 'requirementsController@changeReqParams');
 
 //comments
 Route::post('/submitComments', 'requirementsController@submitComments');
+
 
 
 

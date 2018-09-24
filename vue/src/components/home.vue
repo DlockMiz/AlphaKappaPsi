@@ -44,7 +44,6 @@ export default {
       this.$http.get('https://sheets.googleapis.com/v4/spreadsheets/' + sheetId + '/values/Fundraising!A2:A10?key=' + apiKey).then(response => {
       })
     },
-
     submitComments() {
       var postData = {
         comments: this.comments,

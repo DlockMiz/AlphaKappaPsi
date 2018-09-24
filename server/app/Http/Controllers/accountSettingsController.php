@@ -41,4 +41,11 @@ class accountSettingsController extends Controller
     	$user->save();
     	return;
     }
+
+    public function linkNotiEmail(Request $request){
+        $user = User::find($request->user_id);
+        $user->noti_email = $request->noti_email;
+        $user->save();
+        return $user->noti_email;
+    }
 }

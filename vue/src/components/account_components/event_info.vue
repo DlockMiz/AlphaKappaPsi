@@ -3,8 +3,9 @@
     <div style="overflow: auto;">
       <a href="#/account_page/exec_event_viewer"><i class="fa fa-angle-left fa-1x" aria-hidden="true"> Back</i></a>
       <a class="button is-info" style="margin-left: 20px;" @click="completeEvent()">Complete Event</a>
-      <a class="button is-warning" style="margin-left: 20px;" @click="replaceMembers()">Replace Two Memebers</a>
-      <a class="button is-warning" style="margin-left: 20px;" @click="resetAttendedList()">Reset Attended List</a>
+      <a class="button is-info" style="margin-left: 20px;" @click="replaceMembers()">Replace Two Memebers</a>
+      <a class="button is-info" style="margin-left: 20px;" @click="resetAttendedList()">Reset Attended List</a>
+      <a class="button is-info" style="margin-left: 20px;" @click="sendEmails()">Send Emails</a>      
     </div>
     <div v-show="showReplaceMembersBox">
       <div class="listBox" @click="changeDisplayName()">
@@ -84,7 +85,7 @@ window.$ = window.jQuery = require('jquery');
 
 import replace_members_list_one from './replace_members_list_one'
 import replace_members_list_two from './replace_members_list_two'
-import { getSingleEvent, getSignedUsers, attendUser, switchAttendance, setPastEvent, fufillRequirement, clearAttendees, switchUsers } from '../../router/config.js'
+import { getSingleEvent, getSignedUsers, attendUser, switchAttendance, setPastEvent, fufillRequirement, clearAttendees, switchUsers, sendSignedUsersEmail } from '../../router/config.js'
 
 export default {
   data() {
@@ -102,6 +103,15 @@ export default {
     replace_members_list_two,
   },
   methods: {
+    sendEmails(){
+      var postData = {
+        users: this.users,
+        event: this.event
+      }
+      this.$http.post(sendSignedUsersEmail, postData).then(response=>{
+        console.log(response.data)
+      })
+    },
     getEvent() {
       $('#loading').show()
       this.$http.post(getSingleEvent, this.id).then(response => {

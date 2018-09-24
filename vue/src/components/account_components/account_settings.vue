@@ -7,15 +7,24 @@
       <div>
         <strong>Name:</strong> {{this.$store.state.user.name}}
       </div>
-      <div v-if="this.$store.state.user.status != 1">
-        <hr>
-        <strong>Mizzou Email:</strong> {{this.$store.state.user.email}}
-      </div>
       <hr>
       <div>
         <strong>Status:</strong> {{this.$store.state.user.status}}
       </div>
-      <hr v-if="this.$store.state.user.google_email == null && this.$store.state.user.status != 1">
+      <div v-if="this.$store.state.user.status != 1">
+        <hr>
+        <strong>Mizzou Email:</strong> {{this.$store.state.user.email}}
+      </div>
+      <div v-if="this.$store.state.user.status != 1 && this.$store.state.user.noti_email != null" style="line-height:36px;">
+        <hr>
+        <strong>Notifications Email: </strong>{{this.$store.state.user.noti_email}}
+      </div>
+      <div v-if="this.$store.state.user.status != 1 && this.$store.state.user.noti_email == null" style="line-height:36px;">
+        <hr>
+        <strong>Notifications Email:</strong>
+        <a class="button is-info" @click="linkNotiEmail()">Link Notification Email</a>
+      </div>
+      <hr>
       <div v-if="this.$store.state.user.google_email == null && this.$store.state.user.status != 1" style="width: 100%; height: 36px; line-height: 36px;">
         <strong>Google Account: </strong> No Current Email Linked
         <a @click="signInAdmin()" style="width: 5%;" class="button"><img src="../../assets/images/google_icon.png" style="height: 15px;"></a>
@@ -24,12 +33,12 @@
         <strong>Google Account:</strong> {{this.$store.state.user.google_email}}
         <a style="float:right;" @click="unlinkGoogleAccount" class="button is-info">Unlink</a>
       </div>
-      <hr>
+      <hr v-if="this.$store.state.user.status != 1">
     </div>
   </div>
 </template>
 <script>
-import { registerCurrentUserWithGoogle, addUser, unlinkGoogleAccount, getUser } from '../../router/config'
+import { registerCurrentUserWithGoogle, addUser, unlinkGoogleAccount, getUser, linkNotiEmail } from '../../router/config'
 var methods = {}
 
 methods.getUserInfo = function() {
@@ -53,6 +62,24 @@ methods.getUserInfo = function() {
         this.user.status = 'Pledge'
         break;
     }
+  })
+}
+
+methods.linkNotiEmail = function() {
+  var that = this
+  const { value: email } = this.$swal({
+    title: 'Input email address',
+    input: 'email',
+    inputPlaceholder: 'Enter your email address'
+  }).then(response => {
+    var postData = {
+      user_id: this.$store.state.user.id,
+      noti_email: response.value
+    }
+    this.$http.post(linkNotiEmail, postData).then(res => {
+      this.$swal('Success!', 'Your email has been registered', 'success')
+      that.$store.state.user.noti_email = res.data
+    })
   })
 }
 

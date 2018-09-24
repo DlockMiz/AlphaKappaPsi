@@ -20,7 +20,7 @@
           Required Events: {{fund_requirement}}
           <hr> {{fundraising}} - Completed Events
         </div>
-        <div v-if="$store.state.user.id != 1" style="margin-top: 30px;">
+        <div v-if="$store.state.user.id == 1" style="margin-top: 30px;">
           <a style="font-size: .7vw; width: 50%;" @click="changeReqParam('fundraising', fund_requirement)" class="button is-info is-small">Change Required Events</a>
         </div>
       </div>
@@ -30,17 +30,17 @@
           Required Hours: {{service_req}}
           <hr> {{service_hours}} - Completed Hours
         </div>
-        <div v-if="$store.state.user.id != 1" style="margin-top: 30px;">
+        <div v-if="$store.state.user.id == 1" style="margin-top: 30px;">
           <a style="font-size: .7vw; width: 50%;" @click="changeReqParam('service', service_req)" class="button is-info is-small">Change Required Service Hours</a>
         </div>
       </div>
       <div class="req_title" id="prof_dev_box">
         Professional Development
-        <div class="req_content">
+        <div class="req_content"> 
           Required Events: {{prof_dev_req}}
           <hr> {{prof_dev}} - Completed Events
         </div>
-        <div v-if="$store.state.user.id != 1" style="margin-top: 30px;">
+        <div v-if="$store.state.user.id == 1" style="margin-top: 30px;">
           <a style="font-size: .7vw; width: 50%;" @click="changeReqParam('prof_dev', prof_dev_req)" class="button is-info is-small">Change Prof Dev Requirements</a>
         </div>
       </div>

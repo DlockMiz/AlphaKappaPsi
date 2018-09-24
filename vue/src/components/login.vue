@@ -96,8 +96,9 @@ export default {
           this.userCreds.id = response.data[0].id
           this.userCreds.name = response.data[0].name
           this.userCreds.status = response.data[0].status
-          this.userCreds.google_email = response.data[0].google_email
-
+          this.userCreds.email = response.data[0].email
+          this.userCreds.google_email = response.data[0].google_email          
+          this.userCreds.noti_email = response.data[0].noti_email
           this.$store.dispatch('setUser', this.userCreds).then(response => {
             this.goHome()
           })
@@ -116,10 +117,11 @@ export default {
           if (response.data.length != 0) {
             that.showLoginFail = false
             that.userCreds.id = response.data[0].id
-            that.userCreds.name = response.data[0].name
-            that.userCreds.email = response.data[0].email            
+            that.userCreds.name = response.data[0].name        
             that.userCreds.status = response.data[0].status
+            that.userCreds.email = response.data[0].email   
             that.userCreds.google_email = response.data[0].google_email
+            that.userCreds.noti_email = response.data[0].noti_email            
             that.$store.dispatch('setUser', that.userCreds).then(response => {
               that.goHome()
             })

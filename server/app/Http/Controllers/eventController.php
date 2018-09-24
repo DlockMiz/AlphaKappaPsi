@@ -58,7 +58,7 @@ class eventController extends Controller
         $user  = new User();
         $req = new ActiveRequirement;
 
-        $user->email = $email;
+        $user->google_email = $email;
         $user->name = $name;
         $user->status = '1';
         $user->save();

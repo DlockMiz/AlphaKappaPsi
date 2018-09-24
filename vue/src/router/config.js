@@ -1,5 +1,5 @@
-// export const apiDomain = 'http://akp.test/'
-export const apiDomain = 'https://server.akpsimiz.com/'
+export const apiDomain = 'http://akp.test/'
+// export const apiDomain = 'https://server.akpsimiz.com/'
 
 
 //calendar routes
@@ -49,6 +49,12 @@ export const addExecAccount = apiDomain + 'api/addExecAccount'
 export const registerCurrentUserWithGoogle = apiDomain + 'api/registerCurrentUserWithGoogle'
 export const signInActiveWithGoogle = apiDomain + 'api/signInActiveWithGoogle'
 export const unlinkGoogleAccount = apiDomain + 'api/unlinkGoogleAccount'
+export const linkNotiEmail = apiDomain + 'api/linkNotiEmail'
+
+
+//email controller
+export const sendSignedUsersEmail = apiDomain + 'api/sendSignedUsersEmail'
+
 
 
 
@@ -61,6 +67,7 @@ export const changeReq = apiDomain + 'api/changeReqParams'
 
 //comments
 export const submitComments = apiDomain + 'api/submitComments'
+
 
 
 
