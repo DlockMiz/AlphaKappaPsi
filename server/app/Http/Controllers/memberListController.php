@@ -107,7 +107,7 @@ class memberListController extends Controller
 			$user->password = $data->password;
     		$user->email = $data->email;
     		$user->name = $data->name;
-    		$user->status = '3';
+    		$user->status = '2';
 
     		$data->delete();
     		$user->save();
