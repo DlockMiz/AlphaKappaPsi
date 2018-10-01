@@ -21,7 +21,7 @@
           <hr> {{fundraising}} - Completed Events
         </div>
         <div v-if="$store.state.user.status == 1" style="margin-top: 30px;">
-          <a style="font-size: .7vw; width: 50%;" @click="changeReqParam('fundraising', fund_requirement)" class="button is-info is-small">Change Required Events</a>
+          <a style="font-size: .7vw; width: 50%;" @click="changeReqParam('fund', fund_requirement)" class="button is-info is-small">Change Required Events</a>
         </div>
       </div>
       <div class="req_title" id="hours_box">
@@ -87,7 +87,7 @@ export default {
           if (response.data) {
             that.$swal('Success!', 'Parameter Succesfully Changed', 'success')
             switch (type) {
-              case 'fundraising':
+              case 'fund':
                 this.fund_requirement = response.data
                 break;
               case 'prof_dev':
