@@ -18,6 +18,7 @@
       <div v-if="this.$store.state.user.status != 1 && this.$store.state.user.noti_email != null" style="line-height:36px;">
         <hr>
         <strong>Notifications Email: </strong>{{this.$store.state.user.noti_email}}
+        <!-- <a style="float:right;" @click="unlinkNotiAccount" class="button is-info">Unlink</a>         -->
       </div>
       <div v-if="this.$store.state.user.status != 1 && this.$store.state.user.noti_email == null" style="line-height:36px;">
         <hr>
@@ -31,7 +32,7 @@
       </div>
       <div v-if="this.$store.state.user.google_email != null" style="width: 100%; height: 36px; line-height: 36px;">
         <strong>Google Account:</strong> {{this.$store.state.user.google_email}}
-        <a style="float:right;" @click="unlinkGoogleAccount" class="button is-info">Unlink</a>
+        <a style="float:right;" @click="unlinkGoogleAccount()" class="button is-info">Unlink</a>
       </div>
       <hr v-if="this.$store.state.user.status != 1">
     </div>
@@ -78,7 +79,7 @@ methods.linkNotiEmail = function() {
     }
     this.$http.post(linkNotiEmail, postData).then(res => {
       this.$swal('Success!', 'Your email has been registered', 'success')
-      that.$store.state.user.noti_email = res.data
+      that.resetUserCreds(res)
     })
   })
 }
@@ -103,9 +104,21 @@ methods.signInAdmin = function() {
     }
     that.$http.post(registerCurrentUserWithGoogle, postData).then(response => {
       that.$swal('Success!', 'This Google account is linked to your AlphaKappaPsi Account, you can now login with it!', 'success')
-      that.$store.state.user.google_email = response.data
+      that.resetUserCreds(response)
     })
   })
+}
+
+methods.resetUserCreds = function(response) {
+  var that = this
+  var userCreds = {}
+  userCreds.id = response.data.id
+  userCreds.name = response.data.name
+  userCreds.status = response.data.status
+  userCreds.email = response.data.email
+  userCreds.google_email = response.data.google_email
+  userCreds.noti_email = response.data.noti_email
+  this.$store.dispatch('setUser', userCreds)
 }
 
 
