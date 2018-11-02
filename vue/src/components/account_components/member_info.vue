@@ -1,14 +1,15 @@
 <template>
   <div>
     <a href="#/account_page/members_list"><i class="fa fa-angle-left fa-1x" aria-hidden="true"> Back</i></a>
-    <hr>
-    <i class="fa fa-pencil-square fa-2x" aria-hidden="true" @click="showEditMember()"></i>
+    <div style="margin-top: 10px; height: 15px;">
+      <i class="fa fa-pencil-square fa-2x" aria-hidden="true" @click="showEditMember()" style="float: left;"></i>
+    </div>
     <hr>
     <h1 v-show="showData">Name: {{user.name}}</h1>
     <input class="editUserInfo input is-info" v-model="user.name">
     <hr>
-    <h1 v-show="showData">Email: {{user.email}}</h1>
-    <input class="editUserInfo input is-info" v-model="user.email">
+    <h1 v-show="showData">Notifications Email: {{user.noti_email}}</h1>
+    <input class="editUserInfo input is-info" v-model="user.noti_email">
     <hr>
     <h1 v-show="showData">Status: {{user.status}}</h1>
     <div class="select is-info editUserInfo">
@@ -19,8 +20,8 @@
       </select>
     </div>
     <hr>
-    <h1 v-show="showData">ID: {{user.id}}</h1>
-    <hr v-show="showData">
+    <!-- <h1 v-show="showData">ID: {{user.id}}</h1> -->
+    <!-- <hr v-show="showData"> -->
     <div>
       <strong>Current Requirement Status:</strong>
       <div style="margin-top: 10px;">
@@ -37,15 +38,15 @@
           </div>
         </div>
         <div style="margin-top: 5px;">
-          <div v-show="showData">Proffessional Development: {{requirements.prof_dev}}</div>
-          <div class="editUserInfo">Proffessional Development
+          <div v-show="showData">Professional Development: {{requirements.prof_dev}}</div>
+          <div class="editUserInfo">Professional Development
             <input class="input is-info" type="number" name="prof_dev" v-model="requirements.prof_dev">
           </div>
         </div>
       </div>
-    </div>
+  </div>
     <hr>
-    <a class="button is-info" v-show="editButton" @click="editMember()">Edit Member</a>
+    <a class="button is-info" v-show="editButton" @click="editMember()">Save</a>
   </div>
 </template>
 <script>
@@ -96,9 +97,6 @@ export default {
     },
     editMember() {
       switch (this.user.status) {
-        // case 'Executive':
-        //   this.user.status = '1'
-        //   break;
         case 'Active':
           this.user.status = '2'
           break;
@@ -110,9 +108,11 @@ export default {
         user: this.user,
         requirements: this.requirements
       }
-
       this.$http.post(editUser, postData).then(response => {
-        this.$swal('Nice!', "This users profile has been changed!", 'success').then((result) => { location.reload() })
+        this.$swal('Nice!', "This users profile has been changed!", 'success').then((result) => { 
+          this.getUser() 
+          this.showEditMember() 
+        })
       })
     },
   },

@@ -31,7 +31,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(user, index) user in users" :id="'attended_user'+index">
+            <tr v-for="(user, index) user in users" :id="'attended_user'+index" @click="gotToProfile(user.id)">
               <td>{{users[index].name}}</td>
               <td>{{users[index].email}}</td>
               <td><a @click="attendedUser(index)" class="button is-primary">Y</a>
@@ -122,6 +122,9 @@ export default {
         this.loadAttended()
         this.loadUsers()
       })
+    },
+    gotToProfile(id){
+      this.$router.push('/account_page/members_list/member_info:'+id)
     },
     changeDisplayName() {
       setTimeout(function() {

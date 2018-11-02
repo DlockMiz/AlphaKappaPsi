@@ -21,6 +21,10 @@ class CreateUsers extends Migration
             $table->string('google_email')->nullable();
             $table->string('status');
             $table->timestamps();
+            // new columns
+            $table->string('phone_number')->nullable();
+            $table->string('grad_date')->nullable();
+            $table->json('major_minor')->nullable();
         });
     }
 

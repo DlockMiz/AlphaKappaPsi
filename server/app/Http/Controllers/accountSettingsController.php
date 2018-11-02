@@ -28,6 +28,16 @@ class accountSettingsController extends Controller
 		return $events;
     }
 
+    public function savePersonalInfo(Request $request){
+        $user = User::find($request->user['id']);
+        $data = $request->user;
+        $user->major_minor = json_encode($request->user['major_minor']);
+        $user->grad_date = $data['grad_date'];
+        $user->phone_number = $data['phone_number'];
+        $user->save();
+        return $user;
+    }
+
     public function registerCurrentUserWithGoogle(Request $request){
     	$user = User::find($request->user_id);
     	$user->google_email = $request->email;

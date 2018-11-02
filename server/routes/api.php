@@ -70,6 +70,8 @@ Route::post('/registerCurrentUserWithGoogle', 'accountSettingsController@registe
 Route::post('/signInActiveWithGoogle', 'loginController@signInActiveWithGoogle');
 Route::post('/unlinkGoogleAccount', 'accountSettingsController@unlinkGoogleAccount');
 Route::post('/linkNotiEmail', 'accountSettingsController@linkNotiEmail');
+Route::post('/savePersonalInfo', 'accountSettingsController@savePersonalInfo');
+
 
 
 //email routres

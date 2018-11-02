@@ -70,10 +70,10 @@ class memberListController extends Controller
         if(isset($request->type)){
             if($request->type == 'requirements'){
                 $requirements = ActiveRequirement::find($request->id);
+                $data->major_minor = json_decode($data->major_minor);
                 return[$data,$requirements];
             }
         }
-
 		return $data;
     }
 
@@ -87,7 +87,7 @@ class memberListController extends Controller
 
 
 		$data->name = $request->user['name'];
-		$data->email = $request->user['email'];
+		$data->noti_email = $request->user['noti_email'];
 		$data->status = $request->user['status'];
 		$data->save();
         $requirements->save();
@@ -104,10 +104,20 @@ class memberListController extends Controller
             $req = new ActiveRequirement;
 			$user = new User;
 
+            $major = array();
+            $minor = array();
+            $major_minor = (object)[
+                'major' => $major,
+                'minor' => $minor
+            ];
+
+            $user->major_minor = $major_minor;
 			$user->password = $data->password;
     		$user->email = $data->email;
     		$user->name = $data->name;
-    		$user->status = '2';
+            $user->status = '2';
+
+
 
     		$data->delete();
     		$user->save();
