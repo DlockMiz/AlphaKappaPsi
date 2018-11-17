@@ -2,6 +2,11 @@
   <div>
     <b v-show="this.$store.state.user != null" style="top: 0px; right: 5px; position:absolute;">Logged in as {{currentUser}}</b>
     <b v-show="this.$store.state.user == null" style="top: 0px; right: 5px; position:absolute;">Not Logged In</b>
+    <center v-if="this.$store.state.user != null">
+      <div style="width: 20%; color: red;" v-if="this.$store.state.user.personal_info == 'no'">
+        PLEASE FILL OUT PERSONAL INFO IN YOUR <a style="color:red;text-decoration: underline;" href="#/account_page/account_settings">ACCOUNT SETTINGS</a>
+      </div>
+    </center>
     <i class="fa fa-bars fa-2x" id="bars" aria-hidden="true"></i>
     <div id="settingsBox">
       <a v-show="loginButton" class="button is-info buttons" @click="goToLogin()">Login</a>
@@ -55,7 +60,8 @@ export default {
     },
     logoutUser() {
       sessionStorage.clear()
-      this.$swal('Logout Successfull', "", 'success').then((result) => { this.$router.push('/'); setTimeout(function(){location.reload()},1000) })      
+      this.$swal('Logout Successfull', "", 'success').then((result) => { this.$router.push('/');
+        setTimeout(function() { location.reload() }, 1000) })
     },
     checkUser() {
       if (this.$store.state.user != null) {

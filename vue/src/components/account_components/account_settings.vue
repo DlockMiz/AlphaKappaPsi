@@ -2,7 +2,7 @@
   <div>
     <center><img id="loading" style="margin-top: 100px;" src="../../assets/images/loading.gif" height="200" width="200"></center>
       <div id="accountSettingsWrapper">
-        <h1 class="title is-2">Account Info:</h1>
+        <h1 class="title is-2">Account Info</h1>
         <hr style="background-color: darkslateblue;height: 5px;">
         <div>
           <strong>Name:</strong> {{this.$store.state.user.name}}
@@ -30,29 +30,21 @@
           <strong>Google Account:</strong> {{this.$store.state.user.google_email}}
           <a style="float:right;" @click="unlinkGoogleAccount()" class="button is-info">Unlink</a>
         </div>
-        <hr v-if="this.$store.state.user.status != 1" style="background-color: darkslateblue; height: 5px;">
+        <hr>
         <div>
-          <h1 class="title is-2">Personal Info:</h1>
+          <h1 class="title is-2">Personal Info</h1>
+          <hr v-if="this.$store.state.user.status != 1" style="background-color: darkslateblue; height: 5px;">
           <div>
-            <strong>Major(s): <span v-if="this.major.length == 0">Add from the majors below.</span></strong>
-            <div v-if="this.major.length == 0">
-              <select class="select is-info" v-model="selected_major">
-                <option value="Accounting">Accounting</option>
-                <option value="Finance/Banking">Finance and Banking</option>
-                <option value="Economics">Economics</option>
-                <option value="International Business">Internaional Business</option>
-                <option value="Marketing">Marketing</option>
-                <option value="other">Other</option>
-              </select>
+            <strong>Major: <span v-if="!infoFilled">{{major}}</span></strong>
               <div style="margin-top: 10px; margin-bottom: 10px;">
-                <input class="input is-info" v-if="selected_major == 'other'" style="width: 25%;"></input>
+                <input v-model="major" class="input is-info" v-if="infoFilled" style="width: 25%;"></input>
               </div>
             </div>
-            <div v-if="this.major.lenth != 0">
-              <div v-for="major in major">
-                - {{major}}
+            <!-- <div v-if="!infoFilled">
+              <div v-for="majors in major">
+                - {{majors}}
               </div>
-            </div>
+            </div> -->
             <hr>
           </div>
           <div>
@@ -69,14 +61,15 @@
             </div>
             <hr>
           </div>
-          <div v-if="infoFilled">
+          <div>
             <strong>Phone Number: <span>{{phone_number}}</span></strong>
-            <div>
+            <div v-if="infoFilled">
               <input v-model="phone_number" style="width: 25%;" class="input is-info" type="text">
             </div>
             <hr>
           </div>
-          <a class="button is-info" @click="saveInfo()" style="margin-bottom: 20px;">Save Info</a>
+          <a v-if="infoFilled" class="button is-info" @click="saveInfo()" style="margin-bottom: 20px;">Save Info</a>
+          <a v-if="!infoFilled" class="button is-info" @click="infoFilled = !infoFilled" style="margin-bottom: 20px;">Edit Info</a>
         </div>
       </div>
   </div>
@@ -98,12 +91,12 @@ methods.getUserInfo = function() {
     this.user = response.data[0]
     this.requirements = response.data[1]
 
-    this.major = this.user.major_minor.major
+    this.major = this.user.major_minor.major[0]
     this.minor = this.user.major_minor.minor[0]
     this.grad_date = this.user.grad_date
     this.phone_number = this.user.phone_number
 
-    if(this.phone_number != null)
+    if (this.phone_number != null)
       this.infoFilled = false
 
     switch (this.user.status) {
@@ -149,21 +142,26 @@ methods.unlinkGoogleAccount = function() {
 }
 
 methods.saveInfo = function() {
-  this.major.push(this.selected_major)
-  this.user.major_minor.major = this.major
+  console.log(this.minor)
+  if (this.major == null || this.minor == null || this.grad_date == null || this.phone_number == null || this.major == '' || this.minor == '' || this.grad_date == null || this.phone_number == '') {
+    this.$swal('Nope', 'Please enter something in every field!', 'error')
+    return
+  }
+  this.user.major_minor.major[0] = this.major
   this.user.major_minor.minor[0] = this.minor
   this.user.grad_date = this.grad_date
   this.user.phone_number = this.phone_number
-  JSON.stringify(this.user.major_minor)
 
-  console.log(this.user)
+  JSON.stringify(this.user.major_minor)
 
   var postData = {
     user: this.user
   }
 
   this.$http.post(savePersonalInfo, postData).then(response => {
-    console.log(response.data)
+    this.getUserInfo()
+    this.$swal('Success', 'Info Successfully Changed', 'success')
+    this.$store.commit('CHANGE_INFO')
   })
 }
 
@@ -199,12 +197,11 @@ export default {
   data() {
     return {
       user: null,
-      major: [],
+      major: null,
       minor: null,
       grad_date: null,
       phone_number: null,
-      selected_major: null,
-      infoFilled: true
+      infoFilled: true,
     }
   },
   methods: methods,

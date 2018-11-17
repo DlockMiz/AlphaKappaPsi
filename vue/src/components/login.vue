@@ -24,7 +24,7 @@
   </div>
 </template>
 <script>
-window.$ = window.jQuery = require('jquery');  
+window.$ = window.jQuery = require('jquery');
 import { store } from '../store.js'
 import { findUser, addUser, signInActiveWithGoogle } from '../router/config'
 
@@ -83,7 +83,7 @@ export default {
 
 
     },
-    goHome(){
+    goHome() {
       this.$router.push('/')
     },
     confirmUser(user) {
@@ -97,8 +97,13 @@ export default {
           this.userCreds.name = response.data[0].name
           this.userCreds.status = response.data[0].status
           this.userCreds.email = response.data[0].email
-          this.userCreds.google_email = response.data[0].google_email          
+          this.userCreds.google_email = response.data[0].google_email
           this.userCreds.noti_email = response.data[0].noti_email
+          if (response.data[0].major == null)
+            this.userCreds.personal_info = 'no'
+          else
+            this.userCreds.personal_info = 'yes'
+
           this.$store.dispatch('setUser', this.userCreds).then(response => {
             this.goHome()
           })
@@ -117,15 +122,19 @@ export default {
           if (response.data.length != 0) {
             that.showLoginFail = false
             that.userCreds.id = response.data[0].id
-            that.userCreds.name = response.data[0].name        
+            that.userCreds.name = response.data[0].name
             that.userCreds.status = response.data[0].status
-            that.userCreds.email = response.data[0].email   
+            that.userCreds.email = response.data[0].email
             that.userCreds.google_email = response.data[0].google_email
-            that.userCreds.noti_email = response.data[0].noti_email            
+            that.userCreds.noti_email = response.data[0].noti_email
+            if (response.data[0].major == null)
+              that.userCreds.personal_info = 'no'
+            else
+              that.userCreds.personal_info = 'yes'
             that.$store.dispatch('setUser', that.userCreds).then(response => {
               that.goHome()
             })
-          } else{
+          } else {
             that.$swal('You need an Alpha Kappa Psi Account First', "Once you have a registered account by an executive, you can go into your settings and link a google account, allowing you access to login this way.", 'error')
           }
         })

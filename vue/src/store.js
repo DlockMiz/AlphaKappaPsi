@@ -14,6 +14,9 @@ export default new Vuex.Store({
   mutations: {
     SET_USER(state, obj) {
       state.user = obj
+    },
+    CHANGE_INFO(state){
+      state.user.personal_info = 'yes'
     }
   },
   actions: {
