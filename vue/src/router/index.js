@@ -108,6 +108,10 @@ export default new Router({
         path: '/event_page/chapter_comments',
         name: 'Chapter Comments',
         component: resolve => require(['../components/event_components/chapter_comments.vue'], resolve)
+      }, {
+        path: '/event_page/other',
+        name: 'Other Events',
+        component: resolve => require(['../components/event_components/any_event.vue'], resolve)
       }]
     }]
   }, {

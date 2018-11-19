@@ -54,6 +54,7 @@ Route::post('/clearAttendees', 'eventController@clearAttendees');
 Route::post('/switchUsers', 'eventController@switchUsers');
 Route::post('/getChapterComments', 'eventController@getChapterComments');
 Route::post('/submitChapterComment', 'eventController@submitChapterComment');
+Route::post('/fundraisingSwithcRequests', 'eventController@fundraisingSwithcRequests');
 
 
 

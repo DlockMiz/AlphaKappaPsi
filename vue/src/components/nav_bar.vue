@@ -5,7 +5,7 @@
         <a class="link is-info" href="/">Home</a>
       </p>
       <p class="level-item has-text-centered">
-        <a class="link is-info" href="#/event_page">Current Events</a>
+        <a @click="checkDues()" class="link is-info">Current Events</a>
       </p>
       <p class="level-item has-text-centered">
         <a href="/">
@@ -28,6 +28,16 @@ export default{
     return{
     }
   },
+  methods: {
+    checkDues(){
+      if(this.$store.state.user.dues == 'not payed'){
+        this.$swal('WOAH!','You should go pay your dues, contact the treasurer.','error')
+        return
+      }
+      else
+        this.$router.push('/event_page')
+    }
+  }
 }
 
 </script>

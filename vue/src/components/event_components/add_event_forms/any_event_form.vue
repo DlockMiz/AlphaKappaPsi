@@ -4,15 +4,6 @@
       <div style="margin-bottom: 20px;">
         <div>Only Selected Can View:</div>
         <label class="radio">
-          <input class="selectedType" type="radio" name="fund_type" value="6" checked> Football
-        </label>
-        <label class="radio">
-          <input style="margin-left: 20px;" class="selectedType" type="radio" name="fund_type" value="3"> Basketball
-        </label>
-      </div>
-      <div style="margin-bottom: 20px;">
-        <div>Only Selected Can View:</div>
-        <label class="radio">
           <input class="selectedView" type="checkbox" name="active" value="2" checked> Active
         </label>
         <label class="radio">
@@ -29,7 +20,7 @@
         <input v-model="max" class="inputs input is-info" type="number" placeholder="Max Users...">
         <textarea v-model="desc" class="inputs textarea is-info" type="text" placeholder="Description..." style="width: 50%;"></textarea>
         <center>
-          <a class="button is-info" @click="addBrotherEvent()" style="margin-top: 10px;">Add Event</a>
+          <a class="button is-info" @click="addAnyEvent()" style="margin-top: 10px;">Add Event</a>
         </center>
       </div>
     </center>
@@ -56,19 +47,12 @@ export default {
   },
   props: ['propsData'],
   methods: {
-    addBrotherEvent() {
+    addAnyEvent() {
 
       if (this.title == null || this.time == null || this.date == null || this.location == null || this.max == null) {
         this.$swal('Error', 'You must fill out every field!', 'error')
         return;
       }
-
-      var type = document.getElementsByClassName('selectedType')
-      var value;
-      if(type[0].checked)
-        value = type[0].value
-      else if(type[1].checked)
-        value = type[1].value
 
       var users = { "id": [] }
       var postData = {
@@ -77,11 +61,11 @@ export default {
         date: this.date,
         time: this.time,
         description: this.desc,
-        event_type: "fundraising",
+        event_type: "any",
         month: this.date.split("/")[1],
         signed_users: JSON.stringify(users),
         max_users: this.max,
-        hours: value,
+        hours: this.numberOfHours,
         attended_users: JSON.stringify(users),
         complete: 0,
         censor_perms: {}
@@ -95,7 +79,7 @@ export default {
       }
       postData.censor_perms = JSON.stringify(censor_perms)
       this.$http.post(addEvent, postData).then(response => {
-        this.$swal('Nice', 'A New Fundraising Event Has Been Created!', 'success').then((result) => {
+        this.$swal('Nice', 'A New Event Has Been Created!', 'success').then((result) => {
           this.propsData.showModal = false
         })
       })

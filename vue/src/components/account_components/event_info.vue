@@ -5,7 +5,7 @@
       <a class="button is-info" style="margin-left: 20px;" @click="completeEvent()">Complete Event</a>
       <a class="button is-info" style="margin-left: 20px;" @click="replaceMembers()">Replace Two Memebers</a>
       <a class="button is-info" style="margin-left: 20px;" @click="resetAttendedList()">Reset Attended List</a>
-      <a class="button is-info" style="margin-left: 20px;" @click="sendEmails()">Send Emails</a>      
+      <a class="button is-info" style="margin-left: 20px;" @click="sendEmails()">Send Emails</a>
     </div>
     <div v-show="showReplaceMembersBox">
       <div class="listBox" @click="changeDisplayName()">
@@ -20,64 +20,30 @@
       <a class="button is-info" @click="replaceSelectedMembers()">Replace Member</a>
     </div>
     <center><img id="loading" style="margin-top: 100px;" src="../../assets/images/loading.gif" height="200" width="200"></center>
-    <div id="tableWrapper" style="min-width: 1300px; float:left;">
-      <div style="float:left;">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Signed Users</th>
-              <th>Email</th>
-              <th>Attended</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(user, index) user in users" :id="'attended_user'+index" @click="gotToProfile(user.id)">
-              <td>{{users[index].name}}</td>
-              <td>{{users[index].email}}</td>
-              <td><a @click="attendedUser(index)" class="button is-primary">Y</a>
-                <a @click="noAttendance(index)" class="button is-danger">N</a></td>
-            </tr>
-          </tbody>
-        </table>
+      <div id="tableWrapper">
+        <div>
+          <table style="float:left;" class="table">
+            <thead>
+              <tr>
+                <th>Signed Users</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Attended</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(user, index) user in users" :id="'attended_user'+user.id">
+                <td @click="gotToProfile(user.id)">{{users[index].name}}</td>
+                <td @click="gotToProfile(user.id)">{{users[index].noti_email}}</td>
+                <td @click="gotToProfile(user.id)">{{users[index].phone_number}}</td>
+                <td><a @click="placeUser('attended',user.id)" class="button is-primary">Y</a>
+                  <a @click="placeUser('not_attended',user.id)" class="button is-danger">N</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <hr>
       </div>
-      <div style="float: left; margin-left: 50px;">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Attended Users</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(attend, index) attend in attends">
-              <td>{{attends[index].name}}</td>
-              <td>
-                <button @click="change('attend', index)">Switch</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div style="float: left; margin-left: 100px;">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Non Attended Users</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(non_attend, index) non_attend in non_attends">
-              <td>{{non_attends[index].name}}</td>
-              <td>
-                <button @click="change('non_attend', index)">Switch</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
   </div>
 </template>
 <script>
@@ -85,7 +51,7 @@ window.$ = window.jQuery = require('jquery');
 
 import replace_members_list_one from './replace_members_list_one'
 import replace_members_list_two from './replace_members_list_two'
-import { getSingleEvent, getSignedUsers, attendUser, switchAttendance, setPastEvent, fufillRequirement, clearAttendees, switchUsers, sendSignedUsersEmail } from '../../router/config.js'
+import { getSingleEvent, getSignedUsers, attendUser, switchAttendance, setPastEvent, fufillRequirement, switchUsers, sendSignedUsersEmail, fundraisingSwithcRequests } from '../../router/config.js'
 
 export default {
   data() {
@@ -103,12 +69,12 @@ export default {
     replace_members_list_two,
   },
   methods: {
-    sendEmails(){
+    sendEmails() {
       var postData = {
         users: this.users,
         event: this.event
       }
-      this.$http.post(sendSignedUsersEmail, postData).then(response=>{
+      this.$http.post(sendSignedUsersEmail, postData).then(response => {
         console.log(response.data)
       })
     },
@@ -119,18 +85,30 @@ export default {
         if (this.event.completed == 1) {
           this.showCompleteEvent = false
         }
-        this.loadAttended()
+        var that = this
+        setTimeout(function() {
+          that.loadAttended()
+        }, 2000)
         this.loadUsers()
       })
     },
-    gotToProfile(id){
-      this.$router.push('/account_page/members_list/member_info:'+id)
+    gotToProfile(id) {
+      this.$router.push('/account_page/members_list/member_info:' + id)
+      localStorage.setItem('from_event', id)
     },
     changeDisplayName() {
       setTimeout(function() {
         document.getElementById("mem1").innerHTML = localStorage.getItem("replace_member_one")
         document.getElementById("mem2").innerHTML = localStorage.getItem("replace_member_two")
       }, 200)
+    },
+    loadSwitchRequests() {
+      var postData = {
+        event_id: localStorage.getItem("event")
+      }
+      this.$http.post(fundraisingSwithcRequests, postData).then(response => {
+        // console.log(response.data)
+      })
     },
     loadUsers() {
       var users = JSON.parse(this.event.signed_users)
@@ -142,14 +120,14 @@ export default {
       }
 
       this.$http.post(getSignedUsers, postData).then(response => {
-        $('#loading').hide()
-        $('#tableWrapper').show()
         var that = this
         response.data.forEach(function(user) {
           var obj = {
             id: user.id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            noti_email: user.noti_email,
+            phone_number: user.phone_number
           }
           that.users.push(obj)
         })
@@ -168,7 +146,6 @@ export default {
       this.$http.post(getSignedUsers, postData).then(response => {
         var that = this
         response.data.forEach(function(user) {
-
           var obj = {
             id: user.id,
             name: user.name,
@@ -178,6 +155,8 @@ export default {
         })
       })
       this.$http.post(getSignedUsers, postData2).then(response => {
+        $('#loading').hide()
+        $('#tableWrapper').show()
         var that = this
         response.data.forEach(function(user) {
           var obj = {
@@ -188,81 +167,62 @@ export default {
           that.non_attends.push(obj)
         })
       })
-    },
-    noAttendance(index) {
-      var users = { "id": [] }
 
-      this.non_attends.push(this.users[index])
-      this.non_attends.forEach(function(user) {
-        users.id.push(user.id)
+      var that = this
+      this.users.forEach(function(user) {
+        attended_users.id.forEach(function(id) {
+          if (user.id == id)
+            document.getElementById('attended_user' + user.id).style.backgroundColor = '#96f0e0'
+        })
+        non_attended_users.id.forEach(function(id) {
+          if (user.id = id)
+            document.getElementById('attended_user' + user.id).style.backgroundColor = '#ffb4c3'
+        })
+      })
+    },
+    placeUser(type, id) {
+      var allUserIds = []
+      this.users.forEach(function(user) {
+        allUserIds.push(user.id)
       })
 
-      var postData = {
-        users: JSON.stringify(users),
-        event_id: localStorage.getItem("event"),
-        type: 'non_attend'
-      }
-      this.$http.post(attendUser, postData).then(response => {})
-      this.clearUser(index)
-    },
-    attendedUser(index) {
-      var users = { "id": [] }
-
-      this.attends.push(this.users[index])
-      this.attends.forEach(function(user) {
-        users.id.push(user.id)
-      })
-
-      var postData = {
-        users: JSON.stringify(users),
-        event_id: localStorage.getItem("event"),
-        type: 'attend'
-      }
-      this.$http.post(attendUser, postData).then(response => {})
-      this.clearUser(index)
-    },
-    change(type, index) {
-      var att_users = { "id": [] }
-      var non_att_users = { "id": [] }
-
-      if (type == 'attend') {
-        this.non_attends.push(this.attends[index])
-        this.attends.splice(index, 1)
-        this.non_attends.forEach(function(user) {
-          non_att_users.id.push(user.id)
-        })
-        this.attends.forEach(function(user) {
-          att_users.id.push(user.id)
-        })
-
-        var postData = {
-          non_att_users: JSON.stringify(non_att_users),
-          att_users: JSON.stringify(att_users),
-          event_id: localStorage.getItem("event"),
+      if (type == 'attended') {
+        document.getElementById('attended_user' + id).style.backgroundColor = '#96f0e0'
+        if (!this.attends.includes(id)) {
+          this.attends.push(id)
+          if (this.non_attends.includes(id)) {
+            var index = this.non_attends.indexOf(id)
+            this.non_attends.splice(index, id)
+          }
+          var postData = {
+            event_id: localStorage.getItem('event'),
+            att_users: JSON.stringify({ id: this.attends }),
+            non_att_users: JSON.stringify({ id: this.non_attends })
+          }
+          this.$http.post(switchAttendance, postData).then(response => {
+            // console.log(response.data)
+          })
         }
-        this.$http.post(switchAttendance, postData).then(response => {})
-
-      } else if (type == 'non_attend') {
-        this.attends.push(this.non_attends[index])
-        this.non_attends.splice(index, 1)
-        this.non_attends.forEach(function(user) {
-          non_att_users.id.push(user.id)
-        })
-        this.attends.forEach(function(user) {
-          att_users.id.push(user.id)
-        })
-        var postData = {
-          non_att_users: JSON.stringify(non_att_users),
-          att_users: JSON.stringify(att_users),
-          event_id: localStorage.getItem("event"),
+      } else if (type == 'not_attended') {
+        document.getElementById('attended_user' + id).style.backgroundColor = '#ffb4c3'
+        if (!this.non_attends.includes(id)) {
+          this.non_attends.push(id)
+          if (this.attends.includes(id)) {
+            var index = this.attends.indexOf(id)
+            this.attends.splice(index, id)
+          }
+          var postData = {
+            event_id: localStorage.getItem('event'),
+            att_users: JSON.stringify({ id: this.attends }),
+            non_att_users: JSON.stringify({ id: this.non_attends })
+          }
+          this.$http.post(switchAttendance, postData).then(response => {
+            // console.log(response.data)
+          })
         }
-        this.$http.post(switchAttendance, postData).then(response => {})
       }
-    },
-    clearUser(index) {
-      this.users.splice(index, 1)
-    },
 
+    },
     completeEvent() {
       var postData = {
         event_id: localStorage.getItem("event"),
@@ -328,20 +288,12 @@ export default {
     $('#tableWrapper').hide()
     this.id = localStorage.getItem("event")
     this.getEvent()
+    this.loadSwitchRequests()
   },
 }
 
 </script>
 <style>
-.editUserInfo {
-  display: none;
-  width: 20%;
-}
-
-.editUserInfo select {
-  width: 100%;
-}
-
 .listBox {
   float: left;
   margin: 10px;

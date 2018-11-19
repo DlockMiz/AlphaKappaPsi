@@ -33,6 +33,8 @@ export const clearAttendees = apiDomain + 'api/clearAttendees'
 export const switchUsers = apiDomain + 'api/switchUsers'
 export const getChapterComments = apiDomain + 'api/getChapterComments'
 export const submitChapterComment = apiDomain + 'api/submitChapterComment'
+export const fundraisingSwithcRequests = apiDomain + 'api/fundraisingSwithcRequests'
+
 
 
 

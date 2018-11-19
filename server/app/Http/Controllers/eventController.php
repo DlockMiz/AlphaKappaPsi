@@ -42,6 +42,7 @@ class eventController extends Controller
         $data = DB::table('switch_requests')
         ->join('events', 'events.id', '=', 'switch_requests.event_id')
         ->select('switch_requests.id', 'switch_requests.event_id','events.title','switch_requests.poster_id')
+        ->where('switch_requests.fundraising','!=','not allowed')
         ->get();
 
         $user = DB::table('switch_requests')
@@ -92,6 +93,8 @@ class eventController extends Controller
         }
 
         $req = new SwitchRequest;
+        if($post_event->event_type == 'fundraising')
+            $req->fundraising = 'not allowed';
         $req->poster_id = $request->id;
         $req->event_id = $event["id"];
         $req->save();
@@ -111,6 +114,19 @@ class eventController extends Controller
         ->get();
         return $data;
     }
+
+    public function fundraisingSwithcRequests(Request $request){
+        $data = SwitchRequest::where('event_id',$request->event_id)
+        ->where('fundraising','not allowed')
+        ->get();
+        $users = array();
+
+        foreach ($data as $req) {
+            $user = User::where('id',$req->poster_id)->get();
+            array_push($users, $user);
+        }
+        return $users[0];
+    } 
 
     public function submitChapterComment(Request $request) {
         $comment = new ChapterComment();

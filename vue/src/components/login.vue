@@ -99,6 +99,8 @@ export default {
           this.userCreds.email = response.data[0].email
           this.userCreds.google_email = response.data[0].google_email
           this.userCreds.noti_email = response.data[0].noti_email
+          this.userCreds.dues = response.data[0].dues
+
           if (response.data[0].major == null)
             this.userCreds.personal_info = 'no'
           else
@@ -127,7 +129,8 @@ export default {
             that.userCreds.email = response.data[0].email
             that.userCreds.google_email = response.data[0].google_email
             that.userCreds.noti_email = response.data[0].noti_email
-            if (response.data[0].major == null)
+            that.userCreds.dues = response.data[0].dues
+            if (response.data[0].grad_date == null)
               that.userCreds.personal_info = 'no'
             else
               that.userCreds.personal_info = 'yes'

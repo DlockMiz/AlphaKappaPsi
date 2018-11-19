@@ -20,6 +20,10 @@ export default {
         this.$router.push('/')
         this.$swal('You must be logged in to see!', "", 'error')
       }
+      if(this.$store.state.user.dues == 'not payed'){
+        this.$router.push('/')
+        this.$swal('LMAO nice try','Go pay your dues', 'error')
+      }
     },
   },
   mounted: function() {

@@ -1,8 +1,9 @@
 <template>
   <div>
-    <a href="#/account_page/members_list"><i class="fa fa-angle-left fa-1x" aria-hidden="true"> Back</i></a>
+    <a @click="goBack()"><i class="fa fa-angle-left fa-1x" aria-hidden="true"> Back</i></a>
     <div style="margin-top: 10px; height: 15px;">
       <i class="fa fa-pencil-square fa-2x" aria-hidden="true" @click="showEditMember()" style="float: left;"></i>
+      <a style="margin-left: 20px;" class="button is-info" v-show="editButton" @click="editMember()">Save</a>
     </div>
     <hr>
     <h1 v-show="showData">Name: {{user.name}}</h1>
@@ -20,8 +21,10 @@
       </select>
     </div>
     <hr>
-    <!-- <h1 v-show="showData">ID: {{user.id}}</h1> -->
-    <!-- <hr v-show="showData"> -->
+    <h1 style="line-height: 35px;">Current Dues: {{user.dues || 'Not Suspended'}} 
+      <a style="margin-left:10px;" class="button is-info" v-show="editButton" @click="flipStatus()">Flip Status</a>
+    </h1>
+    <hr>
     <div>
       <strong>Current Requirement Status:</strong>
       <div style="margin-top: 10px;">
@@ -44,9 +47,8 @@
           </div>
         </div>
       </div>
-  </div>
+    </div>
     <hr>
-    <a class="button is-info" v-show="editButton" @click="editMember()">Save</a>
   </div>
 </template>
 <script>
@@ -73,9 +75,6 @@ export default {
         this.user = response.data[0]
         this.requirements = response.data[1]
         switch (this.user.status) {
-          case '1':
-            this.user.status = 'Executive'
-            break;
           case '2':
             this.user.status = 'Active'
             break;
@@ -84,6 +83,12 @@ export default {
             break;
         }
       })
+    },
+    flipStatus(){
+      if(this.user.dues == 'not payed')
+        this.user.dues = null
+      else
+        this.user.dues = 'not payed'
     },
     showEditMember() {
       this.showData = !this.showData
@@ -95,6 +100,12 @@ export default {
         $('.editUserInfo').show()
       }
     },
+    goBack(){
+      if(localStorage.getItem('from_event')!= 'no')
+        this.$router.push('/account_page/exec_event_viewer/event_info:'+localStorage.getItem('from_event'))
+      else
+        this.$router.push('/account_page/members_list')
+    },
     editMember() {
       switch (this.user.status) {
         case 'Active':
@@ -104,14 +115,15 @@ export default {
           this.user.status = '3'
           break;
       }
+
       var postData = {
         user: this.user,
         requirements: this.requirements
       }
       this.$http.post(editUser, postData).then(response => {
-        this.$swal('Nice!', "This users profile has been changed!", 'success').then((result) => { 
-          this.getUser() 
-          this.showEditMember() 
+        this.$swal('Nice!', "This users profile has been changed!", 'success').then((result) => {
+          this.getUser()
+          this.showEditMember()
         })
       })
     },

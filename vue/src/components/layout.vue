@@ -7,6 +7,11 @@
         PLEASE FILL OUT PERSONAL INFO IN YOUR <a style="color:red;text-decoration: underline;" href="#/account_page/account_settings">ACCOUNT SETTINGS</a>
       </div>
     </center>
+    <center v-if="this.$store.state.user != null">
+      <div style="width: 20%; color: darkred;" v-if="this.$store.state.user.dues == 'not payed'">
+        YOU HAVE NOT PAYED YOUR DUES, PLEASE DO SO AS SOON AS POSSIBLE <div>(If recently paid, logout and log back in)</div>
+      </div>
+    </center>
     <i class="fa fa-bars fa-2x" id="bars" aria-hidden="true"></i>
     <div id="settingsBox">
       <a v-show="loginButton" class="button is-info buttons" @click="goToLogin()">Login</a>

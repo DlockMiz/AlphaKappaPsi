@@ -37,17 +37,17 @@ class memberListController extends Controller
                 $att_users = json_decode($event->attended_users,true);
                 foreach($att_users as $person => $id){
                     foreach ($id as $array){ 
-                        if($array == $data->id){
-                            $signed = true;
-                        }
+                        // if($array == $data->id){
+                        //     $signed = true;
+                        // }
                     }
                 }
                 $non_att_users = json_decode($event->non_attended_users,true);
                 foreach($non_att_users as $person => $id){
                     foreach ($id as $array){ 
-                        if($array == $data->id){
-                            $signed = true;
-                        }
+                        // if($array == $data->id){
+                        //     $signed = true;
+                        // }
                     }
                 }
                 if($signed == false){
@@ -85,7 +85,7 @@ class memberListController extends Controller
         $requirements->prof_dev = $request->requirements['prof_dev'];
         $requirements->fundraising = $request->requirements['fundraising'];
 
-
+        $data->dues = $request->user['dues'];
 		$data->name = $request->user['name'];
 		$data->noti_email = $request->user['noti_email'];
 		$data->status = $request->user['status'];

@@ -30,12 +30,13 @@
           <strong>Google Account:</strong> {{this.$store.state.user.google_email}}
           <a style="float:right;" @click="unlinkGoogleAccount()" class="button is-info">Unlink</a>
         </div>
-        <hr>
-        <div>
-          <h1 class="title is-2">Personal Info</h1>
-          <hr v-if="this.$store.state.user.status != 1" style="background-color: darkslateblue; height: 5px;">
+        <div v-if="this.$store.state.user.status != 1">
           <div>
-            <strong>Major: <span v-if="!infoFilled">{{major}}</span></strong>
+            <hr>
+            <h1 class="title is-2">Personal Info</h1>
+            <hr v-if="this.$store.state.user.status != 1" style="background-color: darkslateblue; height: 5px;">
+            <div>
+              <strong>Major: <span>{{major}}</span></strong>
               <div style="margin-top: 10px; margin-bottom: 10px;">
                 <input v-model="major" class="input is-info" v-if="infoFilled" style="width: 25%;"></input>
               </div>
@@ -72,6 +73,7 @@
           <a v-if="!infoFilled" class="button is-info" @click="infoFilled = !infoFilled" style="margin-bottom: 20px;">Edit Info</a>
         </div>
       </div>
+  </div>
   </div>
 </template>
 <script>

@@ -13,7 +13,7 @@
           </div>
         </center>
       </div>
-      <div v-if="$store.state.user.status == '1'">
+      <div>
         <h1 class="title is-4">Comments from {{clicked_event.title}} on {{clicked_event.date}}</h1>
         <div id="commentsBox" v-for="comments in loadedComments">
           {{comments.comment}}

@@ -1,23 +1,43 @@
 <template>
   <div>
-    <center><img id="loading" style="margin-top: 100px;" src="../../assets/images/loading.gif" height="200" width="200"></center>    
-    <div id="memListWrapper">
-      <a style="margin-bottom: 10px;" @click="showExecAddInputs = !showExecAddInputs" class="button is-info">Add Exec Account</a>
-      <div style="margin-bottom: 10px;" v-show="showExecAddInputs" class="addExecBox">
-        <center>
-          <div style="line-height: 55px;">
-            <input style="margin-bottom: 10px; margin-top: 10px; width: 63%;" class="input is-info" type="text" name="email" v-model="registerEmail" placeholder="Email..."> <b style="font-size:1vw">@gmail.com</b>
-          </div>
-        </center>
-        <center>
-          <input style="margin-bottom: 10px; margin-top: 10px; width: 93%;" class="input is-info" type="text" name="username" v-model="registerName" placeholder="Position Name...">
-          <a style="margin-bottom: 10px;" @click="addExecAccount()" class="button is-info">Submit</a>
-        </center>
+    <center><img id="loading" style="margin-top: 100px;" src="../../assets/images/loading.gif" height="200" width="200"></center>
+      <div id="memListWrapper">
+        <a style="margin-bottom: 10px;" @click="showExecAddInputs = !showExecAddInputs" class="button is-info">Add Exec Account</a>
+        <div style="margin-bottom: 10px;" v-show="showExecAddInputs" class="addExecBox">
+          <center>
+            <div style="line-height: 55px;">
+              <input style="margin-bottom: 10px; margin-top: 10px; width: 63%;" class="input is-info" type="text" name="email" v-model="registerEmail" placeholder="Email..."> <b style="font-size:1vw">@gmail.com</b>
+            </div>
+          </center>
+          <center>
+            <input style="margin-bottom: 10px; margin-top: 10px; width: 93%;" class="input is-info" type="text" name="username" v-model="registerName" placeholder="Position Name...">
+            <a style="margin-bottom: 10px;" @click="addExecAccount()" class="button is-info">Submit</a>
+          </center>
+        </div>
+        <div>
+          <hr>
+          <input v-model="search_name" class="input is-info" placeholder="Search Individual" style="width: 20%;">
+          <hr>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Graduation Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="user in users" @click="goToMember(user)" :class="[user.dues === 'not payed' ? 'unpaid':'']">
+                <td>{{user.name}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.phone_number}}</td>
+                <td>{{user.grad_date}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div>
-        <vue-good-table :columns="columns" :rows="users" :paginate="true" :lineNumbers="true" :onClick="viewUser" />
-      </div>
-    </div>
   </div>
 </template>
 <script>
@@ -30,30 +50,10 @@ export default {
       showExecAddInputs: false,
       registerName: null,
       registerEmail: null,
-      viewUser: function(row, index) {
-        this.$router.push('/account_page/members_list/member_info:' + row.id)
-        localStorage.setItem("member", row.id)
-      },
       id: 0,
+      all_users: [],
       users: [],
-      columns: [{
-          label: 'Name',
-          field: 'name',
-          filterable: true,
-        },
-        {
-          label: 'Email',
-          field: 'email',
-          type: 'email',
-          filterable: true,
-        },
-        {
-          label: 'Status',
-          field: 'status',
-          type: 'name',
-          filterable: true,
-        },
-      ],
+      search_name: null
     }
   },
   methods: {
@@ -65,28 +65,22 @@ export default {
         $('#memListWrapper').show()
         var that = this
         response.data.forEach(function(user) {
-          var status
-          switch (user.status) {
-            case '1':
-              status = 'Executive'
-              break;
-            case '2':
-              status = 'Active'
-              break;
-            case '3':
-              status = 'Pledge'
-              break;
-          }
           var obj = {
             id: user.id,
             name: user.name,
             email: user.email,
-            status: status,
-            joined: user.created_at
+            grad_date: user.grad_date,
+            phone_number: user.phone_number,
+            dues: user.dues
           }
-          that.users.push(obj)
+          that.all_users.push(obj)
         })
+        this.users = this.all_users
       })
+    },
+    goToMember(user) {
+      this.$router.push('/account_page/members_list/member_info:' + user.id)
+      localStorage.setItem('from_event', 'no')
     },
     addExecAccount() {
       if (this.registerName == null || this.registerEmail == null) {
@@ -113,6 +107,18 @@ export default {
       alert('Executive Only Page')
       this.$router.push('/account_page')
     }
+  },
+  watch: {
+    search_name: function(name) {
+      var that = this
+      this.all_users.forEach(function(user) {
+        if (user.name == name) {
+          that.users = []
+          that.users.push(user)
+        } else if (name == '')
+          that.users = that.all_users
+      })
+    }
   }
 }
 
@@ -121,6 +127,10 @@ export default {
 .addExecBox {
   background-color: lightgrey;
   width: 30%;
+}
+
+.unpaid {
+  background-color: #ffaaaa;
 }
 
 </style>
