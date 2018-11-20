@@ -109,6 +109,15 @@ class eventController extends Controller
 		return $data;
     }
 
+    public function changeRequest(Request $request){
+        $req = SwitchRequest::find($request->id);
+        if($request->type == 'approve')
+            $req->fundraising = 'allowed';
+        else if($reqest->type == 'deny')
+            $req->delete();
+        return 200;
+    }
+
     public function getChapterComments(Request $request) {
         $data = ChapterComment::where('chapter_id','=',$request->chapter_id)
         ->get();

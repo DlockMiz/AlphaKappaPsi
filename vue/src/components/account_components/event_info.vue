@@ -24,7 +24,7 @@
       <center>
         <div id="tableWrapper">
           <div>
-            <table class="table">
+            <table class="table" style="border: black solid 5px;">
               <thead>
                 <tr>
                   <th>Signed Users</th>
@@ -49,8 +49,8 @@
             <div v-for="req in switches" class="switchRequest">
               {{req.name}} is requesting to switch out!
               <div>
-                <a class="button is-primary"  @click="">Approve</a>
-                <a class="button is-danger" @click="">Deny</a>                
+                <a class="button is-primary" @click="requestChange('approve')">Approve</a>
+                <a class="button is-danger" @click="requestChange('deny')">Deny</a>
               </div>
             </div>
           </center>
@@ -63,7 +63,7 @@ window.$ = window.jQuery = require('jquery');
 
 import replace_members_list_one from './replace_members_list_one'
 import replace_members_list_two from './replace_members_list_two'
-import { getSingleEvent, getSignedUsers, attendUser, switchAttendance, setPastEvent, fufillRequirement, switchUsers, sendSignedUsersEmail, fundraisingSwithcRequests } from '../../router/config.js'
+import { getSingleEvent, getSignedUsers, attendUser, switchAttendance, setPastEvent, fufillRequirement, switchUsers, sendSignedUsersEmail, fundraisingSwithcRequests, changeRequest } from '../../router/config.js'
 
 export default {
   data() {
@@ -82,6 +82,21 @@ export default {
     replace_members_list_two,
   },
   methods: {
+    requestChange(type) {
+      if (type == 'approve') {
+        var postData = {
+          id: localStorage.getItem("event"),
+          type: 'approve'
+        }
+        this.$http.post(changeRequest, postData).then(response => {})
+      } else if (type == 'deny') {
+        var postData = {
+          id: localStorage.getItem("event"),
+          type: 'deny'
+        }
+        this.$http.post(changeRequest, postData).then(response => {})
+      }
+    },
     sendEmails() {
       var postData = {
         users: this.users,
@@ -309,9 +324,6 @@ export default {
   margin-top: 30px;
 }
 
-.table {
-  border: black solid 5px;
-}
 
 .switchRequest {
   border: solid black 5px;

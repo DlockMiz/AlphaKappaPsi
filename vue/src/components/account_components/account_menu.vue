@@ -6,11 +6,13 @@
       </p>
       <hr>
       <ul class="menu-list">
-        <li><a @click="loadPage('requirements_page')" id="requirements_page">Requirement Progress</a></li>
-        <hr>
+        <li v-if="this.$store.state.user.status != 1"><a @click="loadPage('requirements_page')" id="requirements_page">Requirement Progress</a></li>
+        <hr v-if="this.$store.state.user.status != 1">
         <li><a @click="loadPage('switch_requests')" id="switch_requests">Switch Requests</a>
           <hr>
-        <li><a @click="loadPage('signed_events')" id="signed_events">My Signed Up Events</a>
+        <li v-if="this.$store.state.user.status != 1"><a @click="loadPage('signed_events')" id="signed_events">My Signed Up Events</a>
+        </li>
+        <li>
           <ul>
             <li><a @click="loadPage('exec_event_viewer')" id="exec_event_viewer" v-show="$store.state.user.status == 1">Current Events</a></li>
           </ul>

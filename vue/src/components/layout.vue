@@ -3,7 +3,7 @@
     <b v-show="this.$store.state.user != null" style="top: 0px; right: 5px; position:absolute;">Logged in as {{currentUser}}</b>
     <b v-show="this.$store.state.user == null" style="top: 0px; right: 5px; position:absolute;">Not Logged In</b>
     <center v-if="this.$store.state.user != null">
-      <div style="width: 20%; color: red;" v-if="this.$store.state.user.personal_info == 'no'">
+      <div style="width: 20%; color: red;" v-if="this.$store.state.user.personal_info == 'no' && this.$store.state.user.state == '1'">
         PLEASE FILL OUT PERSONAL INFO IN YOUR <a style="color:red;text-decoration: underline;" href="#/account_page/account_settings">ACCOUNT SETTINGS</a>
       </div>
     </center>
