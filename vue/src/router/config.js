@@ -35,6 +35,8 @@ export const getChapterComments = apiDomain + 'api/getChapterComments'
 export const submitChapterComment = apiDomain + 'api/submitChapterComment'
 export const fundraisingSwithcRequests = apiDomain + 'api/fundraisingSwithcRequests'
 export const changeRequest = apiDomain + 'api/changeRequest'
+export const markPriority = apiDomain + 'api/markPriority'
+
 
 
 
@@ -70,6 +72,10 @@ export const changeReq = apiDomain + 'api/changeReqParams'
 
 //comments
 export const submitComments = apiDomain + 'api/submitComments'
+
+//exec board controller
+export const getExecBoard = apiDomain + 'api/getExecBoard'
+
 
 
 

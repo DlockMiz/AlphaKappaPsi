@@ -14,6 +14,10 @@ export default new Router({
       name: 'Home',
       component: resolve => require(['../components/home.vue'], resolve)
     }, {
+      path: '/executive_board',
+      name: 'Executive Board',
+      component: resolve => require(['../components/executive_board.vue'], resolve)
+    }, {
       //
       //All of these routes are for accounts settings
       //

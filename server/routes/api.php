@@ -56,6 +56,8 @@ Route::post('/getChapterComments', 'eventController@getChapterComments');
 Route::post('/submitChapterComment', 'eventController@submitChapterComment');
 Route::post('/fundraisingSwithcRequests', 'eventController@fundraisingSwithcRequests');
 Route::post('/changeRequest', 'eventController@changeRequest');
+Route::post('/markPriority', 'eventController@markPriority');
+
 
 
 
@@ -91,6 +93,9 @@ Route::post('/changeReqParams', 'requirementsController@changeReqParams');
 
 //comments
 Route::post('/submitComments', 'requirementsController@submitComments');
+
+//exec board
+Route::post('/getExecBoard', 'ExecBoardController@getExecBoard');
 
 
 

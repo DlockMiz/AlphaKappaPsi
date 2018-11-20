@@ -48,6 +48,7 @@
           </div>
           <div :id="'fundEventBox'+index">
             <h1 style="text-align: center; font-size: 16pt;">{{event.title}}</h1>
+            <h1 v-if="event.priority == 'high'" style="text-align: center; font-size: 12pt; color:red;">High Priority</h1>
             <div>
               <hr>
               <h2><b>Time:</b> {{event.time}}</h2>
@@ -152,7 +153,8 @@ export default {
             is_max_users: maxUsers,
             max_users: event.max_users,
             hours: event.hours,
-            current_perms: parse_perms
+            current_perms: parse_perms,
+            priority: event.priority
           }
           that.events.push(obj)
         })

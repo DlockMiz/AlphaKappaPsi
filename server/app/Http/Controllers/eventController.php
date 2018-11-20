@@ -19,6 +19,13 @@ use App\Mail\FundSwitchRequest;
 
 class eventController extends Controller
 {
+    public function markPriority(Request $request){
+        $event = Event::find($request->id);
+        $event->priority = 'high';
+        $event->save();
+        return;
+    }
+
     public function switchRequestedUser(Request $request){
         $user = User::find($request->user_id);
         $userid = $user->id;

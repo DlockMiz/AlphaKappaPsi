@@ -10,6 +10,7 @@ import store from './store.js';
 import VueGoodTable from 'vue-good-table';
 import VueSweetalert2 from 'vue-sweetalert2';
 import GoogleAuth from 'vue-google-auth'
+import { Tweet, Moment, Timeline } from 'vue-tweet-embed'
 
 
 

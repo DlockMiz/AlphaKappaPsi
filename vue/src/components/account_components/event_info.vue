@@ -3,9 +3,10 @@
     <a href="#/account_page/exec_event_viewer"><i class="fa fa-angle-left fa-1x" aria-hidden="true"> Back</i></a>
     <center>
       <div>
-        <a class="button is-info" style="margin-left: 20px;" @click="completeEvent()">Complete Event</a>
-        <a class="button is-info" style="margin-left: 20px;" @click="replaceMembers()">Replace Two Memebers</a>
-        <a class="button is-info" style="margin-left: 20px;" @click="sendEmails()">Send Emails</a>
+        <a class="button is-primary" style="margin-left: 20px;" @click="completeEvent()">Complete Event</a>
+        <!-- <a class="button is-info" style="margin-left: 20px;" @click="replaceMembers()">Replace Two Memebers</a> -->
+        <a class="button is-warning" style="margin-left: 20px;" @click="sendEmails()">Send Emails</a>
+        <a class="button is-danger" style="margin-left: 20px;" @click="markPriority()">Mark as High Priority</a>        
       </div>
     </center>
     <div v-show="showReplaceMembersBox">
@@ -63,7 +64,7 @@ window.$ = window.jQuery = require('jquery');
 
 import replace_members_list_one from './replace_members_list_one'
 import replace_members_list_two from './replace_members_list_two'
-import { getSingleEvent, getSignedUsers, attendUser, switchAttendance, setPastEvent, fufillRequirement, switchUsers, sendSignedUsersEmail, fundraisingSwithcRequests, changeRequest } from '../../router/config.js'
+import { getSingleEvent, getSignedUsers, attendUser, switchAttendance, setPastEvent, fufillRequirement, switchUsers, sendSignedUsersEmail, fundraisingSwithcRequests, changeRequest, markPriority } from '../../router/config.js'
 
 export default {
   data() {
@@ -83,6 +84,14 @@ export default {
     replace_members_list_two,
   },
   methods: {
+    markPriority(){
+      var postData = {
+        id: this.id,
+      }
+      this.$http.post(markPriority,postData).then(response=>{
+        this.$swal('Marked!','This event is now marked as high priority!','success')
+      })
+    },
     requestChange(type,id,index) {
       if (type == 'approve') {
         var postData = {

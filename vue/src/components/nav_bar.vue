@@ -13,7 +13,7 @@
         </a>
       </p>
       <p class="level-item has-text-centered">
-        <a class="link is-info">Executive Board</a>
+        <a class="link is-info" href="#/executive_board">Executive Board</a>
       </p>
       <p class="level-item has-text-centered">
         <a class="link is-info">About Us</a>
