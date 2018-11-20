@@ -17,8 +17,8 @@
       <div class="req_title" id="fundraising_box">
         Fundraising
         <div class="req_content">
-          Required Events: {{fund_requirement}}
-          <hr> {{fundraising}} - Completed Events
+          Required Points: {{fund_requirement}}
+          <hr> {{fundraising}} - Completed Points
         </div>
         <div v-if="$store.state.user.status == 1" style="margin-top: 30px;">
           <a style="font-size: .7vw; width: 50%;" @click="changeReqParam('fund', fund_requirement)" class="button is-info is-small">Change Required Events</a>

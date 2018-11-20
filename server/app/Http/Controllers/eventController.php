@@ -11,6 +11,8 @@ use App\ActiveRequirement;
 use App\User;
 use App\ChapterComment;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\FundSwitchRequest;
 
 
 
@@ -93,8 +95,23 @@ class eventController extends Controller
         }
 
         $req = new SwitchRequest;
-        if($post_event->event_type == 'fundraising')
+        if($post_event->event_type == 'fundraising'){
+            $user_info = User::find($request->id);
+            $create_date = date_create($event['date']);
+            $date = date_format($create_date, "F d, Y");
+            $email_data = (object)[
+                'user_name' => $user_info->name,
+                'event_title' => $event['title'],
+                'event_location' => $event['location'],
+                'event_date' => $date,
+                'event_time' => $event['time'],
+                'event_description' => $event['description']
+            ];
             $req->fundraising = 'not allowed';
+            Mail::to('dwlockster@gmail.com')
+                ->send(new FundSwitchRequest($email_data));
+        }
+
         $req->poster_id = $request->id;
         $req->event_id = $event["id"];
         $req->save();
@@ -111,9 +128,11 @@ class eventController extends Controller
 
     public function changeRequest(Request $request){
         $req = SwitchRequest::find($request->id);
-        if($request->type == 'approve')
+        if($request->type == 'approve'){
             $req->fundraising = 'allowed';
-        else if($reqest->type == 'deny')
+            $req->save();
+        }
+        else if($request->type == 'deny')
             $req->delete();
         return 200;
     }
@@ -128,13 +147,16 @@ class eventController extends Controller
         $data = SwitchRequest::where('event_id',$request->event_id)
         ->where('fundraising','not allowed')
         ->get();
+        if(count($data) == 0){
+            return 500;
+        }
         $users = array();
 
         foreach ($data as $req) {
             $user = User::where('id',$req->poster_id)->get();
             array_push($users, $user);
         }
-        return $users[0];
+        return [$users[0],$data];
     } 
 
     public function submitChapterComment(Request $request) {

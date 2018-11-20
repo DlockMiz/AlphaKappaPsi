@@ -46,11 +46,11 @@
             <hr>
           </div>
           <center>
-            <div v-for="req in switches" class="switchRequest">
+            <div v-for="(req,index) req in switches" class="switchRequest">
               {{req.name}} is requesting to switch out!
               <div>
-                <a class="button is-primary" @click="requestChange('approve')">Approve</a>
-                <a class="button is-danger" @click="requestChange('deny')">Deny</a>
+                <a class="button is-primary" @click="requestChange('approve',switch_ids[index].id,index)">Approve</a>
+                <a class="button is-danger" @click="requestChange('deny',switch_ids[index].id,index)">Deny</a>
               </div>
             </div>
           </center>
@@ -73,6 +73,7 @@ export default {
       users: [],
       attends: [],
       non_attends: [],
+      switch_ids: [],
       switches: [],
       showReplaceMembersBox: false,
     }
@@ -82,20 +83,25 @@ export default {
     replace_members_list_two,
   },
   methods: {
-    requestChange(type) {
+    requestChange(type,id,index) {
       if (type == 'approve') {
         var postData = {
-          id: localStorage.getItem("event"),
+          id: id,
           type: 'approve'
         }
-        this.$http.post(changeRequest, postData).then(response => {})
+        this.$http.post(changeRequest, postData).then(response => {
+          this.$swal('Success!','Switch Request Approved','success')
+        })
       } else if (type == 'deny') {
         var postData = {
-          id: localStorage.getItem("event"),
+          id: id,
           type: 'deny'
         }
-        this.$http.post(changeRequest, postData).then(response => {})
+        this.$http.post(changeRequest, postData).then(response => {
+          this.$swal('Success!','Switch Request Denied','success')          
+        })
       }
+      this.switches.splice(index,1)
     },
     sendEmails() {
       var postData = {
@@ -135,7 +141,10 @@ export default {
         event_id: localStorage.getItem("event")
       }
       this.$http.post(fundraisingSwithcRequests, postData).then(response => {
-        this.switches = response.data
+        if (response.data == 500)
+          return
+        this.switches = response.data[0]
+        this.switch_ids = response.data[1]
       })
     },
     loadUsers() {
