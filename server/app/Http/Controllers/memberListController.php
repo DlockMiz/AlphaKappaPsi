@@ -111,7 +111,7 @@ class memberListController extends Controller
                 'minor' => $minor
             ];
 
-            $user->major_minor = $major_minor;
+            $user->major_minor = json_encode($major_minor);
 			$user->password = $data->password;
     		$user->email = $data->email;
     		$user->name = $data->name;
