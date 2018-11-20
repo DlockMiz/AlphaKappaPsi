@@ -1,6 +1,7 @@
 <template>
   <div>
     <div style="overflow: auto;">
+      <button @click="printData()">print data</button>
       <a href="#/account_page/exec_event_viewer"><i class="fa fa-angle-left fa-1x" aria-hidden="true"> Back</i></a>
       <a class="button is-info" style="margin-left: 20px;" @click="completeEvent()">Complete Event</a>
       <a class="button is-info" style="margin-left: 20px;" @click="replaceMembers()">Replace Two Memebers</a>
@@ -41,6 +42,38 @@
               </tr>
             </tbody>
           </table>
+          <!--           <table style="float:left;" class="table">
+            <thead>
+              <tr>
+                <th>Attended Users</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(attend, index) attend in attends">
+                <td>{{attends[index].name}}</td>
+                <td>
+                  <button @click="change('attend', index)">Switch</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Non Attended Users</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(non_attend, index) non_attend in non_attends">
+                <td>{{non_attends[index].name}}</td>
+                <td>
+                  <button @click="change('non_attend', index)">Switch</button>
+                </td>
+              </tr>
+            </tbody>
+          </table> -->
         </div>
         <hr>
       </div>
@@ -69,6 +102,14 @@ export default {
     replace_members_list_two,
   },
   methods: {
+    printData() {
+      console.log('attended_users')
+      console.log(this.attends)
+      console.log('non_attends')
+      console.log(this.non_attends)
+      console.log('all users')
+      console.log(this.users)
+    },
     sendEmails() {
       var postData = {
         users: this.users,
@@ -136,6 +177,7 @@ export default {
     loadAttended() {
       var attended_users = JSON.parse(this.event.attended_users)
       var non_attended_users = JSON.parse(this.event.non_attended_users)
+      var that = this
 
       var postData = {
         users: attended_users.id
@@ -146,36 +188,27 @@ export default {
       this.$http.post(getSignedUsers, postData).then(response => {
         var that = this
         response.data.forEach(function(user) {
-          var obj = {
-            id: user.id,
-            name: user.name,
-            email: user.email
-          }
-          that.attends.push(obj)
+          that.attends.push(user.id)
         })
       })
       this.$http.post(getSignedUsers, postData2).then(response => {
-        $('#loading').hide()
-        $('#tableWrapper').show()
         var that = this
         response.data.forEach(function(user) {
-          var obj = {
-            id: user.id,
-            name: user.name,
-            email: user.email
-          }
-          that.non_attends.push(obj)
+          that.non_attends.push(user.id)
         })
       })
-
+    },
+    colorRows() {
       var that = this
+      $('#loading').hide()
+      $('#tableWrapper').show()
       this.users.forEach(function(user) {
-        attended_users.id.forEach(function(id) {
+        that.attends.forEach(function(id) {
           if (user.id == id)
             document.getElementById('attended_user' + user.id).style.backgroundColor = '#96f0e0'
         })
-        non_attended_users.id.forEach(function(id) {
-          if (user.id = id)
+        that.non_attends.forEach(function(id) {
+          if (user.id == id)
             document.getElementById('attended_user' + user.id).style.backgroundColor = '#ffb4c3'
         })
       })
@@ -199,9 +232,7 @@ export default {
             att_users: JSON.stringify({ id: this.attends }),
             non_att_users: JSON.stringify({ id: this.non_attends })
           }
-          this.$http.post(switchAttendance, postData).then(response => {
-            // console.log(response.data)
-          })
+          this.$http.post(switchAttendance, postData).then(response => {})
         }
       } else if (type == 'not_attended') {
         document.getElementById('attended_user' + id).style.backgroundColor = '#ffb4c3'
@@ -216,9 +247,7 @@ export default {
             att_users: JSON.stringify({ id: this.attends }),
             non_att_users: JSON.stringify({ id: this.non_attends })
           }
-          this.$http.post(switchAttendance, postData).then(response => {
-            // console.log(response.data)
-          })
+          this.$http.post(switchAttendance, postData).then(response => {})
         }
       }
 
@@ -289,6 +318,7 @@ export default {
     this.id = localStorage.getItem("event")
     this.getEvent()
     this.loadSwitchRequests()
+    setTimeout(this.colorRows, 5000)
   },
 }
 
