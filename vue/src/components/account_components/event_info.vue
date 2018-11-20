@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div style="overflow: auto;">
-      <button @click="printData()">print data</button>
-      <a href="#/account_page/exec_event_viewer"><i class="fa fa-angle-left fa-1x" aria-hidden="true"> Back</i></a>
-      <a class="button is-info" style="margin-left: 20px;" @click="completeEvent()">Complete Event</a>
-      <a class="button is-info" style="margin-left: 20px;" @click="replaceMembers()">Replace Two Memebers</a>
-      <a class="button is-info" style="margin-left: 20px;" @click="resetAttendedList()">Reset Attended List</a>
-      <a class="button is-info" style="margin-left: 20px;" @click="sendEmails()">Send Emails</a>
-    </div>
+    <a href="#/account_page/exec_event_viewer"><i class="fa fa-angle-left fa-1x" aria-hidden="true"> Back</i></a>
+    <center>
+      <div>
+        <a class="button is-info" style="margin-left: 20px;" @click="completeEvent()">Complete Event</a>
+        <a class="button is-info" style="margin-left: 20px;" @click="replaceMembers()">Replace Two Memebers</a>
+        <a class="button is-info" style="margin-left: 20px;" @click="sendEmails()">Send Emails</a>
+      </div>
+    </center>
     <div v-show="showReplaceMembersBox">
       <div class="listBox" @click="changeDisplayName()">
         <replace_members_list_one></replace_members_list_one>
@@ -21,62 +21,41 @@
       <a class="button is-info" @click="replaceSelectedMembers()">Replace Member</a>
     </div>
     <center><img id="loading" style="margin-top: 100px;" src="../../assets/images/loading.gif" height="200" width="200"></center>
-      <div id="tableWrapper">
-        <div>
-          <table style="float:left;" class="table">
-            <thead>
-              <tr>
-                <th>Signed Users</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th>Attended</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(user, index) user in users" :id="'attended_user'+user.id">
-                <td @click="gotToProfile(user.id)">{{users[index].name}}</td>
-                <td @click="gotToProfile(user.id)">{{users[index].noti_email}}</td>
-                <td @click="gotToProfile(user.id)">{{users[index].phone_number}}</td>
-                <td><a @click="placeUser('attended',user.id)" class="button is-primary">Y</a>
-                  <a @click="placeUser('not_attended',user.id)" class="button is-danger">N</a></td>
-              </tr>
-            </tbody>
-          </table>
-          <!--           <table style="float:left;" class="table">
-            <thead>
-              <tr>
-                <th>Attended Users</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(attend, index) attend in attends">
-                <td>{{attends[index].name}}</td>
-                <td>
-                  <button @click="change('attend', index)">Switch</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Non Attended Users</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(non_attend, index) non_attend in non_attends">
-                <td>{{non_attends[index].name}}</td>
-                <td>
-                  <button @click="change('non_attend', index)">Switch</button>
-                </td>
-              </tr>
-            </tbody>
-          </table> -->
+      <center>
+        <div id="tableWrapper">
+          <div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Signed Users</th>
+                  <th>Email</th>
+                  <th>Phone Number</th>
+                  <th>Attended</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(user, index) user in users" :id="'attended_user'+user.id">
+                  <td @click="gotToProfile(user.id)">{{users[index].name}}</td>
+                  <td @click="gotToProfile(user.id)">{{users[index].noti_email}}</td>
+                  <td @click="gotToProfile(user.id)">{{users[index].phone_number}}</td>
+                  <td><a @click="placeUser('attended',user.id)" class="button is-primary">Y</a>
+                    <a @click="placeUser('not_attended',user.id)" class="button is-danger">N</a></td>
+                </tr>
+              </tbody>
+            </table>
+            <hr>
+          </div>
+          <center>
+            <div v-for="req in switches" class="switchRequest">
+              {{req.name}} is requesting to switch out!
+              <div>
+                <a class="button is-primary"  @click="">Approve</a>
+                <a class="button is-danger" @click="">Deny</a>                
+              </div>
+            </div>
+          </center>
         </div>
-        <hr>
-      </div>
+      </center>
   </div>
 </template>
 <script>
@@ -94,6 +73,7 @@ export default {
       users: [],
       attends: [],
       non_attends: [],
+      switches: [],
       showReplaceMembersBox: false,
     }
   },
@@ -102,14 +82,6 @@ export default {
     replace_members_list_two,
   },
   methods: {
-    printData() {
-      console.log('attended_users')
-      console.log(this.attends)
-      console.log('non_attends')
-      console.log(this.non_attends)
-      console.log('all users')
-      console.log(this.users)
-    },
     sendEmails() {
       var postData = {
         users: this.users,
@@ -148,7 +120,7 @@ export default {
         event_id: localStorage.getItem("event")
       }
       this.$http.post(fundraisingSwithcRequests, postData).then(response => {
-        // console.log(response.data)
+        this.switches = response.data
       })
     },
     loadUsers() {
@@ -330,6 +302,21 @@ export default {
   height: 200px;
   overflow: auto;
   border: 3px black solid;
+}
+
+#tableWrapper {
+  width: 80%;
+  margin-top: 30px;
+}
+
+.table {
+  border: black solid 5px;
+}
+
+.switchRequest {
+  border: solid black 5px;
+  width: 30%;
+  padding: 10px;
 }
 
 </style>
