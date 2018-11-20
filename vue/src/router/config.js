@@ -1,5 +1,5 @@
-export const apiDomain = 'http://akp.test/'
-// export const apiDomain = 'https://server.akpsimiz.com/'
+// export const apiDomain = 'http://akp.test/'
+export const apiDomain = 'https://server.akpsimiz.com/'
 
 
 //calendar routes
