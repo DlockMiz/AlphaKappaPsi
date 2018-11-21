@@ -68,7 +68,6 @@ export default {
       })
     },
     addMembers() {
-      // this.removeMemebers()
       var allInputs1 = document.getElementsByClassName("addMember")
       var allInputs2 = document.getElementsByClassName("removeMember")
 
@@ -90,7 +89,7 @@ export default {
       var postData1 = { id: checkedInputs1 }
       var postData2 = { id: checkedInputs2 }
 
-      if (checkedInputs1.length == 0 || checkedInputs2.length == 0) {
+      if (checkedInputs1.length == 0 && checkedInputs2.length == 0) {
         alert('Please Check the Users.')
         return
       }
