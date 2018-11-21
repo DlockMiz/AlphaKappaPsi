@@ -1,7 +1,9 @@
 <template>
   <div>
     <div style="width: 32%; height: 1000px; float:left; border-left: solid black 3px;border-right: solid black 3px; height: 1000px; margin-left: 10px;">
-      <Timeline style="height: 1000px;overflow: scroll;" :id="'akpsi_mizzou'" :sourceType="'profile'"/>
+      <div id="twitter-time">
+        <Timeline style="height: 1000px;overflow: scroll;" :id="'akpsi_mizzou'" :sourceType="'profile'"/>
+      </div>
     </div>
     <div style="width: 32%; float:left; border-left: solid black 3px;border-right: solid black 3px; height: 1000px; margin-left: 10px;">
       <!-- <div style="text-align:center; width: 40%; float:left; margin-left: 50px;">
@@ -47,6 +49,7 @@ export default {
 
   mounted: function() {
     $(".facebook").delay(1000).animate({ opacity: 1 }, 3000)
+    $("#twitter-time").delay(1000).animate({ opacity: 1 }, 3000)
   },
 
   methods: {
@@ -68,7 +71,7 @@ export default {
       })
     }
   },
-  components:{
+  components: {
     Timeline
   }
 }
@@ -93,6 +96,10 @@ export default {
 #pageContainer iframe {
   position: relative;
   z-index: 0;
+}
+
+#twitter-time{
+  opacity: 0;
 }
 
 </style>

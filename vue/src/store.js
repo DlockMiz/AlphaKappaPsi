@@ -15,7 +15,7 @@ export default new Vuex.Store({
     SET_USER(state, obj) {
       state.user = obj
     },
-    CHANGE_INFO(state){
+    CHANGE_INFO(state) {
       state.user.personal_info = 'yes'
     }
   },

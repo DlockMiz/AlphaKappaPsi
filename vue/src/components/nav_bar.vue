@@ -23,19 +23,20 @@
   </div>
 </template>
 <script>
-export default{
-  data(){
-    return{
-    }
+export default {
+  data() {
+    return {}
   },
   methods: {
-    checkDues(){
-      if(this.$store.state.user.dues == 'not payed'){
-        this.$swal('WOAH!','You should go pay your dues, contact the treasurer.','error')
-        return
+    checkDues() {
+      if (this.$store.state.user) {
+        if (this.$store.state.user.dues == 'not payed') {
+          this.$swal('WOAH!', 'You should go pay your dues, contact the treasurer.', 'error')
+          return
+        } else
+          this.$router.push('/event_page')
       }
-      else
-        this.$router.push('/event_page')
+      this.$swal('Error', 'Please login to view this page!', 'error')
     }
   }
 }
@@ -48,7 +49,7 @@ export default{
   border-radius: 10px 10px 10px 10px;
 }
 
-p.level-item.has-text-centered{
+p.level-item.has-text-centered {
   width: 10%;
 }
 

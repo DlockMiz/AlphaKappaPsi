@@ -3,7 +3,7 @@
     <center><img id="loading" style="margin-top: 100px;" src="../assets/images/loading.gif" height="200" width="200"></center>
       <div v-for="(member,index) member in board" class="exec-board-box">
         <h1 style="font-size: 18pt;">{{positions[index]}}: <strong>{{member.name}}</strong>
-      <a v-if="$store.state.user.status == 1" @click="propsData.showModal = true, editMember = member" style="float: right;" class="button is-info">Edit Info</a>
+      <a v-if="showEdit" @click="propsData.showModal = true, editMember = member" style="float: right;" class="button is-info">Edit Info</a>
       </h1>
         <br>
         <div class="description">
@@ -47,6 +47,7 @@ export default {
   data() {
     return {
       board: [],
+      showEdit: false,
       editMember: {
         name: '',
         desc: '',
@@ -86,6 +87,12 @@ export default {
         this.board = response.data
       })
     },
+    checkView(){
+    	if(this.$store.state.user){
+    		if(this.$store.state.user.status == 1)
+    			this.showEdit = true
+    	}
+    },
     saveEditMember() {
       var postData = {
         member: this.editMember
@@ -99,6 +106,7 @@ export default {
   },
   mounted: function() {
     this.getExecBoard()
+    this.checkView()
   },
   components: {
     modal

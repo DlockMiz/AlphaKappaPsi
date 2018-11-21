@@ -18,7 +18,7 @@ export default {
     checkUserLogin() {
       if (this.$store.state.user == null) {
         this.$router.push('/')
-        this.$swal('You must be logged in to see!', "", 'error')
+        this.$swal('Please login to view this page!', "", 'error')
       }
       if(this.$store.state.user.dues == 'not payed'){
         this.$router.push('/')
