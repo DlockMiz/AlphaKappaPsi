@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div style="width: 32%; height: 1000px; float:left; border-left: solid black 3px;border-right: solid black 3px; height: 1000px; margin-left: 10px;">
+    <div style="width: 32%; height: 1000px; float:left; border-left: solid black 3px;border-right: solid black 3px; height: 1000px; margin-left: 30px;">
       <div id="twitter-time">
         <Timeline style="height: 1000px;overflow: scroll;" :id="'akpsi_mizzou'" :sourceType="'profile'"/>
       </div>
     </div>
-    <div style="width: 32%; float:left; border-left: solid black 3px;border-right: solid black 3px; height: 1000px; margin-left: 10px;">
+    <div style="width: 32%; float:left; height: 1000px; margin-left: 10px;">
       <!-- <div style="text-align:center; width: 40%; float:left; margin-left: 50px;">
         <div>Comments</div>
         <textarea v-model="comments" style="width: 100%; height: 300px;"></textarea>
