@@ -96,6 +96,8 @@ Route::post('/submitComments', 'requirementsController@submitComments');
 
 //exec board
 Route::post('/getExecBoard', 'ExecBoardController@getExecBoard');
+Route::post('/editExecMember', 'ExecBoardController@editExecMember');
+
 
 
 

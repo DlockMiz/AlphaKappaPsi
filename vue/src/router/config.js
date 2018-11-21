@@ -75,6 +75,8 @@ export const submitComments = apiDomain + 'api/submitComments'
 
 //exec board controller
 export const getExecBoard = apiDomain + 'api/getExecBoard'
+export const editExecMember = apiDomain + 'api/editExecMember'
+
 
 
 

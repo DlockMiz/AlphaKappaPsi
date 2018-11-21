@@ -11,4 +11,12 @@ class ExecBoardController extends Controller
     	$board = ExecBoard::get();
     	return $board;
     }
+    public function editExecMember(Request $request){
+    	$member = ExecBoard::find($request->member['id']);
+    	$member->name = $request->member['name'];
+    	$member->desc = $request->member['desc'];
+    	$member->info = $request->member['info'];
+    	$member->save();
+    	return;
+    }
 }
