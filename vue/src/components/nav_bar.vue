@@ -35,8 +35,8 @@ export default {
           return
         } else
           this.$router.push('/event_page')
-      }
-      this.$swal('Error', 'Please login to view this page!', 'error')
+      } else if(this.$store.state.user == null)
+        this.$swal('Error', 'Please login to view this page!', 'error')
     }
   }
 }
