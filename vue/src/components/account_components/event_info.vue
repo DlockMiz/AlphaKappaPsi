@@ -138,6 +138,8 @@ export default {
     gotToProfile(id) {
       this.$router.push('/account_page/members_list/member_info:' + id)
       localStorage.setItem('from_event', id)
+      localStorage.setItem('member', id)
+
     },
     changeDisplayName() {
       setTimeout(function() {

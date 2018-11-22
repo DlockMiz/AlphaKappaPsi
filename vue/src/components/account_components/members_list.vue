@@ -80,6 +80,7 @@ export default {
     },
     goToMember(user) {
       this.$router.push('/account_page/members_list/member_info:' + user.id)
+      localStorage.setItem("member",user.id)      
       localStorage.setItem('from_event', 'no')
     },
     addExecAccount() {
