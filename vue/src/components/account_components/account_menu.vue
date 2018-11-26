@@ -6,8 +6,8 @@
       </p>
       <hr>
       <ul class="menu-list">
-        <li v-if="this.$store.state.user.status != 1"><a @click="loadPage('requirements_page')" id="requirements_page">Requirement Progress</a></li>
-        <hr v-if="this.$store.state.user.status != 1">
+        <li><a @click="loadPage('requirements_page')" id="requirements_page">Requirement Progress</a></li>
+        <hr>
         <li><a @click="loadPage('switch_requests')" id="switch_requests">Switch Requests</a>
           <hr>
         <li v-if="this.$store.state.user.status != 1"><a @click="loadPage('signed_events')" id="signed_events">My Signed Up Events</a>

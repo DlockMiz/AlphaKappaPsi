@@ -52,8 +52,9 @@ class requirementsController extends Controller
             }
         } else if(strcmp($request->event["event_type"],"fundraising")==0){
             foreach ($request->attended_users as $key => $value) {
-                $user = ActiveRequirement::find($value["id"]);
-                $user->fundraising += (int)$request->event["hours"];
+                $user = ActiveRequirement::find($value);
+                $points = (int)$request->event["hours"];
+                $user->fundraising += $points;
                 $user->save();
             }
         } 

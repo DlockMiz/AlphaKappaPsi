@@ -33,7 +33,7 @@ export default {
   padding: 20px;
   width: 50%;
   margin: auto;
-  margin-top: 10%;
+  margin-top: 5%;
   z-index: 1000;
 }
 

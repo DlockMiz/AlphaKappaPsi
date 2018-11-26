@@ -32,6 +32,9 @@ class eventController extends Controller
 
         $event = Event::find($request->event_id);
         $arr = json_decode($event->signed_users, true);
+        $non = json_decode($event->non_attended_users, true);
+        $attend = json_decode($event->attended_users, true);
+
         for($x = 0; $x < count($arr['id']); $x++){
             if($arr['id'][$x] == $userid)
                 return 300;
@@ -40,7 +43,18 @@ class eventController extends Controller
             if($arr['id'][$x] == $request->poster_id)
                 $arr['id'][$x] = $userid;
         }
+        for($x = 0; $x < count($non['id']); $x++){
+            if($non['id'][$x] == $request->poster_id)
+                unset($non['id'][$x]);                
+        }
+        for($x = 0; $x < count($attend['id']); $x++){
+            if($attend['id'][$x] == $request->poster_id)
+                unset($attend['id'][$x]);
+        }
+
         $event->signed_users = json_encode($arr);
+        $event->attended_users = json_encode($attend);
+        $event->non_attended_users = json_encode($non);
         $event->save();
 
         $switch = SwitchRequest::find($request->switch_id)->delete();

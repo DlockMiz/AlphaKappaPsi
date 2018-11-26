@@ -118,7 +118,7 @@ export default {
         event: this.event
       }
       this.$http.post(sendSignedUsersEmail, postData).then(response => {
-        console.log(response.data)
+        this.$swal('Nice!','Email Successfully Sent!','success')
       })
     },
     getEvent() {
@@ -263,9 +263,9 @@ export default {
       var postData = {
         event_id: localStorage.getItem("event"),
       }
-      this.$http.post(setPastEvent, postData).then(response => {
-        this.$router.push('/account_page/exec_event_viewer')
-      })
+      // this.$http.post(setPastEvent, postData).then(response => {
+      //   this.$router.push('/account_page/exec_event_viewer')
+      // })
 
       var postData2 = {
         attended_users: this.attends,
