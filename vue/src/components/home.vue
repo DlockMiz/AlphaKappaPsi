@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="width: 32%; height: 1000px; float:left; border-left: solid black 3px;border-right: solid black 3px; height: 1000px; margin-left: 30px;">
+    <div style="width: 30%; height: 1000px; float:left; border-left: solid black 3px;border-right: solid black 3px; height: 1000px; margin-left: 30px;">
       <div id="twitter-time">
         <Timeline style="height: 1000px;overflow: scroll;" :id="'akpsi_mizzou'" :sourceType="'profile'"/>
       </div>
