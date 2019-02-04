@@ -38,14 +38,22 @@
             <div>
               <strong>Major: <span>{{major}}</span></strong>
               <div style="margin-top: 10px; margin-bottom: 10px;">
-                <input v-model="major" class="input is-info" v-if="infoFilled" style="width: 25%;"></input>
+                <div v-if="infoFilled" class="select">
+                  <select v-model="major">
+                    <option>Accounting</option>
+                    <option>Finance</option>
+                    <option>International Business</option>
+                    <option>Management</option>
+                    <option>Marketing</option>
+                    <option>Economics</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div v-show="major == 'Other'">
+                  <input v-model="other_major" class="input is-info" v-if="infoFilled" style="width: 25%; margin-top: 10px;" placeholder="Please type major..."></input>
+                </div>
               </div>
             </div>
-            <!-- <div v-if="!infoFilled">
-              <div v-for="majors in major">
-                - {{majors}}
-              </div>
-            </div> -->
             <hr>
           </div>
           <div>
@@ -93,10 +101,17 @@ methods.getUserInfo = function() {
     this.user = response.data[0]
     this.requirements = response.data[1]
 
+
     this.major = this.user.major_minor.major[0]
     this.minor = this.user.major_minor.minor[0]
     this.grad_date = this.user.grad_date
     this.phone_number = this.user.phone_number
+
+    var other_major = this.major.split("Other")
+    if(other_major[0] == ""){
+      this.major = other_major[1]
+    }
+
 
     if (this.phone_number != null)
       this.infoFilled = false
@@ -149,7 +164,12 @@ methods.saveInfo = function() {
     this.$swal('Nope', 'Please enter something in every field!', 'error')
     return
   }
-  this.user.major_minor.major[0] = this.major
+
+  if(this.major == 'Other'){
+    this.user.major_minor.major[0] = "Other" + this.other_major    
+  } else{
+    this.user.major_minor.major[0] = this.major   
+  }
   this.user.major_minor.minor[0] = this.minor
   this.user.grad_date = this.grad_date
   this.user.phone_number = this.phone_number
@@ -159,6 +179,7 @@ methods.saveInfo = function() {
   var postData = {
     user: this.user
   }
+  console.log(this.user)
 
   this.$http.post(savePersonalInfo, postData).then(response => {
     this.getUserInfo()
@@ -204,6 +225,7 @@ export default {
       grad_date: null,
       phone_number: null,
       infoFilled: true,
+      other_major: null
     }
   },
   methods: methods,

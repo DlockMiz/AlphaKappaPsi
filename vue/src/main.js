@@ -11,9 +11,9 @@ import VueGoodTable from 'vue-good-table';
 import VueSweetalert2 from 'vue-sweetalert2';
 import GoogleAuth from 'vue-google-auth'
 import { Tweet, Moment, Timeline } from 'vue-tweet-embed'
-
-
-
+import JsonExcel from 'vue-json-excel'
+ 
+Vue.component('downloadExcel', JsonExcel)
 import 'vue-event-calendar/dist/style.css'
 import 'bulma/css/bulma.css'
 

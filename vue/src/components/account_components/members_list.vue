@@ -3,41 +3,47 @@
     <center><img id="loading" style="margin-top: 100px;" src="../../assets/images/loading.gif" height="200" width="200"></center>
       <div id="memListWrapper">
         <a style="margin-bottom: 10px;" @click="showExecAddInputs = !showExecAddInputs" class="button is-info">Add Exec Account</a>
-        <div style="margin-bottom: 10px;" v-show="showExecAddInputs" class="addExecBox">
-          <center>
-            <div style="line-height: 55px;">
-              <input style="margin-bottom: 10px; margin-top: 10px; width: 63%;" class="input is-info" type="text" name="email" v-model="registerEmail" placeholder="Email..."> <b style="font-size:1vw">@gmail.com</b>
-            </div>
-          </center>
-          <center>
-            <input style="margin-bottom: 10px; margin-top: 10px; width: 93%;" class="input is-info" type="text" name="username" v-model="registerName" placeholder="Position Name...">
-            <a style="margin-bottom: 10px;" @click="addExecAccount()" class="button is-info">Submit</a>
-          </center>
-        </div>
         <div>
-          <hr>
-          <input v-model="search_name" class="input is-info" placeholder="Search Individual" style="width: 20%;">
-          <hr>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th>Graduation Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="user in users" @click="goToMember(user)" :class="[user.dues === 'not payed' ? 'unpaid':'']">
-                <td>{{user.name}}</td>
-                <td>{{user.email}}</td>
-                <td>{{user.phone_number}}</td>
-                <td>{{user.grad_date}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+          <download-excel :data="users">
+            <a style="margin-bottom: 10px;" class="button is-info">Export CSV</a>
+          </download-excel>
+        </a>
       </div>
+      <div style="margin-bottom: 10px;" v-show="showExecAddInputs" class="addExecBox">
+        <center>
+          <div style="line-height: 55px;">
+            <input style="margin-bottom: 10px; margin-top: 10px; width: 63%;" class="input is-info" type="text" name="email" v-model="registerEmail" placeholder="Email..."> <b style="font-size:1vw">@gmail.com</b>
+          </div>
+        </center>
+        <center>
+          <input style="margin-bottom: 10px; margin-top: 10px; width: 93%;" class="input is-info" type="text" name="username" v-model="registerName" placeholder="Position Name...">
+          <a style="margin-bottom: 10px;" @click="addExecAccount()" class="button is-info">Submit</a>
+        </center>
+      </div>
+      <div>
+        <hr>
+        <input v-model="search_name" class="input is-info" placeholder="Search Individual" style="width: 20%;">
+        <hr>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone Number</th>
+              <th>Graduation Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="user in users" @click="goToMember(user)" :class="[user.dues === 'not payed' ? 'unpaid':'']">
+              <td>{{user.name}}</td>
+              <td>{{user.email}}</td>
+              <td>{{user.phone_number}}</td>
+              <td>{{user.grad_date}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  </div>
   </div>
 </template>
 <script>
@@ -80,7 +86,7 @@ export default {
     },
     goToMember(user) {
       this.$router.push('/account_page/members_list/member_info:' + user.id)
-      localStorage.setItem("member",user.id)      
+      localStorage.setItem("member", user.id)
       localStorage.setItem('from_event', 'no')
     },
     addExecAccount() {
@@ -100,6 +106,9 @@ export default {
             location.reload()
           })
       })
+    },
+    exportCSV() {
+      console.log(this.users)
     }
   },
   mounted: function() {
