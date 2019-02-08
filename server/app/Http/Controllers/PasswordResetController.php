@@ -13,11 +13,13 @@ class PasswordResetController extends Controller
 {
    public function sendResetPassEmail(Request $request) {
    		$row = new PasswordToken;
-   		$row->password_token = str_random(32);
+   		$token = str_random(32);
+   		$row->password_token = $token;
+   		$token = "www.akpsimiz.com/password_reset/".$token;
    		$row->email = $request->email;
    		$row->save();
 
-   		Mail::to($row->email)->send(new ForgottenPasswordEmail($row));
+   		Mail::to($row->email)->send(new ForgottenPasswordEmail($token));
    }
 
    public function changePassword(Request $request){
