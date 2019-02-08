@@ -3,11 +3,9 @@
     <center><img id="loading" style="margin-top: 100px;" src="../../assets/images/loading.gif" height="200" width="200"></center>
       <div id="memListWrapper">
         <a style="margin-bottom: 10px;" @click="showExecAddInputs = !showExecAddInputs" class="button is-info">Add Exec Account</a>
-        <div>
-          <download-excel :data="users">
-            <a style="margin-bottom: 10px;" class="button is-info">Export CSV</a>
+          <download-excel :data="users" style="width: 15%;">
+            <a style="margin-bottom: 10px;" class="button is-info">Export Excel</a>
           </download-excel>
-        </a>
       </div>
       <div style="margin-bottom: 10px;" v-show="showExecAddInputs" class="addExecBox">
         <center>
@@ -23,11 +21,13 @@
       <div>
         <hr>
         <input v-model="search_name" class="input is-info" placeholder="Search Individual" style="width: 20%;">
+        <input v-model="search_major" class="input is-info" placeholder="Search Major" style="width: 20%;">
         <hr>
         <table class="table">
           <thead>
             <tr>
               <th>Name</th>
+              <th>Major</th>
               <th>Email</th>
               <th>Phone Number</th>
               <th>Graduation Date</th>
@@ -36,6 +36,7 @@
           <tbody>
             <tr v-for="user in users" @click="goToMember(user)" :class="[user.dues === 'not payed' ? 'unpaid':'']">
               <td>{{user.name}}</td>
+              <td>{{user.major}}</td>
               <td>{{user.email}}</td>
               <td>{{user.phone_number}}</td>
               <td>{{user.grad_date}}</td>
@@ -59,7 +60,8 @@ export default {
       id: 0,
       all_users: [],
       users: [],
-      search_name: null
+      search_name: null,
+      search_major: null
     }
   },
   methods: {
@@ -76,8 +78,12 @@ export default {
             name: user.name,
             email: user.email,
             grad_date: user.grad_date,
+            major: JSON.parse(user.major_minor).major[0],
             phone_number: user.phone_number,
-            dues: user.dues
+            dues: user.dues,
+            prof_dev: user.prof_dev,
+            service: user.service,
+            fundraising: user.fundraising
           }
           that.all_users.push(obj)
         })
@@ -126,6 +132,16 @@ export default {
           that.users = []
           that.users.push(user)
         } else if (name == '')
+          that.users = that.all_users
+      })
+    },
+    search_major: function(major) {
+      var that = this
+      this.all_users.forEach(function(user) {
+        if (user.major == major) {
+          that.users = []
+          that.users.push(user)
+        } else if (major == '')
           that.users = that.all_users
       })
     }

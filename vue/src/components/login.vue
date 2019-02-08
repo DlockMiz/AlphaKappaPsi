@@ -1,13 +1,14 @@
 <template>
   <div>
     <div id="middleWrapper">
-      <a href="/"> <img src="../assets/images/akp_logo.png" alt="" style="height: 100px;"> </a>
+      <a href="/"><img src="../assets/images/akp_logo.png" alt="" style="height: 100px;"> </a>
       <div id="optionsBox">
         <div id="loginBox">
           <input style="width:50%;" class="input is-info input_tags" type="text" v-model="pawprint" placeholder="Pawprint...">
           <a id="emailTag">@mail.missouri.edu</a>
           <input id="finalInput" class="input is-info input_tags" v-on:keyup.enter="loginUser()" type="password" v-model="password" placeholder="Password...">
           <a id="loginPageButton" @click="loginUser()" class="button is-info inputs">Login</a>
+          <a id="loginPageButton" @click="forgotPassword()" class="button is-info inputs">Forgot Password?</a>
           <a @click="signInWithGoogle()" id="loginGoogleButton" class="button"><img src="../assets/images/google_icon.png" style="height: 15px;"></a>
           <a id="failedTag" v-show="showLoginFail">Login Failed</a>
         </div>
@@ -26,7 +27,7 @@
 <script>
 window.$ = window.jQuery = require('jquery');
 import { store } from '../store.js'
-import { findUser, addUser, signInActiveWithGoogle } from '../router/config'
+import { findUser, addUser, signInActiveWithGoogle, sendResetPassEmail } from '../router/config'
 
 export default {
   data() {
@@ -50,6 +51,26 @@ export default {
       authUser.email = this.pawprint + "@mail.missouri.edu"
       authUser.password = this.password
       this.confirmUser(authUser)
+    },
+
+    forgotPassword() {
+      const { value: name } = this.$swal({
+        title: 'What is your email?',
+        input: 'text',
+        inputPlaceholder: 'Email...',
+        showCancelButton: true,
+        inputValidator: (value) => {
+          return !value && 'You need to write something!'
+        }
+      }).then(response => {
+        var postData = {
+          email: response.value
+        }
+
+        this.$http.post(sendResetPassEmail, postData).then(response => {
+          this.$swal('Success','An email has been sent with a link to reset your password!','success')
+        })
+      })
     },
 
     registerUser() {

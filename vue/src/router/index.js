@@ -126,5 +126,9 @@ export default new Router({
     path: '/admin_login',
     name: 'Admin Login Page',
     component: resolve => require(['../components/admin_login.vue'], resolve)
+  }, {
+    path: '/password_reset/:token',
+    name: 'Password Reset Page',
+    component: resolve => require(['../components/password_reset.vue'], resolve)
   }]
 })

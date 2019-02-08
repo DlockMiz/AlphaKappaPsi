@@ -7,6 +7,7 @@ use App\User;
 use App\Event;
 use App\RequestedUser;
 use App\ActiveRequirement;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -14,7 +15,9 @@ class memberListController extends Controller
 {
 
     public function getRegisteredUsers(Request $request) {
-		$data = User::get();
+		$data = DB::table('users')
+        ->join('active_requirements','users.id','=','active_requirements.id')
+        ->get();
 		return $data;
     }
 

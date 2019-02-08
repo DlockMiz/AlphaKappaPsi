@@ -20,6 +20,7 @@
           <hr>
           <strong>Notifications Email:</strong>
           <a class="button is-info" @click="linkNotiEmail()">Link Notification Email</a>
+          <div><small>If not filled out, emails will be sent to your mizzou account, which go automatically to spam!</small></div>
         </div>
         <hr>
         <div v-if="this.$store.state.user.google_email == null && this.$store.state.user.status != 1" style="width: 100%; height: 36px; line-height: 36px;">
@@ -108,7 +109,7 @@ methods.getUserInfo = function() {
     this.phone_number = this.user.phone_number
 
     var other_major = this.major.split("Other")
-    if(other_major[0] == ""){
+    if (other_major[0] == "") {
       this.major = other_major[1]
     }
 
@@ -165,10 +166,10 @@ methods.saveInfo = function() {
     return
   }
 
-  if(this.major == 'Other'){
-    this.user.major_minor.major[0] = "Other" + this.other_major    
-  } else{
-    this.user.major_minor.major[0] = this.major   
+  if (this.major == 'Other') {
+    this.user.major_minor.major[0] = "Other" + this.other_major
+  } else {
+    this.user.major_minor.major[0] = this.major
   }
   this.user.major_minor.minor[0] = this.minor
   this.user.grad_date = this.grad_date

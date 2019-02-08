@@ -98,6 +98,12 @@ Route::post('/submitComments', 'requirementsController@submitComments');
 Route::post('/getExecBoard', 'ExecBoardController@getExecBoard');
 Route::post('/editExecMember', 'ExecBoardController@editExecMember');
 
+//password controller
+Route::post('/sendResetPassEmail', 'PasswordResetController@sendResetPassEmail');
+Route::post('/changePassword', 'PasswordResetController@changePassword');
+
+
+
 
 
 

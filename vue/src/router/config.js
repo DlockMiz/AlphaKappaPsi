@@ -1,5 +1,5 @@
-// export const apiDomain = 'http://akp.test/'
-export const apiDomain = 'https://server.akpsimiz.com/'
+export const apiDomain = 'http://akp.test/'
+// export const apiDomain = 'https://server.akpsimiz.com/'
 
 
 //calendar routes
@@ -76,6 +76,11 @@ export const submitComments = apiDomain + 'api/submitComments'
 //exec board controller
 export const getExecBoard = apiDomain + 'api/getExecBoard'
 export const editExecMember = apiDomain + 'api/editExecMember'
+
+//reset pass controller
+export const sendResetPassEmail = apiDomain + 'api/sendResetPassEmail'
+export const changePassword = apiDomain + 'api/changePassword'
+
 
 
 
