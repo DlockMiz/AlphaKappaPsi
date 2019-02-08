@@ -30,7 +30,7 @@ class PasswordResetController extends Controller
 
    		$data = PasswordToken::where('password_token', $request->token)->get();
    		$user = User::where('email',$data[0]->email)->update(['password'=>$hash]);
-   		$del = PasswordToken::find($data->id)->delete();
+   		$del = PasswordToken::find($data[0]->id)->delete();
     	return 'success';
    }
 }
