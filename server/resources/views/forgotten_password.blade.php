@@ -10,7 +10,7 @@
     <center><img src="<?php echo $message->embed(storage_path('assets/images/akp_logo.png')); ?>" height="50"></center>
     <center>
         <div style="font-size:20pt">You have requested a password reset.</div>
-        <a href="www.akpsimiz.com/password_reset/{!!$obj->token!!}"><button click="redirect()">Click Here To Reset</button></a>
+        <a href="www.akpsimiz.com/password_reset/{!!$obj->token!!}">Click Here to Reset</a>
     </center>
 </body>
 
