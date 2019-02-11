@@ -1,7 +1,26 @@
 <template>
   <div>
     <div>
-      <vue-good-table :columns="columns" :rows="users" :onClick="viewUser" />
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Major</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Graduation Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="user in users" @click="" :class="[user.dues === 'not payed' ? 'unpaid':'']">
+            <td>{{user.name}}</td>
+            <td>{{user.major}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.phone_number}}</td>
+            <td>{{user.grad_date}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -15,26 +34,12 @@ export default {
       id: 0,
       users: [],
       event: {},
-      viewUser: function(row, index) {
-        setTimeout(function() {
-          localStorage.setItem("replace_member_one", row.name)
-          localStorage.setItem("replace_member_one_id", row.id)
-        }, 100);
-      },
-      columns: [{
-        label: 'Signed Members',
-        field: 'name',
-        filterable: true,
-      }, ],
     }
   },
+  props:{
+    eventData
+  }
   methods: {
-    getEvent() {
-      this.$http.post(getSingleEvent, localStorage.getItem("event")).then(response => {
-        this.event = response.data[0]
-        this.loadUsers()        
-      })
-    },
     loadUsers() {
       var that = this
       setTimeout(function() {

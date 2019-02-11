@@ -57,6 +57,8 @@ Route::post('/submitChapterComment', 'eventController@submitChapterComment');
 Route::post('/fundraisingSwithcRequests', 'eventController@fundraisingSwithcRequests');
 Route::post('/changeRequest', 'eventController@changeRequest');
 Route::post('/markPriority', 'eventController@markPriority');
+Route::post('/forceAddUser', 'eventController@forceAddUser');
+
 
 
 

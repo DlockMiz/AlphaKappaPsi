@@ -211,7 +211,6 @@ class eventController extends Controller
         return $data;
     }
     public function userSignedEvent(Request $request) {
-
 		$data = Event::find($request->event_id);
         $max = 0;
 
@@ -229,6 +228,20 @@ class eventController extends Controller
             $data->signed_users = json_encode($users);
             $data->save();
         }
+    }
+    public function forceAddUser(Request $request) {
+        $data = Event::find($request->event);
+        $users = json_decode($data->signed_users,true);
+
+        for($x = 0; $x < count($users['id']); $x++){
+            if($users['id'][$x] == $request->id)
+                return 300;
+        }
+
+        array_push($users["id"], $request->id);
+        $data->signed_users = json_encode($users);
+        $data->save();
+        return 'success';
     }
 
     public function addEvent(Request $request){

@@ -6,21 +6,17 @@
         <a class="button is-primary" style="margin-left: 20px;" @click="completeEvent()">Complete Event</a>
         <!-- <a class="button is-info" style="margin-left: 20px;" @click="replaceMembers()">Replace Two Memebers</a> -->
         <a class="button is-warning" style="margin-left: 20px;" @click="sendEmails()">Send Emails</a>
-        <a class="button is-danger" style="margin-left: 20px;" @click="markPriority()">Mark as High Priority</a>        
+        <a class="button is-danger" style="margin-left: 20px;" @click="markPriority()">Mark as High Priority</a>
+        <a class="button is-info" style="margin-left: 20px;" @click="addPerson()">Add Person</a>
       </div>
     </center>
-    <div v-show="showReplaceMembersBox">
-      <div class="listBox" @click="changeDisplayName()">
-        <replace_members_list_one></replace_members_list_one>
+    <center>
+      <div v-if="showReplaceMembersBox">
+        <div class="listBox">
+          <replace_members_list_two :eventData="eventData"></replace_members_list_two>
+        </div>
       </div>
-      <div class="listBox" @click="changeDisplayName()">
-        <replace_members_list_two></replace_members_list_two>
-      </div>
-      <div id="testBox" style="padding-top: 90px;">
-        Switch <strong id="mem1"></strong> with <strong id="mem2"></strong> for <strong>This Event</strong>
-      </div>
-      <a class="button is-info" @click="replaceSelectedMembers()">Replace Member</a>
-    </div>
+    </center>
     <center><img id="loading" style="margin-top: 100px;" src="../../assets/images/loading.gif" height="200" width="200"></center>
       <center>
         <div id="tableWrapper">
@@ -28,6 +24,7 @@
             <table class="table" style="border: black solid 5px;">
               <thead>
                 <tr>
+                  <th>Remove User</th>
                   <th>Signed Users</th>
                   <th>Email</th>
                   <th>Phone Number</th>
@@ -36,11 +33,15 @@
               </thead>
               <tbody>
                 <tr v-for="(user, index) user in users" :id="'attended_user'+user.id">
+                  <td>
+                    <center><a @click="placeUser('attended',user.id)" class="button is-danger">-</a></center>
+                  </td>
                   <td @click="gotToProfile(user.id)">{{users[index].name}}</td>
                   <td @click="gotToProfile(user.id)">{{users[index].noti_email}}</td>
                   <td @click="gotToProfile(user.id)">{{users[index].phone_number}}</td>
                   <td><a @click="placeUser('attended',user.id)" class="button is-primary">Y</a>
-                    <a @click="placeUser('not_attended',user.id)" class="button is-danger">N</a></td>
+                    <a @click="placeUser('not_attended',user.id)" class="button is-danger">N</a>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -62,7 +63,6 @@
 <script>
 window.$ = window.jQuery = require('jquery');
 
-import replace_members_list_one from './replace_members_list_one'
 import replace_members_list_two from './replace_members_list_two'
 import { getSingleEvent, getSignedUsers, attendUser, switchAttendance, setPastEvent, fufillRequirement, switchUsers, sendSignedUsersEmail, fundraisingSwithcRequests, changeRequest, markPriority } from '../../router/config.js'
 
@@ -77,29 +77,33 @@ export default {
       switch_ids: [],
       switches: [],
       showReplaceMembersBox: false,
+      eventData: null
     }
   },
   components: {
-    replace_members_list_one,
     replace_members_list_two,
   },
   methods: {
-    markPriority(){
+    addPerson() {
+      this.eventData = this.id         
+      this.showReplaceMembersBox = !this.showReplaceMembersBox;
+    },
+    markPriority() {
       var postData = {
         id: this.id,
       }
-      this.$http.post(markPriority,postData).then(response=>{
-        this.$swal('Marked!','This event is now marked as high priority!','success')
+      this.$http.post(markPriority, postData).then(response => {
+        this.$swal('Marked!', 'This event is now marked as high priority!', 'success')
       })
     },
-    requestChange(type,id,index) {
+    requestChange(type, id, index) {
       if (type == 'approve') {
         var postData = {
           id: id,
           type: 'approve'
         }
         this.$http.post(changeRequest, postData).then(response => {
-          this.$swal('Success!','Switch Request Approved','success')
+          this.$swal('Success!', 'Switch Request Approved', 'success')
         })
       } else if (type == 'deny') {
         var postData = {
@@ -107,10 +111,10 @@ export default {
           type: 'deny'
         }
         this.$http.post(changeRequest, postData).then(response => {
-          this.$swal('Success!','Switch Request Denied','success')          
+          this.$swal('Success!', 'Switch Request Denied', 'success')
         })
       }
-      this.switches.splice(index,1)
+      this.switches.splice(index, 1)
     },
     sendEmails() {
       var postData = {
@@ -118,7 +122,7 @@ export default {
         event: this.event
       }
       this.$http.post(sendSignedUsersEmail, postData).then(response => {
-        this.$swal('Nice!','Email Successfully Sent!','success')
+        this.$swal('Nice!', 'Email Successfully Sent!', 'success')
       })
     },
     getEvent() {
@@ -332,11 +336,11 @@ export default {
 </script>
 <style>
 .listBox {
-  float: left;
   margin: 10px;
   height: 200px;
   overflow: auto;
   border: 3px black solid;
+  width: 50%;
 }
 
 #tableWrapper {

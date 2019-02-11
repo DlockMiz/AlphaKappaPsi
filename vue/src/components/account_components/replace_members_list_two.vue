@@ -1,33 +1,65 @@
 <template>
   <div>
     <div>
-      <vue-good-table :columns="columns" :rows="users" :onClick="viewUser" />
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Major</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Graduation Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="user in users" @click="userSignedEvent(user)" :class="[user.dues === 'not payed' ? 'unpaid':'']">
+            <td>{{user.name}}</td>
+            <td>{{user.major}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.phone_number}}</td>
+            <td>{{user.grad_date}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
 <script>
-import { getSingleEvent, getRegisteredUsers } from '../../router/config.js'
+import { getSingleEvent, getRegisteredUsers, forceAddUser } from '../../router/config.js'
 window.$ = window.jQuery = require('jquery');
 
 export default {
   data() {
     return {
-      id: 0,
       users: [],
-      viewUser: function(row, index) {
-        setTimeout(function() {
-          localStorage.setItem("replace_member_two", row.name)
-          localStorage.setItem("replace_member_two_id", row.id)
-        }, 100);
-      },
-      columns: [{
-        label: 'All Members',
-        field: 'name',
-        filterable: true,
-      }, ],
     }
   },
+  props: ['eventData'],
   methods: {
+    userSignedEvent(user) {
+      var postData = {
+        id: user.id,
+        event: this.eventData,
+      }
+      this.$swal({
+        title: 'Are you sure you want to add ' + user.name + '?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.$http.post(forceAddUser, postData).then(response => {
+            if(response.data == 300){
+              this.$swal('Nope', user.name+' is already signed up!', 'error')
+              return
+            }
+            this.$swal('Success', user.name+' is now signed up for this event.', 'success')
+          })
+        }
+      })
+    },
     loadUsers() {
       var that = this
       setTimeout(function() {
@@ -43,7 +75,6 @@ export default {
       }, 1500)
     }
   },
-
   mounted: function() {
     this.loadUsers()
   },

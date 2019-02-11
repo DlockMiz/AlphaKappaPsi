@@ -36,9 +36,7 @@ export const submitChapterComment = apiDomain + 'api/submitChapterComment'
 export const fundraisingSwithcRequests = apiDomain + 'api/fundraisingSwithcRequests'
 export const changeRequest = apiDomain + 'api/changeRequest'
 export const markPriority = apiDomain + 'api/markPriority'
-
-
-
+export const forceAddUser = apiDomain + 'api/forceAddUser'
 
 
 
