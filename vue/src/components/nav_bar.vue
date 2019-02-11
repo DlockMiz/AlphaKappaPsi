@@ -16,7 +16,7 @@
         <a class="link is-info" href="#/executive_board">Executive Board</a>
       </p>
       <p class="level-item has-text-centered">
-        <a class="link is-info">About Us</a>
+        <a href="http://mizzou.orgsync.com/org/akpsi" class="link is-info">About Us</a>
       </p>
     </nav>
     <hr>
