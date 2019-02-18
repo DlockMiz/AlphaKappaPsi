@@ -2,6 +2,14 @@
   <div>
     <center>
       <div style="margin-bottom: 20px;">
+        <div>Make Masterdoc Event?</div>
+        <label class="radio">
+          <input style="margin-left: 10px;" type="radio" class="masterdocType" name="doc" value="1"> Yes
+        </label>
+        <label class="radio">
+          <input style="margin-left: 10px;" type="radio" class="masterdocType" name="doc" value="0" checked> No
+        </label>
+        <hr>
         <div>Only Selected Can View:</div>
         <label class="radio">
           <input class="selectedType" type="radio" name="fund_type" value="6" checked> Football
@@ -10,6 +18,7 @@
           <input style="margin-left: 20px;" class="selectedType" type="radio" name="fund_type" value="3"> Basketball
         </label>
       </div>
+      <hr>
       <div style="margin-bottom: 20px;">
         <div>Only Selected Can View:</div>
         <label class="radio">
@@ -48,7 +57,8 @@ export default {
       date: null,
       location: null,
       max: null,
-      desc: null
+      desc: null,
+      masterdoc: null
     }
   },
   components: {
@@ -65,9 +75,9 @@ export default {
 
       var type = document.getElementsByClassName('selectedType')
       var value;
-      if(type[0].checked)
+      if (type[0].checked)
         value = type[0].value
-      else if(type[1].checked)
+      else if (type[1].checked)
         value = type[1].value
 
       var users = { "id": [] }
@@ -83,16 +93,24 @@ export default {
         max_users: this.max,
         hours: value,
         attended_users: JSON.stringify(users),
+        masterdoc: null,
         complete: 0,
         censor_perms: {}
       }
 
-      var radios = document.getElementsByClassName('selectedView');
+      var masterdoc = document.getElementsByClassName('masterdocType');
+      var radios = document.getElementsByClassName('selectedView');      
       var censor_perms = { id: ['1', '0', '0'] }
       for (var i = 0; i < radios.length; i++) {
         if (radios[i].checked)
           censor_perms.id[i + 1] = radios[i].value
       }
+      if(masterdoc[0].checked == true){
+        postData.masterdoc = 1
+      } else{
+        postData.masterdoc = 0
+      }
+      
       postData.censor_perms = JSON.stringify(censor_perms)
       this.$http.post(addEvent, postData).then(response => {
         this.$swal('Nice', 'A New Fundraising Event Has Been Created!', 'success').then((result) => {

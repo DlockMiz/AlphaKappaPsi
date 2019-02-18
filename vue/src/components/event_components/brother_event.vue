@@ -14,6 +14,14 @@
           <div :id="'editBrotherEventBox'+index" style="display: none;">
             <center>
               <div>
+                <div>Make Masterdoc Event?</div>
+                <label class="radio">
+                  <input style="margin-left: 10px;" type="radio" :class="'masterdocType'+event.id" :name="'doc'+index" value="1"> Yes
+                </label>
+                <label class="radio">
+                  <input style="margin-left: 10px;" type="radio" :class="'masterdocType'+event.id" :name="'doc'+index" value="0"> No
+                </label>
+                <hr>
                 <div>Only Selected Can View:</div>
                 <label class="radio">
                   <input style="margin-left: 20px;" type="checkbox" :class="'selectedViewActive'+event.id" :name="'active_edit'+index" value="2"> Active
@@ -141,6 +149,7 @@ export default {
             users: JSON.parse(event.signed_users),
             is_max_users: maxUsers,
             max_users: event.max_users,
+            masterdoc: event.masterdoc,
             hours: event.hours,
             current_perms: parse_perms,
             priority: event.priority
@@ -172,6 +181,12 @@ export default {
           $('.selectedViewActive' + event.id).prop('checked', true)
         if (event.current_perms[2] == '3')
           $('.selectedViewPledge' + event.id).prop('checked', true)
+        setTimeout(function() {
+          if (event.masterdoc == 1)
+            $('.masterdocType' + event.id)[0].checked = true
+          else
+            $('.masterdocType' + event.id)[1].checked = true
+        }, 500)
         event.users.id.forEach(function(id) {
           if (id == that.$store.state.user.id) {
             $(document).ready(function() {
@@ -220,13 +235,22 @@ export default {
         month: this.events[index].date.split("/")[1],
         max_users: this.events[index].max_users,
         hours: this.events[index].hours,
+        masterdoc: this.events[index].masterdoc,
         censor_perms: {}
       }
 
       var a_radios = document.getElementsByClassName('selectedViewActive' + this.events[index].id);
       var p_radios = document.getElementsByClassName('selectedViewPledge' + this.events[index].id);
+      var masterdoc = document.getElementsByClassName('masterdocType' + this.events[index].id);
+
       var censor_perms = { id: ['1', '0', '0'] }
 
+      if(masterdoc[0].checked == true){
+        postData.masterdoc = 1
+      } else{
+        postData.masterdoc = 0
+      }
+      
       if (a_radios[0].checked == true)
         censor_perms.id[1] = '2'
       if (p_radios[0].checked == true)

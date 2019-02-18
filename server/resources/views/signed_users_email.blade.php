@@ -20,6 +20,10 @@
             <br>
             <div>Details: {{$obj->event_description}}</div>
         </div>
+        <hr>
+        <div style="font-size: 14pt;">
+            {{$obj->custom_message}}
+        </div>
     </div>
 </body>
 

@@ -34,6 +34,7 @@ class accountSettingsController extends Controller
         $user->major_minor = json_encode($request->user['major_minor']);
         $user->grad_date = $data['grad_date'];
         $user->phone_number = $data['phone_number'];
+        $user->description = $data['description'];        
         $user->save();
         return $user;
     }

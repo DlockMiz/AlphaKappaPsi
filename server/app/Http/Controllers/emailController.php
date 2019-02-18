@@ -13,6 +13,7 @@ class emailController extends Controller
 {
     public function sendSignedUsersEmail(Request $request) {
     	$event = $request->event;
+        $message = $request->custom_message;
     	$users = $request->users;
     	$create_date = date_create($event['date']);
     	$date = date_format($create_date, "F d, Y");
@@ -26,7 +27,8 @@ class emailController extends Controller
     			'event_location' => $event['location'],
     			'event_date' => $date,
     			'event_time' => $event['time'],
-    			'event_description' => $event['description']
+    			'event_description' => $event['description'],
+                'custom_message' => $message
     		];
             if($user_info['noti_email'] == null)
                 $email = $user_info['email'];

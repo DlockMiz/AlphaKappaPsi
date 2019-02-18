@@ -4,7 +4,6 @@
     <center>
       <div>
         <a class="button is-primary" style="margin-left: 20px;" @click="completeEvent()">Complete Event</a>
-        <!-- <a class="button is-info" style="margin-left: 20px;" @click="replaceMembers()">Replace Two Memebers</a> -->
         <a class="button is-warning" style="margin-left: 20px;" @click="sendEmails()">Send Emails</a>
         <a class="button is-danger" style="margin-left: 20px;" @click="markPriority()">Mark as High Priority</a>
         <a class="button is-info" style="margin-left: 20px;" @click="addPerson()">Add Person</a>
@@ -18,53 +17,53 @@
       </div>
     </center>
     <center><img id="loading" style="margin-top: 100px;" src="../../assets/images/loading.gif" height="200" width="200"></center>
-      <center>
-        <div id="tableWrapper">
-          <div>
-            <table class="table" style="border: black solid 5px;">
-              <thead>
-                <tr>
-                  <th>Remove User</th>
-                  <th>Signed Users</th>
-                  <th>Email</th>
-                  <th>Phone Number</th>
-                  <th>Attended</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(user, index) user in users" :id="'attended_user'+user.id">
-                  <td>
-                    <center><a @click="placeUser('attended',user.id)" class="button is-danger">-</a></center>
-                  </td>
-                  <td @click="gotToProfile(user.id)">{{users[index].name}}</td>
-                  <td @click="gotToProfile(user.id)">{{users[index].noti_email}}</td>
-                  <td @click="gotToProfile(user.id)">{{users[index].phone_number}}</td>
-                  <td><a @click="placeUser('attended',user.id)" class="button is-primary">Y</a>
-                    <a @click="placeUser('not_attended',user.id)" class="button is-danger">N</a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <hr>
-          </div>
-          <center>
-            <div v-for="(req,index) req in switches" class="switchRequest">
-              {{req.name}} is requesting to switch out!
-              <div>
-                <a class="button is-primary" @click="requestChange('approve',switch_ids[index].id,index)">Approve</a>
-                <a class="button is-danger" @click="requestChange('deny',switch_ids[index].id,index)">Deny</a>
-              </div>
-            </div>
-          </center>
+    <center>
+      <div id="tableWrapper">
+        <div>
+          <table class="table" style="border: black solid 5px;">
+            <thead>
+              <tr>
+                <th>Remove User</th>
+                <th>Signed Users</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Attended</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(user, index) user in users" :id="'attended_user'+user.id">
+                <td>
+                  <center><a @click="removeUser(user.id)" class="button is-danger">-</a></center>
+                </td>
+                <td @click="gotToProfile(user.id)">{{users[index].name}}</td>
+                <td @click="gotToProfile(user.id)">{{users[index].noti_email}}</td>
+                <td @click="gotToProfile(user.id)">{{users[index].phone_number}}</td>
+                <td><a @click="placeUser('attended',user.id)" class="button is-primary">Y</a>
+                  <a @click="placeUser('not_attended',user.id)" class="button is-danger">N</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <hr>
         </div>
-      </center>
+        <center>
+          <div v-for="(req,index) req in switches" class="switchRequest">
+            {{req.name}} is requesting to switch out!
+            <div>
+              <a class="button is-primary" @click="requestChange('approve',switch_ids[index].id,index)">Approve</a>
+              <a class="button is-danger" @click="requestChange('deny',switch_ids[index].id,index)">Deny</a>
+            </div>
+          </div>
+        </center>
+      </div>
+    </center>
   </div>
 </template>
 <script>
 window.$ = window.jQuery = require('jquery');
 
 import replace_members_list_two from './replace_members_list_two'
-import { getSingleEvent, getSignedUsers, attendUser, switchAttendance, setPastEvent, fufillRequirement, switchUsers, sendSignedUsersEmail, fundraisingSwithcRequests, changeRequest, markPriority } from '../../router/config.js'
+import { getSingleEvent, getSignedUsers, attendUser, switchAttendance, setPastEvent, fufillRequirement, switchUsers, sendSignedUsersEmail, fundraisingSwithcRequests, changeRequest, markPriority, removeUserFromEvent } from '../../router/config.js'
 
 export default {
   data() {
@@ -84,8 +83,22 @@ export default {
     replace_members_list_two,
   },
   methods: {
+    removeUser(user_id) {
+      var postData = {
+        user_id: user_id,
+        event_id: this.id
+      }
+      var that = this
+      this.$http.post(removeUserFromEvent, postData).then(response => {
+        if (response.data == 100) {
+          this.$swal('Removed!', 'This user is new removed from the event', 'success').then((response) => {
+            location.reload()
+          })
+        }
+      })
+    },
     addPerson() {
-      this.eventData = this.id         
+      this.eventData = this.id
       this.showReplaceMembersBox = !this.showReplaceMembersBox;
     },
     markPriority() {
@@ -93,7 +106,9 @@ export default {
         id: this.id,
       }
       this.$http.post(markPriority, postData).then(response => {
-        this.$swal('Marked!', 'This event is now marked as high priority!', 'success')
+        this.$swal('Marked!', 'This event is now marked as high priority!', 'success').then(
+          this.getEvent()
+        )
       })
     },
     requestChange(type, id, index) {
@@ -117,12 +132,19 @@ export default {
       this.switches.splice(index, 1)
     },
     sendEmails() {
-      var postData = {
-        users: this.users,
-        event: this.event
-      }
-      this.$http.post(sendSignedUsersEmail, postData).then(response => {
-        this.$swal('Nice!', 'Email Successfully Sent!', 'success')
+      const { value: text } = this.$swal({
+        input: 'textarea',
+        inputPlaceholder: 'Type your message here...',
+        showCancelButton: true
+      }).then(value => {
+        var postData = {
+          users: this.users,
+          event: this.event,
+          custom_message: value.value
+        }
+        this.$http.post(sendSignedUsersEmail, postData).then(response => {
+          this.$swal('Nice!', 'Email Successfully Sent!', 'success')
+        })
       })
     },
     getEvent() {
@@ -267,9 +289,9 @@ export default {
       var postData = {
         event_id: localStorage.getItem("event"),
       }
-      // this.$http.post(setPastEvent, postData).then(response => {
-      //   this.$router.push('/account_page/exec_event_viewer')
-      // })
+      this.$http.post(setPastEvent, postData).then(response => {
+        this.$router.push('/account_page/exec_event_viewer')
+      })
 
       var postData2 = {
         attended_users: this.attends,

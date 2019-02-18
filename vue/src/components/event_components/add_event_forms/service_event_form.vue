@@ -3,6 +3,14 @@
     <div id="addServiceBox">
       <center>
         <div>
+          <div>Make Masterdoc Event?</div>
+          <label class="radio">
+            <input style="margin-left: 10px;" type="radio" class="masterdocType" name="doc" value="1"> Yes
+          </label>
+          <label class="radio">
+            <input style="margin-left: 10px;" type="radio" class="masterdocType" name="doc" value="0" checked> No
+          </label>
+          <hr>
           <div>Only Selected Can View:</div>
           <label class="radio">
             <input style="margin-left: 20px;" class="selectedView" type="checkbox" name="active" value="2" checked> Active
@@ -41,7 +49,8 @@ export default {
       date: null,
       location: null,
       desc: null,
-      max: null
+      max: null,
+      masterdoc: null
     }
   },
   components: {
@@ -66,17 +75,26 @@ export default {
         signed_users: JSON.stringify(users),
         max_users: this.max,
         hours: this.hours,
+        masterdoc: this.masterdoc,
         attended_users: JSON.stringify(users),
         complete: 0,
         censor_perms: {}
       }
       var radios = document.getElementsByClassName('selectedView');
+      var masterdoc = document.getElementsByClassName('masterdocType');
+
       var censor_perms = { id: ['1', '0', '0'] }
       for (var i = 0; i < radios.length; i++) {
 
         if (radios[i].checked)
           censor_perms.id[i + 1] = radios[i].value
       }
+      if (masterdoc[0].checked == true) {
+        postData.masterdoc = 1
+      } else {
+        postData.masterdoc = 0
+      }
+
       postData.censor_perms = JSON.stringify(censor_perms)
       this.$http.post(addEvent, postData).then(response => {
         this.$swal('Nice', 'A New Service Event Has Been Created!', 'success').then((result) => {

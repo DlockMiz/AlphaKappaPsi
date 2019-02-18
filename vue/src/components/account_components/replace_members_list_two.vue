@@ -55,7 +55,7 @@ export default {
               this.$swal('Nope', user.name+' is already signed up!', 'error')
               return
             }
-            this.$swal('Success', user.name+' is now signed up for this event.', 'success')
+            this.$swal('Success', user.name+' is now signed up for this event.', 'success').then((result) => { this.router.push('account_page/exec_event_viewer/event_info:'+eventData) })
           })
         }
       })

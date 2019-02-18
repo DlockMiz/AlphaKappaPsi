@@ -73,6 +73,8 @@ export default {
         $('#memListWrapper').show()
         var that = this
         response.data.forEach(function(user) {
+          if(user.status == 1)
+            return
           var obj = {
             id: user.id,
             name: user.name,
