@@ -60,7 +60,7 @@
               <h2 style="margin-bottom: 12px;"> <b>Description:</b> </h2>
               <p style="height: 150px; overflow: auto">{{event.description}}</p>
               <hr>
-              <center><a v-show="event.is_max_users == false" :id="'brotherSignUpButton'+event.id" :name="event.title" class="button is-info" @click="signUp(index)">Sign Up</a></center>
+              <center><a v-show="event.is_max_users == false && event.masterdoc != 1" :id="'brotherSignUpButton'+event.id" :name="event.title" class="button is-info" @click="signUp(index)">Sign Up</a></center>
               <center><a v-show="event.is_max_users == true" style="color:blue">Event Full</a></center>
             </div>
           </div>

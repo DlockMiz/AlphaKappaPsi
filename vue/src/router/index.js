@@ -45,6 +45,10 @@ export default new Router({
         name: 'Signed Events',
         component: resolve => require(['../components/account_components/signed_events.vue'], resolve)
       }, {
+        path: '/account_page/alumni_list',
+        name: 'Signed Events',
+        component: resolve => require(['../components/account_components/alumni_list.vue'], resolve)
+      }, {
         path: '/account_page/exec_event_viewer',
         name: 'Exec Event Viewer',
         component: resolve => require(['../components/account_components/exec_event_viewer.vue'], resolve)

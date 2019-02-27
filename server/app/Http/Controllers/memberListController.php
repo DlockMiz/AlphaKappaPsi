@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Event;
+use App\Alumni;
 use App\RequestedUser;
 use App\ActiveRequirement;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +20,34 @@ class memberListController extends Controller
         ->join('active_requirements','users.id','=','active_requirements.id')
         ->get();
 		return $data;
+    }
+
+    public function makePledgesActives(Request $request) {
+        $data = DB::table('users')
+        ->where('status', '=', '3')
+        ->update(['status' => 2]);
+        return $data;
+    }
+
+    public function makeAlumni(Request $request) {
+        $users_arr = $request->users_id;
+        for($i = 0 ; $i < sizeof($users_arr); $i++){
+            $user = User::find($users_arr[$i]);
+            $user_req = ActiveRequirement::find($users_arr[$i]);
+            $alumni = new Alumni;
+            $alumni->name = $user->name;
+            $alumni->phone_number = $user->phone_number;
+            $alumni->grad_date = $user->grad_date;
+            $alumni->major_minor = $user->major_minor;
+            $alumni->save();
+            $user->delete();
+            $user_req->delete();
+        }
+        return 100;
+    }
+    public function getAlumni(Request $request) {
+        $data = Alumni::get();
+        return $data;
     }
 
     public function removeRequestedUsers(Request $request) {
@@ -118,7 +147,7 @@ class memberListController extends Controller
 			$user->password = $data->password;
     		$user->email = $data->email;
     		$user->name = $data->name;
-            $user->status = '2';
+            $user->status = '3';
 
 
 

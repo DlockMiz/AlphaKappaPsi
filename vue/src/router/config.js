@@ -56,6 +56,11 @@ export const unlinkGoogleAccount = apiDomain + 'api/unlinkGoogleAccount'
 export const linkNotiEmail = apiDomain + 'api/linkNotiEmail'
 export const savePersonalInfo = apiDomain + 'api/savePersonalInfo'
 export const removeUserFromEvent = apiDomain + 'api/removeUserFromEvent'
+export const makePledgesActives = apiDomain + 'api/makePledgesActives'
+export const makeAlumni = apiDomain + 'api/makeAlumni'
+export const getAlumni = apiDomain + 'api/getAlumni'
+
+
 
 
 

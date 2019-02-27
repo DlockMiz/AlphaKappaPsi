@@ -27,6 +27,7 @@ methods.signInAdmin = function() {
         userCreds.id = response.data[0].id
         userCreds.name = response.data[0].name
         userCreds.status = response.data[0].status
+        userCreds.google_email = response.data[0].google_email        
 
         that.$store.dispatch('setUser', userCreds).then(response => {
           that.$router.push('/')

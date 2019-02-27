@@ -1,12 +1,13 @@
 <template>
   <div>
     <center><img id="loading" style="margin-top: 100px;" src="../../assets/images/loading.gif" height="200" width="200"></center>
-      <div id="memListWrapper">
-        <a style="margin-bottom: 10px;" @click="showExecAddInputs = !showExecAddInputs" class="button is-info">Add Exec Account</a>
-          <download-excel :data="users" style="width: 15%;">
-            <a style="margin-bottom: 10px;" class="button is-info">Export Excel</a>
-          </download-excel>
-      </div>
+    <div id="memListWrapper">
+      <a style="margin-bottom: 10px;" @click="showExecAddInputs = !showExecAddInputs" class="button is-info">Add Exec Account</a>
+      <a style="margin-bottom: 10px;" @click="makePledgesActives()" class="button is-primary">Make All Pledges Actives</a>
+      <a style="margin-bottom: 10px;" @click="makeAlumni()" class="button is-danger">Make Selected Users Alumni</a>
+      <download-excel :data="users" style="margin-right:8px; float:left;">
+        <a style="margin-bottom: 10px;" class="button is-warning">Export Excel</a>
+      </download-excel>
       <div style="margin-bottom: 10px;" v-show="showExecAddInputs" class="addExecBox">
         <center>
           <div style="line-height: 55px;">
@@ -31,24 +32,27 @@
               <th>Email</th>
               <th>Phone Number</th>
               <th>Graduation Date</th>
+              <th>X</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="user in users" @click="goToMember(user)" :class="[user.dues === 'not payed' ? 'unpaid':'']">
-              <td>{{user.name}}</td>
-              <td>{{user.major}}</td>
-              <td>{{user.email}}</td>
-              <td>{{user.phone_number}}</td>
-              <td>{{user.grad_date}}</td>
+            <tr v-for="user in users" :class="[user.dues === 'not payed' ? 'unpaid':'']">
+              <td @click="goToMember(user)">{{user.name}}</td>
+              <td @click="goToMember(user)">{{user.major}}</td>
+              <td @click="goToMember(user)">{{user.email}}</td>
+              <td @click="goToMember(user)">{{user.phone_number}}</td>
+              <td @click="goToMember(user)">{{user.grad_date}}</td>
+              <td><input type="checkbox" class="checkedUser" :value="user.id"></td>
             </tr>
           </tbody>
         </table>
       </div>
+    </div>
   </div>
   </div>
 </template>
 <script>
-import { getRegisteredUsers, addExecAccount } from '../../router/config.js'
+import { getRegisteredUsers, addExecAccount, makePledgesActives, makeAlumni } from '../../router/config.js'
 window.$ = window.jQuery = require('jquery');
 
 export default {
@@ -65,6 +69,24 @@ export default {
     }
   },
   methods: {
+    makePledgesActives() {
+      this.$swal({
+        title: 'Are you sure?',
+        text: "If you're wrong you will have to go back and manually change each person.",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.$http.post(makePledgesActives).then(response => {
+            this.$swal('Success', 'All your pledges are now actives!', 'success')
+          })
+        } else
+          return
+      })
+    },
     loadUsers() {
       $('#loading').show()
       $('#memListWrapper').hide()
@@ -73,7 +95,7 @@ export default {
         $('#memListWrapper').show()
         var that = this
         response.data.forEach(function(user) {
-          if(user.status == 1)
+          if (user.status == 1)
             return
           var obj = {
             id: user.id,
@@ -96,6 +118,32 @@ export default {
       this.$router.push('/account_page/members_list/member_info:' + user.id)
       localStorage.setItem("member", user.id)
       localStorage.setItem('from_event', 'no')
+    },
+    makeAlumni() {
+      var postData = {
+        users_id: []
+      }
+      var users = $('.checkedUser:checkbox:checked')
+      var length = $('.checkedUser:checkbox:checked').length
+      for (var x = 0; x < length; x++) {
+        postData.users_id.push(users[x].value)
+      }
+      this.$swal({
+        title: 'Are you sure?',
+        text: "This action can't be undone.",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.$http.post(makeAlumni, postData).then(response => {
+            this.$swal('User(s) have been moved to the alumni list.')
+          })
+        } else
+          return
+      })
     },
     addExecAccount() {
       if (this.registerName == null || this.registerEmail == null) {

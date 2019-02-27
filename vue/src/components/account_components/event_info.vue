@@ -298,6 +298,7 @@ export default {
         event: this.event,
         hours: this.event.hours
       }
+
       this.$http.post(fufillRequirement, postData2).then(response => {})
     },
 

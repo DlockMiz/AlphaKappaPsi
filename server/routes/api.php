@@ -77,6 +77,12 @@ Route::post('/signInActiveWithGoogle', 'loginController@signInActiveWithGoogle')
 Route::post('/unlinkGoogleAccount', 'accountSettingsController@unlinkGoogleAccount');
 Route::post('/linkNotiEmail', 'accountSettingsController@linkNotiEmail');
 Route::post('/savePersonalInfo', 'accountSettingsController@savePersonalInfo');
+Route::post('/makePledgesActives', 'memberListController@makePledgesActives');
+Route::post('/makeAlumni', 'memberListController@makeAlumni');
+Route::post('/getAlumni', 'memberListController@getAlumni');
+
+
+
 
 
 

@@ -6,15 +6,6 @@
       </div>
     </div>
     <div style="width: 32%; float:left; height: 1000px; margin-left: 10px;">
-      <!-- <div style="text-align:center; width: 40%; float:left; margin-left: 50px;">
-        <div>Comments</div>
-        <textarea v-model="comments" style="width: 100%; height: 300px;"></textarea>
-        <button @click="submitComments()">Submit Comments</button>
-      </div>
-      <div style="width: 40%; float:left;">
-        <div style="line-height: 30px; float: left; margin-left: 20px; font-size: 15px; width:40%; height: 400px;">If you have any suggestions to make the website flow better or any small quality of life improvments, please leave a comment, anything I can do to improve the site goes a long way for everyone! <strong><br><br>Thanks - Daniel</strong>
-        </div>
-      </div> -->
       <center>
         <strong>
         <div style="line-height: 70px;font-size: 16pt;">Alpha Kappa Psi recognizes that

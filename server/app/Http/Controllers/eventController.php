@@ -157,7 +157,7 @@ class eventController extends Controller
                 'event_description' => $event['description']
             ];
             $req->fundraising = 'not allowed';
-            Mail::to('dwlockster@gmail.com')
+            Mail::to('alphakappapsi.vpfundraising@gmail.com')
                 ->send(new FundSwitchRequest($email_data));
         }
 

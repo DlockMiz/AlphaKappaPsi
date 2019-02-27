@@ -27,6 +27,7 @@
           <datepicker v-model="date" class="inputs is-info" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }"></datepicker>
           <input v-model="location" class="inputs input is-info" type="text" placeholder="Location...">
           <input v-model="max" class="inputs input is-info" type="number" placeholder="Max Users...">
+          <input v-model="hours" class="inputs input is-info" type="number" placeholder="Points...">          
           <textarea v-model="desc" class="inputs textarea is-info" type="text" placeholder="Description..."></textarea>
           <center><a class="button is-info" @click="addEvent()" style="margin-top: 10px;">Add Event</a></center>
         </div>

@@ -23,7 +23,7 @@
         <div><small>If not filled out, emails will be sent to your mizzou account, which go automatically to spam!</small></div>
       </div>
       <hr>
-      <div v-if="this.$store.state.user.google_email == null && this.$store.state.user.status != 1" style="width: 100%; height: 36px; line-height: 36px;">
+      <div v-if="this.$store.state.user.google_email == null" style="width: 100%; height: 36px; line-height: 36px;">
         <strong>Google Account: </strong> No Current Email Linked
         <a @click="signInAdmin()" style="width: 5%;" class="button"><img src="../../assets/images/google_icon.png" style="height: 15px;"></a>
       </div>

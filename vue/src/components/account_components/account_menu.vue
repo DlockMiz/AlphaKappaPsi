@@ -27,6 +27,8 @@
           </ul>
         </li>
         <hr v-show="$store.state.user.status == 1">
+        <li><a @click="loadPage('alumni_list')" id="alumni_list" v-show="$store.state.user.status == 1">Alumni List</a>                  
+        <hr v-show="$store.state.user.status == 1">
         <li><a @click="loadPage('account_settings')" id="account_settings">Account Settings</a></li>
         <hr>
       </ul>

@@ -36,6 +36,7 @@
             <datepicker v-model="event.date" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }"></datepicker>
             <input v-model="event.location" class="input is-info" type="text" placeholder="Location...">
             <input v-model="event.max_users" class="input is-info" type="number" placeholder="Max Users...">
+            <input v-model="event.hours" class="input is-info" type="number" placeholder="Points...">            
             <textarea v-model="event.description" class="textarea is-info" type="text" placeholder="Description..."></textarea>
             <center><a class="button is-info" @click="editEvent(index)" style="margin-top: 10px;">Edit Event</a></center>
           </div>
@@ -60,8 +61,9 @@
             <h2 style="margin-bottom: 12px;"> <b>Description:</b> </h2>
             <p style="height: 150px; overflow: auto">{{event.description}}</p>
             <hr>
-            <center><a v-show="event.is_max_users == false" :id="'profDevSignUpButton'+event.id" :name="event.title" class="button is-info" @click="signUp(index)">Sign Up</a></center>
+            <center><a v-show="event.is_max_users == false && event.masterdoc != 1" :id="'profDevSignUpButton'+event.id" :name="event.title" class="button is-info" @click="signUp(index)">Sign Up</a></center>
             <center><a v-show="event.is_max_users == true" style="color:blue">Event Full</a></center>
+            <center><a v-show="event.masterdoc != 0" class="button is-primary" href="https://docs.google.com/spreadsheets/d/1yRwjUaXYb9mazn3K8ZHu-fcImWIYoMPWKsjyg2dSIQY/edit#gid=42626403">Masterdoc</a></center>
           </div>
         </div>
       </div>

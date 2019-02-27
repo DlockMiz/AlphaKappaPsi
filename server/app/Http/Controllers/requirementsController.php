@@ -40,14 +40,16 @@ class requirementsController extends Controller
     public function fufillRequirement(Request $request) {
     	if(strcmp($request->event["event_type"],"service")==0){
 	    	foreach ($request->attended_users as $key => $value) {
-	    		$user = ActiveRequirement::find($value["id"]);
-	    		$user->service += (int)$request->event["hours"];
+	    		$user = ActiveRequirement::find($value);
+                $points = (int)$request->hours;   
+	    		$user->service = $points + $user->service;
 	    		$user->save();
 	    	}
     	} else if(strcmp($request->event["event_type"],"prof_dev")==0){
             foreach ($request->attended_users as $key => $value) {
-                $user = ActiveRequirement::find($value["id"]);
-                $user->prof_dev += (int)$request->event["hours"];
+                $user = ActiveRequirement::find($value);
+                $points = (int)$request->hours;                       
+                $user->prof_dev = $points + $user->prof_dev;
                 $user->save();
             }
         } else if(strcmp($request->event["event_type"],"fundraising")==0){
