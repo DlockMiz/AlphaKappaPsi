@@ -63,6 +63,7 @@ Route::post('/removeUserFromEvent', 'eventController@removeUserFromEvent');
 
 
 
+
 //accounts settings routes
 Route::post('/loadSignedEvents', 'accountSettingsController@loadSignedEvents');
 Route::post('/getRegisteredUsers', 'memberListController@getRegisteredUsers');
@@ -80,6 +81,8 @@ Route::post('/savePersonalInfo', 'accountSettingsController@savePersonalInfo');
 Route::post('/makePledgesActives', 'memberListController@makePledgesActives');
 Route::post('/makeAlumni', 'memberListController@makeAlumni');
 Route::post('/getAlumni', 'memberListController@getAlumni');
+Route::post('/deleteUsers', 'memberListController@deleteUsers');
+
 
 
 
@@ -97,6 +100,7 @@ Route::post('/checkActiveRequirements', 'requirementsController@checkActiveRequi
 Route::post('/fufillRequirement', 'requirementsController@fufillRequirement');
 Route::post('/getReqParams', 'requirementsController@getReqParams');
 Route::post('/changeReqParams', 'requirementsController@changeReqParams');
+Route::post('/clearPoints', 'requirementsController@clearPoints');
 
 
 //comments

@@ -20,6 +20,12 @@ class requirementsController extends Controller
         );
     }
 
+    public function clearPoints(Request $request) {
+        DB::table('active_requirements')
+        ->update(['fundraising' => 0, 'prof_dev' => 0, 'service' => 0]);
+        return 100;
+    }
+
     public function checkActiveRequirements(Request $request) {
     	$data = ActiveRequirement::find($request->id);
 		return $data;

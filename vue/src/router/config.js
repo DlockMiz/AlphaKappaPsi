@@ -1,5 +1,5 @@
-// export const apiDomain = 'http://akp.test/'
-export const apiDomain = 'https://server.akpsimiz.com/'
+export const apiDomain = 'http://akp.test/'
+// export const apiDomain = 'https://server.akpsimiz.com/'
 
 
 //calendar routes
@@ -59,6 +59,7 @@ export const removeUserFromEvent = apiDomain + 'api/removeUserFromEvent'
 export const makePledgesActives = apiDomain + 'api/makePledgesActives'
 export const makeAlumni = apiDomain + 'api/makeAlumni'
 export const getAlumni = apiDomain + 'api/getAlumni'
+export const deleteUsers = apiDomain + 'api/deleteUsers'
 
 
 
@@ -73,6 +74,7 @@ export const checkActiveRequirements = apiDomain + 'api/checkActiveRequirements'
 export const fufillRequirement = apiDomain + 'api/fufillRequirement'
 export const getReqParams = apiDomain + 'api/getReqParams'
 export const changeReq = apiDomain + 'api/changeReqParams'
+export const clearPoints = apiDomain + 'api/clearPoints'
 
 
 //comments

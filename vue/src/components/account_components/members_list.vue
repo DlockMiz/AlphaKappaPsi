@@ -5,6 +5,7 @@
       <a style="margin-bottom: 10px;" @click="showExecAddInputs = !showExecAddInputs" class="button is-info">Add Exec Account</a>
       <a style="margin-bottom: 10px;" @click="makePledgesActives()" class="button is-primary">Make All Pledges Actives</a>
       <a style="margin-bottom: 10px;" @click="makeAlumni()" class="button is-danger">Make Selected Users Alumni</a>
+      <a style="margin-bottom: 10px;" @click="deleteUsers()" class="button is-success">Delete Selected Users</a>
       <download-excel :data="users" style="margin-right:8px; float:left;">
         <a style="margin-bottom: 10px;" class="button is-warning">Export Excel</a>
       </download-excel>
@@ -23,6 +24,7 @@
         <hr>
         <input v-model="search_name" class="input is-info" placeholder="Search Individual" style="width: 20%;">
         <input v-model="search_major" class="input is-info" placeholder="Search Major" style="width: 20%;">
+        <input v-model="search_grad" class="input is-info" placeholder="Search Graduation(YYYY-MM)" style="width: 20%;">
         <hr>
         <table class="table">
           <thead>
@@ -52,7 +54,7 @@
   </div>
 </template>
 <script>
-import { getRegisteredUsers, addExecAccount, makePledgesActives, makeAlumni } from '../../router/config.js'
+import { getRegisteredUsers, addExecAccount, makePledgesActives, makeAlumni, deleteUsers } from '../../router/config.js'
 window.$ = window.jQuery = require('jquery');
 
 export default {
@@ -65,7 +67,8 @@ export default {
       all_users: [],
       users: [],
       search_name: null,
-      search_major: null
+      search_major: null,
+      search_grad: null
     }
   },
   methods: {
@@ -88,6 +91,8 @@ export default {
       })
     },
     loadUsers() {
+      this.users = []
+      this.all_users = []
       $('#loading').show()
       $('#memListWrapper').hide()
       this.$http.post(getRegisteredUsers).then(response => {
@@ -114,12 +119,45 @@ export default {
         this.users = this.all_users
       })
     },
+    deleteUsers() {
+      var that = this
+      var postData = {
+        users_id: []
+      }
+      var users = $('.checkedUser:checkbox:checked')
+      var length = $('.checkedUser:checkbox:checked').length
+      for (var x = 0; x < length; x++) {
+        postData.users_id.push(users[x].value)
+      }
+      console.log(postData)
+      this.$swal({
+        title: 'Are you sure?',
+        text: "There is no way in hell you're gonna be getting this back, so you better make sure.",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.$http.post(deleteUsers, postData).then(response => {
+            console.log(response.data)
+            this.$swal('Success', 'They Gone!', 'success').then(() => {
+              that.loadUsers()
+            })
+          })
+        } else
+          return
+      })
+
+    },
     goToMember(user) {
       this.$router.push('/account_page/members_list/member_info:' + user.id)
       localStorage.setItem("member", user.id)
       localStorage.setItem('from_event', 'no')
     },
     makeAlumni() {
+      var that = this
       var postData = {
         users_id: []
       }
@@ -139,7 +177,9 @@ export default {
       }).then((result) => {
         if (result.value) {
           this.$http.post(makeAlumni, postData).then(response => {
-            this.$swal('User(s) have been moved to the alumni list.')
+            this.$swal('User(s) have been moved to the alumni list.').then(() => {
+              that.loadUsers()
+            })
           })
         } else
           return
@@ -177,9 +217,9 @@ export default {
   watch: {
     search_name: function(name) {
       var that = this
+      that.users = []
       this.all_users.forEach(function(user) {
         if (user.name == name) {
-          that.users = []
           that.users.push(user)
         } else if (name == '')
           that.users = that.all_users
@@ -187,12 +227,25 @@ export default {
     },
     search_major: function(major) {
       var that = this
+      that.users = []
       this.all_users.forEach(function(user) {
         if (user.major == major) {
-          that.users = []
           that.users.push(user)
-        } else if (major == '')
+        } else if (major == '') {
           that.users = that.all_users
+        }
+      })
+    },
+    search_grad: function(date) {
+      var that = this
+      that.users = []
+      this.all_users.forEach(function(user) {
+        var new_date = user.grad_date.substring(0, 7)
+        if (new_date == date) {
+          that.users.push(user)
+        } else if (date == '') {
+          that.users = that.all_users
+        }
       })
     }
   }

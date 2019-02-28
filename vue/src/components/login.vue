@@ -14,7 +14,8 @@
         </div>
         <div id="registerBox">
           <input class="input is-info input_tags" type="text" name="email" v-model="registerEmail" placeholder="Email...">
-          <input class="input is-info input_tags" type="text" name="username" v-model="registerName" placeholder="Name...">
+          <input class="input is-info input_tags" type="text" name="username" v-model="registerFName" placeholder="First Name...">
+          <input class="input is-info input_tags" type="text" name="username" v-model="registerLName" placeholder="Last Name...">
           <input class="input is-info input_tags" type="password" name="pass" v-model="registerPassword" placeholder="Password...">
           <input class="input is-info input_tags" v-on:keyup.enter="registerUser()" type="password" name="pass" v-model="checkPass" placeholder="Check Password...">
           <a id="failedTag" v-show="noPasswordMatch">Passwords Do Not Match</a>
@@ -38,7 +39,8 @@ export default {
       noPasswordMatch: false,
       registerPassword: '',
       registerEmail: '',
-      registerName: '',
+      registerFName: '',
+      registerLName: '',
       userCreds: {},
       showLoginFail: false,
 
@@ -77,8 +79,9 @@ export default {
       const postData = {
         email: this.registerEmail,
         password: this.registerPassword,
-        name: this.registerName,
+        name: this.registerFName +" "+ this.registerLName,
       }
+      console.log(postData)
       var $emailCheck = this.registerEmail.split('@')
 
       if (this.registerEmail == '' || this.registerPassword == '' || this.registerName == '') {
@@ -98,9 +101,9 @@ export default {
         this.noPasswordMatch = false;
       }
 
-      this.$http.post(addUser, postData).then(response => {
-        this.$swal('Registration Confirmed', "You can login when an Executive approves your account!", 'success').then((result) => { this.$router.push('/') })
-      })
+      // this.$http.post(addUser, postData).then(response => {
+      //   this.$swal('Registration Confirmed', "You can login when an Executive approves your account!", 'success').then((result) => { this.$router.push('/') })
+      // })
 
 
     },

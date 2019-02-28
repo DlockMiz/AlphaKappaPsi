@@ -22,6 +22,14 @@ class memberListController extends Controller
 		return $data;
     }
 
+    public function deleteUsers(Request $request) {
+        $ids = $request->users_id;
+        foreach ($ids as $value) {
+            User::find($value)->delete();
+        }
+        return '100';
+    }
+
     public function makePledgesActives(Request $request) {
         $data = DB::table('users')
         ->where('status', '=', '3')
