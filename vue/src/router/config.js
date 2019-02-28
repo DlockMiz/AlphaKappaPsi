@@ -1,5 +1,10 @@
-export const apiDomain = 'http://akp.test/'
-// export const apiDomain = 'https://server.akpsimiz.com/'
+export var apiDomain
+
+if (window.location.hostname == 'localhost') {
+  apiDomain = 'http://akp.test/'
+} else {
+  apiDomain = 'https://server.akpsimiz.com/'
+}
 
 
 //calendar routes
@@ -87,23 +92,3 @@ export const editExecMember = apiDomain + 'api/editExecMember'
 //reset pass controller
 export const sendResetPassEmail = apiDomain + 'api/sendResetPassEmail'
 export const changePassword = apiDomain + 'api/changePassword'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

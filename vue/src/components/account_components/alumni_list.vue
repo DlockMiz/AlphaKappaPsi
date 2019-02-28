@@ -4,18 +4,19 @@
     <div id="memListWrapper">
       <download-excel :data="users" style="margin-right:8px;">
         <a style="margin-bottom: 10px;" class="button is-warning">Export Excel</a>
+        <a style="margin-bottom: 10px;" class="button is-danger">Delete Alumni</a>        
       </download-excel>
       <div>
         <hr>
         <input v-model="search_name" class="input is-info" placeholder="Search Individual" style="width: 20%;">
         <input v-model="search_major" class="input is-info" placeholder="Search Major" style="width: 20%;">
+        <input v-model="search_grad" class="input is-info" placeholder="Search Graduation(YYYY-MM)" style="width: 20%;">        
         <hr>
         <table class="table">
           <thead>
             <tr>
               <th>Name</th>
               <th>Major</th>
-              <th>Email</th>
               <th>Phone Number</th>
               <th>Graduation Date</th>                         
             </tr>
@@ -24,7 +25,6 @@
             <tr v-for="user in users" :class="[user.dues === 'not payed' ? 'unpaid':'']">
               <td>{{user.name}}</td>
               <td>{{user.major}}</td>
-              <td>{{user.email}}</td>
               <td>{{user.phone_number}}</td>
               <td>{{user.grad_date}}</td>
             </tr>
@@ -46,7 +46,8 @@ export default {
       all_users: [],
       users: [],
       search_name: null,
-      search_major: null
+      search_major: null,
+      search_grad: null
     }
   },
   methods: {
@@ -102,6 +103,18 @@ export default {
           that.users.push(user)
         } else if (major == '')
           that.users = that.all_users
+      })
+    },
+    search_grad: function(date) {
+      var that = this
+      that.users = []
+      this.all_users.forEach(function(user) {
+        var new_date = user.grad_date.substring(0, 7)
+        if (new_date == date) {
+          that.users.push(user)
+        } else if (date == '') {
+          that.users = that.all_users
+        }
       })
     }
   }
