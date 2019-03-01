@@ -289,17 +289,28 @@ export default {
       var postData = {
         event_id: localStorage.getItem("event"),
       }
-      this.$http.post(setPastEvent, postData).then(response => {
-        this.$router.push('/account_page/exec_event_viewer')
+      this.$swal({
+        title: 'Are you sure?',
+        text: "This will give everyone that has attended points.",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.$http.post(setPastEvent, postData).then(response => {
+            this.$router.push('/account_page/exec_event_viewer')
+          })
+          var postData2 = {
+            attended_users: this.attends,
+            event: this.event,
+            hours: this.event.hours
+          }
+          this.$http.post(fufillRequirement, postData2).then(response => {})
+        } else
+          return
       })
-
-      var postData2 = {
-        attended_users: this.attends,
-        event: this.event,
-        hours: this.event.hours
-      }
-
-      this.$http.post(fufillRequirement, postData2).then(response => {})
     },
 
     replaceMembers() {
