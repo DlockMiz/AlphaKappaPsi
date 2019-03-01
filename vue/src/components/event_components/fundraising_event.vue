@@ -70,9 +70,9 @@
             <h2 style="margin-bottom: 12px;"> <b>Description:</b> </h2>
             <p style="height: 150px; overflow: auto">{{event.description}}</p>
             <hr>
-            <center><a v-show="event.is_max_users == false && event.masterdoc != 1" :id="'fundSignUpButton'+event.id" :name="event.title" class="button is-info" @click="signUp(index)">Sign Up</a></center>
-            <center><a v-show="event.is_max_users == true" style="color:blue">Event Full</a></center>
-            <center><a v-show="event.masterdoc != 0" class="button is-primary" href="https://docs.google.com/spreadsheets/d/1yRwjUaXYb9mazn3K8ZHu-fcImWIYoMPWKsjyg2dSIQY/edit#gid=42626403">Masterdoc</a></center>
+            <center><a v-show="event.is_max_users == false && event.masterdoc == 0" :id="'fundSignUpButton'+event.id" :name="event.title" class="button is-info" @click="signUp(index)">Sign Up</a></center>
+            <center><a v-show="event.is_max_users == true && event.masterdoc == 0" style="color:blue">Event Full</a></center>
+            <center><a v-show="event.masterdoc == 1" class="button is-primary" target="_blank" href="https://docs.google.com/spreadsheets/d/1yRwjUaXYb9mazn3K8ZHu-fcImWIYoMPWKsjyg2dSIQY/">Masterdoc</a></center>
           </div>
         </div>
       </div>
