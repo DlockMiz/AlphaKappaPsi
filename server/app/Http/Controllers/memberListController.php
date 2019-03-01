@@ -18,8 +18,8 @@ class memberListController extends Controller
     public function getRegisteredUsers(Request $request) {
 		$data = DB::table('users')
         ->join('active_requirements','users.id','=','active_requirements.id')
-        ->get()
-        ->sortBy('users.name');
+        ->orderBy('users.name')
+        ->get();
 		return $data;
     }
     public function deleteAlumni(Request $request) {
