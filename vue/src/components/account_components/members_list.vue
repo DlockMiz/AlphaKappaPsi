@@ -100,17 +100,15 @@ export default {
         $('#memListWrapper').show()
         var that = this
         response.data.forEach(function(user) {
-          var degree = JSON.parse(user.major_minor).major
-          if (degree[0] == null) {
-            degree = user.major
-          } else {
-            var other_major = degree[0].split("Other")
+          if (user.status == 1)
+            return
+          var degree = JSON.parse(user.major_minor).major[0]
+          if (degree != null) {
+            var other_major = degree.split("Other")
             if (other_major[0] == "") {
               degree = other_major[1]
             }
           }
-          if (user.status == 1)
-            return
           var obj = {
             id: user.id,
             name: user.name,

@@ -1,10 +1,10 @@
 export var apiDomain
 
-if (window.location.hostname == 'localhost') {
-  apiDomain = 'http://akp.test/'
-} else {
+// if (window.location.hostname == 'localhost') {
+//   apiDomain = 'http://akp.test/'
+// } else {
   apiDomain = 'https://server.akpsimiz.com/'
-}
+// }
 
 
 //calendar routes
