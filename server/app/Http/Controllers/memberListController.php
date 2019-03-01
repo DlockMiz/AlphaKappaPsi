@@ -21,6 +21,10 @@ class memberListController extends Controller
         ->get();
 		return $data;
     }
+    public function deleteAlumni(Request $request) {
+        Alumni::truncate();
+        return;
+    }
 
     public function deleteUsers(Request $request) {
         $ids = $request->users_id;

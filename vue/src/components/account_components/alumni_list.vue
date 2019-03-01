@@ -2,15 +2,15 @@
   <div>
     <center><img id="loading" style="margin-top: 100px;" src="../../assets/images/loading.gif" height="200" width="200"></center>
     <div id="memListWrapper">
-      <download-excel :data="users" style="margin-right:8px;">
+      <download-excel :data="users" style="margin-right:8px; float:left;">
         <a style="margin-bottom: 10px;" class="button is-warning">Export Excel</a>
-        <a style="margin-bottom: 10px;" class="button is-danger">Delete Alumni</a>        
       </download-excel>
+      <a style="margin-bottom: 10px;" class="button is-danger" @click="deleteAlumni()">Delete Alumni</a>
       <div>
         <hr>
         <input v-model="search_name" class="input is-info" placeholder="Search Individual" style="width: 20%;">
         <input v-model="search_major" class="input is-info" placeholder="Search Major" style="width: 20%;">
-        <input v-model="search_grad" class="input is-info" placeholder="Search Graduation(YYYY-MM)" style="width: 20%;">        
+        <input v-model="search_grad" class="input is-info" placeholder="Search Graduation(YYYY-MM)" style="width: 20%;">
         <hr>
         <table class="table">
           <thead>
@@ -18,7 +18,7 @@
               <th>Name</th>
               <th>Major</th>
               <th>Phone Number</th>
-              <th>Graduation Date</th>                         
+              <th>Graduation Date</th>
             </tr>
           </thead>
           <tbody>
@@ -36,7 +36,7 @@
   </div>
 </template>
 <script>
-import { getAlumni, } from '../../router/config.js'
+import { getAlumni, deleteAlumni } from '../../router/config.js'
 window.$ = window.jQuery = require('jquery');
 
 export default {
@@ -51,6 +51,27 @@ export default {
     }
   },
   methods: {
+    deleteAlumni() {
+      var that = this
+      this.$swal({
+        title: 'Are you sure?',
+        text: "This will delete all recorded alumni in the database, make sure you export a file before hand, only use this to clear up space!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          this.$http.post(deleteAlumni).then(response => {
+            this.$swal('Success', 'You have cleared up some space!', 'success').then(()=>{
+              that.loadUsers()
+            })
+          })
+        } else
+          return
+      })
+    },
     loadUsers() {
       $('#loading').show()
       $('#memListWrapper').hide()

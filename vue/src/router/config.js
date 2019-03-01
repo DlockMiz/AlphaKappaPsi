@@ -65,6 +65,8 @@ export const makePledgesActives = apiDomain + 'api/makePledgesActives'
 export const makeAlumni = apiDomain + 'api/makeAlumni'
 export const getAlumni = apiDomain + 'api/getAlumni'
 export const deleteUsers = apiDomain + 'api/deleteUsers'
+export const deleteAlumni = apiDomain + 'api/deleteAlumni'
+
 
 
 

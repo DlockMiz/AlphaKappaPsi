@@ -42,13 +42,14 @@
         </div>
         <div :id="'deleteBrotherEventBox'+index" style="display: none;">
           <center>
-            <h1>Are you sure you want to delete this event?</h1></center>
+            <h1>Are you sure you want to delete this event?</h1>
+          </center>
           <center><a class="button is-info" @click="deleteEvent(index)" style="margin-top: 10px;">Delete Event</a></center>
         </div>
         <div>
           <div :id="'brotherEventBox'+index">
             <h1 style="text-align: center; font-size: 16pt;">{{event.title}}</h1>
-            <h1 v-if="event.priority == 'high'" style="text-align: center; font-size: 12pt; color:red;">High Priority</h1>            
+            <h1 v-if="event.priority == 'high'" style="text-align: center; font-size: 12pt; color:red;">High Priority</h1>
             <div>
               <hr>
               <h2><b>Time:</b> {{event.time}}</h2>
@@ -167,10 +168,11 @@ export default {
         if (response.data == 'fail') {
           this.$swal('Error', 'This event is already filled!', 'error')
           this.getBrotherEvents()
+        } else {
+          this.$swal('Success', 'You are now signed up for this event.', 'success').then((result) => {
+            $('#brotherSignUpButton' + this.events[index].id).hide()
+          })
         }
-        this.$swal('Success', 'You are now signed up for this event.', 'success').then((result) => {
-          $('#brotherSignUpButton' + this.events[index].id).hide()
-        })
       })
     },
 
@@ -245,12 +247,12 @@ export default {
 
       var censor_perms = { id: ['1', '0', '0'] }
 
-      if(masterdoc[0].checked == true){
+      if (masterdoc[0].checked == true) {
         postData.masterdoc = 1
-      } else{
+      } else {
         postData.masterdoc = 0
       }
-      
+
       if (a_radios[0].checked == true)
         censor_perms.id[1] = '2'
       if (p_radios[0].checked == true)

@@ -72,7 +72,7 @@
             <hr>
             <center><a v-show="event.is_max_users == false && event.masterdoc != 1" :id="'fundSignUpButton'+event.id" :name="event.title" class="button is-info" @click="signUp(index)">Sign Up</a></center>
             <center><a v-show="event.is_max_users == true" style="color:blue">Event Full</a></center>
-            <center><a v-show="event.masterdoc != 0" class="button is-primary" href="https://docs.google.com/spreadsheets/d/1yRwjUaXYb9mazn3K8ZHu-fcImWIYoMPWKsjyg2dSIQY/edit#gid=42626403">Masterdoc</a></center>            
+            <center><a v-show="event.masterdoc != 0" class="button is-primary" href="https://docs.google.com/spreadsheets/d/1yRwjUaXYb9mazn3K8ZHu-fcImWIYoMPWKsjyg2dSIQY/edit#gid=42626403">Masterdoc</a></center>
           </div>
         </div>
       </div>
@@ -163,7 +163,7 @@ export default {
             max_users: event.max_users,
             hours: event.hours,
             current_perms: parse_perms,
-            masterdoc: event.masterdoc,            
+            masterdoc: event.masterdoc,
             priority: event.priority
           }
           that.events.push(obj)
@@ -179,10 +179,11 @@ export default {
         if (response.data == 'fail') {
           this.$swal('Error', 'This event is already filled!', 'error')
           this.getFundEvents()
+        } else {
+          this.$swal('Success', 'You are now signed up for this event.', 'success').then((result) => {
+            $('#fundSignUpButton' + this.events[index].id).hide()
+          })
         }
-        this.$swal('Success', 'You are now signed up for this event.', 'success').then((result) => {
-          $('#fundSignUpButton' + this.events[index].id).hide()
-        })
       })
     },
 
@@ -259,9 +260,9 @@ export default {
       var type_radios = document.getElementsByClassName('selectedViewType' + this.events[index].id);
       var masterdoc = document.getElementsByClassName('masterdocType' + this.events[index].id);
 
-      if(masterdoc[0].checked == true){
+      if (masterdoc[0].checked == true) {
         postData.masterdoc = 1
-      } else{
+      } else {
         postData.masterdoc = 0
       }
 

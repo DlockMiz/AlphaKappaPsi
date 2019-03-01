@@ -255,6 +255,7 @@ class eventController extends Controller
             array_push($users["id"], $request->id);
             $data->signed_users = json_encode($users);
             $data->save();
+            return 'success';
         }
     }
     public function forceAddUser(Request $request) {

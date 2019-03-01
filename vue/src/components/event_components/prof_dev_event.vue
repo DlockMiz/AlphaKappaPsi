@@ -36,7 +36,7 @@
             <datepicker v-model="event.date" placeholder="Date..." :config="{ dateFormat: 'Y/m/d', static: true }"></datepicker>
             <input v-model="event.location" class="input is-info" type="text" placeholder="Location...">
             <input v-model="event.max_users" class="input is-info" type="number" placeholder="Max Users...">
-            <input v-model="event.hours" class="input is-info" type="number" placeholder="Points...">            
+            <input v-model="event.hours" class="input is-info" type="number" placeholder="Points...">
             <textarea v-model="event.description" class="textarea is-info" type="text" placeholder="Description..."></textarea>
             <center><a class="button is-info" @click="editEvent(index)" style="margin-top: 10px;">Edit Event</a></center>
           </div>
@@ -176,10 +176,11 @@ export default {
         if (response.data == 'fail') {
           this.$swal('Error', 'This event is already filled!', 'error')
           this.getProfDevEvents()
+        } else {
+          this.$swal('Success', 'You are now signed up for this event.', 'success').then((result) => {
+            $('#profDevSignUpButton' + this.events[index].id).hide()
+          })
         }
-        this.$swal('Success', 'You are now signed up for this event.', 'success').then((result) => {
-          $('#profDevSignUpButton' + this.events[index].id).hide()
-        })
       })
     },
 
@@ -244,7 +245,7 @@ export default {
         month: this.events[index].date.split("/")[1],
         max_users: this.events[index].max_users,
         hours: this.events[index].hours,
-        materdoc: this.events[index].masterdoc,        
+        materdoc: this.events[index].masterdoc,
         censor_perms: {}
       }
       var a_radios = document.getElementsByClassName('selectedViewActive' + this.events[index].id);
@@ -253,12 +254,12 @@ export default {
 
       var censor_perms = { id: ['1', '0', '0'] }
 
-      if(masterdoc[0].checked == true){
+      if (masterdoc[0].checked == true) {
         postData.masterdoc = 1
-      } else{
+      } else {
         postData.masterdoc = 0
       }
-      
+
       if (a_radios[0].checked == true)
         censor_perms.id[1] = '2'
       if (p_radios[0].checked == true)

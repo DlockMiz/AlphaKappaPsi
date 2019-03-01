@@ -24,7 +24,7 @@
         <hr>
         <input v-model="search_name" class="input is-info" placeholder="Search Individual" style="width: 20%;">
         <input v-model="search_major" class="input is-info" placeholder="Search Major" style="width: 20%;">
-        <input v-model="search_grad" class="input is-info" placeholder="Search Graduation(YYYY-MM)" style="width: 20%;">
+        <input v-model="search_grad" class="input is-info" placeholder="Search Grad(YYYY-MM)" style="width: 20%;">
         <hr>
         <table class="table">
           <thead>
@@ -100,6 +100,15 @@ export default {
         $('#memListWrapper').show()
         var that = this
         response.data.forEach(function(user) {
+          var degree = JSON.parse(user.major_minor).major
+          if (degree[0] == null) {
+            degree = user.major
+          } else {
+            var other_major = degree[0].split("Other")
+            if (other_major[0] == "") {
+              degree = other_major[1]
+            }
+          }
           if (user.status == 1)
             return
           var obj = {
@@ -107,7 +116,7 @@ export default {
             name: user.name,
             email: user.email,
             grad_date: user.grad_date,
-            major: JSON.parse(user.major_minor).major[0],
+            major: degree,
             phone_number: user.phone_number,
             dues: user.dues,
             prof_dev: user.prof_dev,

@@ -82,8 +82,7 @@ Route::post('/makePledgesActives', 'memberListController@makePledgesActives');
 Route::post('/makeAlumni', 'memberListController@makeAlumni');
 Route::post('/getAlumni', 'memberListController@getAlumni');
 Route::post('/deleteUsers', 'memberListController@deleteUsers');
-
-
+Route::post('/deleteAlumni', 'memberListController@deleteAlumni');
 
 
 

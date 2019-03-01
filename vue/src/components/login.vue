@@ -101,9 +101,9 @@ export default {
         this.noPasswordMatch = false;
       }
 
-      // this.$http.post(addUser, postData).then(response => {
-      //   this.$swal('Registration Confirmed', "You can login when an Executive approves your account!", 'success').then((result) => { this.$router.push('/') })
-      // })
+      this.$http.post(addUser, postData).then(response => {
+        this.$swal('Registration Confirmed', "You can login when an Executive approves your account!", 'success').then((result) => { this.$router.push('/') })
+      })
 
 
     },

@@ -165,10 +165,11 @@ export default {
         if (response.data == 'fail') {
           this.$swal('Error', 'This event is already filled!', 'error')
           this.getServiceEvents()
+        } else {
+          this.$swal('Success', 'You are now signed up for this event.', 'success').then((result) => {
+            $('#serviceSignUpButton' + this.events[index].id).hide()
+          })
         }
-        this.$swal('Success', 'You are now signed up for this event.', 'success').then((result) => {
-          $('#serviceSignUpButton' + this.events[index].id).hide()
-        })
       })
     },
 
@@ -247,9 +248,9 @@ export default {
       if (p_radios[0].checked == true)
         censor_perms.id[2] = '3'
 
-      if(masterdoc[0].checked == true){
+      if (masterdoc[0].checked == true) {
         postData.masterdoc = 1
-      } else{
+      } else {
         postData.masterdoc = 0
       }
 
